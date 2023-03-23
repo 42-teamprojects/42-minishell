@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 21:48:13 by yelaissa          #+#    #+#             */
-/*   Updated: 2022/12/11 17:09:09 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/03/23 23:24:46 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ft_strcat(str, (char *)s1);
 	ft_strcat(str, (char *)s2);
 	str[ft_strlen(str)] = '\0';
-	free((char *)s1);
+	// free((char *)s1);
 	return (str);
 }

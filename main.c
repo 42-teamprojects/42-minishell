@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:48:26 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/23 21:15:45 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/03/23 23:33:26 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,32 @@ void	sig_handler(int sig)
 */
 int	main(int ac, char **av, char **env)
 {
-	(void) 	ac;
-	(void) 	av;
 	t_shell	shell;
 	char	*input;
-
+	char	*user;
+	char	cwd[1024];
+	char	*line;
+	char	*str;
+	
+	(void) ac;
+	(void) av;
 	shell.env = env;
 	signal(SIGQUIT, &sig_handler);
 	signal(SIGINT, &sig_handler);
 	while (1)
 	{
-		input = readline(BRED"minishell $ "CX);
-		if(!input)
-			exit(0);
+		user = getenv("USER");
+    	getcwd(cwd, 1024);
+    	str = strrchr(cwd, '/');
+    	if (str == NULL)
+			exit (1);
+    	line = ft_strjoin(user, " ");
+    	line = ft_strjoin(line, str);
+    	line = ft_strjoin(line, " ");
+    	line = ft_strjoin(line, BRED "minishell $ " GREEN);
+    	input = readline(line);
+    	free(line);
+    	if (!input)
+    	    exit(0);
 	}
 }
