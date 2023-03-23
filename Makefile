@@ -13,7 +13,7 @@ OBJS = $(SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS) minishell.h
-	$(CC) $(CFLAGS) $(OBJS) -o $@ $(LIBFT)
+	$(CC) $(CFLAGS) $(OBJS) -lreadline -o  $@ $(LIBFT)
 
 $(LIBFT):
 		make all -C libft
