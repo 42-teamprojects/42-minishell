@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:48:26 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/23 21:12:01 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/03/23 21:15:45 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,11 @@ void	sig_handler(int sig)
 	}
 }
 
+/** 
+ * Parse the input
+ * Validate
+ * Excute 
+*/
 int	main(int ac, char **av, char **env)
 {
 	(void) 	ac;
@@ -44,8 +49,5 @@ int	main(int ac, char **av, char **env)
 		input = readline(BRED"minishell $ "CX);
 		if(!input)
 			exit(0);
-		// Parse the input
-		// Validate
-		// Excute
 	}
 }
