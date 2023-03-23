@@ -6,13 +6,13 @@ CFLAGS = -Wall -Wextra -Werror
 
 LIBFT	= libft/libft.a
 
-SRCS = 
+SRCS = main.c 
 
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME):
+$(NAME): $(LIBFT) $(OBJS) minishell.h
 	$(CC) $(CFLAGS) $(OBJS) -o $@ $(LIBFT)
 
 $(LIBFT):

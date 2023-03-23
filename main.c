@@ -1,16 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/23 16:39:23 by yelaissa         ###   ########.fr       */
+/*   Created: 2023/03/23 16:48:26 by yelaissa          #+#    #+#             */
+/*   Updated: 2023/03/23 17:32:56 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "minishell.h"
 
-#endif
+int	main(int ac, char **av, char **env)
+{
+	(void) ac;
+	(void) av;
+	printf("%s\n", env[0]);
+	printf("%s\n", env[1]);
+	printf("%s\n", env[2]);
+}
