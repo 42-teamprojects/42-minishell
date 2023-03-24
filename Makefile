@@ -3,8 +3,9 @@ NAME = minishell
 CC = cc
 
 CFLAGS = -Wall -Wextra -Werror
-# LDFLAGS="-L./readline/lib"
-# CPPFLAGS="-I./readline/include"
+
+LDFLAGS="-L./readline/lib"
+CPPFLAGS="-I./readline/include"
 
 LIBFT	= libft/libft.a
 
