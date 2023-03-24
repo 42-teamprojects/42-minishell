@@ -1,4 +1,16 @@
-#include "../../includes/utils.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   prompt.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/24 10:53:46 by yelaissa          #+#    #+#             */
+/*   Updated: 2023/03/24 11:00:36 by yelaissa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../includes/global.h"
 
 char	*init_prompt(void)
 {
@@ -7,10 +19,10 @@ char	*init_prompt(void)
 	char	*line;
 	char	*str;
 
-	user = ft_strjoin(CYAN, getenv("USER"));
+	user = ft_strjoin(GREEN "→  " CYAN, getenv("USER"));
 	getcwd(cwd, 1024);
 	str = ft_strrchr(cwd, '/') + 1;
-	if (str == NULL)
+	if (str == 0)
 		exit (1);
 	line = ft_strjoin_gnl(user, " " BRED);
 	line = ft_strjoin_gnl(line, str);

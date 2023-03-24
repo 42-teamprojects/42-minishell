@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:48:26 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/24 10:11:38 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/03/24 11:02:34 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int	main(int ac, char **av, char **env)
     	input = readline(shell.prompt);
     	if (!input)
     	    exit(0);
+		add_history(input);
+		free(input);
 	}
 	free(shell.prompt);
 }
