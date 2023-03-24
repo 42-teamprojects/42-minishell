@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/23 22:13:38 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/03/24 00:14:27 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # define RED "\033[0;31m"
 # define YELLOW "\033[1;33m"
 # define GREEN "\033[0;32m"
+# define B_GREEN "\e[1;32m"
+# define WHITE  "\e[0;37m"
 # define CX "\033[0m"
 
 # include "libft/libft.h"

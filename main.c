@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:48:26 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/23 23:33:26 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/03/24 00:16:55 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,12 @@ int	main(int ac, char **av, char **env)
     	str = strrchr(cwd, '/');
     	if (str == NULL)
 			exit (1);
-    	line = ft_strjoin(user, " ");
+		line = ft_strjoin(YELLOW, user);
+    	line = ft_strjoin(line, " ");
+    	line = ft_strjoin(line, BRED);
     	line = ft_strjoin(line, str);
     	line = ft_strjoin(line, " ");
-    	line = ft_strjoin(line, BRED "minishell $ " GREEN);
+    	line = ft_strjoin(line, B_GREEN "minishell $ " WHITE);
     	input = readline(line);
     	free(line);
     	if (!input)
