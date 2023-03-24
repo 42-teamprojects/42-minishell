@@ -1,18 +1,18 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   helpers.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/24 10:53:46 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/24 12:13:27 by yelaissa         ###   ########.fr       */
-/*                                                                            */
+/*	*/
+/*	:::	  ::::::::   */
+/*   helpers.c	  :+:	  :+:	:+:   */
+/*	+:+ +:+	 +:+	 */
+/*   By: yelaissa <yelaissa@student.42.fr>	  +#+  +:+	   +#+	*/
+/*	+#+#+#+#+#+   +#+	   */
+/*   Created: 2023/03/24 10:53:46 by yelaissa	  #+#	#+#	 */
+/*   Updated: 2023/03/24 13:24:00 by yelaissa	 ###   ########.fr	   */
+/*	*/
 /* ************************************************************************** */
 
 #include "../../includes/global.h"
 
-char	*init_prompt()
+char	*init_prompt(void)
 {
 	char	*user;
 	char	cwd[1024];
@@ -44,5 +44,21 @@ void	sig_handler(int sig)
 		rl_on_new_line();
 		rl_redisplay();
 		return ;
+	}
+}
+
+void	free_split(char **array)
+{
+	int	i;
+
+	if (array)
+	{
+		i = 0;
+		while (array[i])
+		{
+			free(array[i]);
+			i++;
+		}
+		free(array);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:48:26 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/24 11:30:07 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/03/24 13:20:32 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	read_input(t_shell *shell)
 	if (!input || !ft_strncmp(input, "exit", 4))
 		exit(0);
 	add_history(input);
+	shell->cmd = init_cmd(input);
 	free(input);
 }
 
@@ -31,7 +32,7 @@ void	read_input(t_shell *shell)
 int	main(int ac, char **av, char **env)
 {
 	t_shell	shell;
-	
+
 	(void) ac;
 	(void) av;
 	shell.env = env;

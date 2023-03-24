@@ -3,13 +3,14 @@ NAME = minishell
 CC = cc
 
 CFLAGS = -Wall -Wextra -Werror
+LDFLAGS="-L./readline/lib"
+CPPFLAGS="-I./readline/include"
 
 LIBFT	= libft/libft.a
 
-SRCS = main.c sources/utils/helpers.c
+SRCS = main.c sources/utils/helpers.c sources/parser/parser.c \
+	sources/parser/utils.c
 
-LDFLAGS="-L./readline/lib"
-CPPFLAGS="-I./readline/include"
 
 OBJS = $(SRCS:.c=.o)
 
