@@ -8,12 +8,15 @@ LIBFT	= libft/libft.a
 
 SRCS = main.c sources/utils/helpers.c
 
+LDFLAGS="-L/goinfre/yelaissa/homebrew/opt/readline/lib"
+CPPFLAGS="-I/goinfre/yelaissa/homebrew/opt/readline/include"
+
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS) minishell.h
-	$(CC) $(CFLAGS) $(OBJS) -lreadline -o  $@ $(LIBFT)
+	$(CC) $(CFLAGS) $(OBJS) $(CPPFLAGS) $(LDFLAGS) -lreadline -o  $@ $(LIBFT)
 
 $(LIBFT):
 		make all -C libft
