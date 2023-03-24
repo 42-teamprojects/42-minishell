@@ -16,8 +16,13 @@
 # define BRED "\e[1;31m"
 # define RED "\033[0;31m"
 # define YELLOW "\033[1;33m"
-# define GREEN "\033[0;32m"
 # define CX "\033[0m"
+# define BLACK "\e[0;30m"
+# define GREEN "\e[0;32m"
+# define BLUE "\e[0;34m"
+# define PURPLE "\e[0;35m"
+# define CYAN "\e[1;36m"
+# define WHITE "\e[0;37m"
 
 # include "libft/libft.h"
 # include <stdlib.h>

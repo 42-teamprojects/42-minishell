@@ -50,12 +50,12 @@ int	main(int ac, char **av, char **env)
 	signal(SIGINT, &sig_handler);
 	while (1)
 	{
-		user = ft_strjoin(YELLOW, getenv("USER"));
+		user = ft_strjoin(WHITE, getenv("USER"));
     	getcwd(cwd, 1024);
     	str = strrchr(cwd, '/') + 1;
     	if (str == NULL)
 			exit (1);
-    	line = ft_strjoin_gnl(user, BRED "@");
+    	line = ft_strjoin_gnl(user, BRED " @ ");
     	line = ft_strjoin_gnl(line, str);
     	line = ft_strjoin_gnl(line, " $ " CX);
     	input = readline(line);

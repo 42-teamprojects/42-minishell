@@ -1,5 +1,5 @@
-# minishell
-# a.out
-# .DS_Store
-# *.o
-# */*.o
+minishell
+a.out
+.DS_Store
+*.o
+*/*.o
