@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:48:26 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/24 00:28:50 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/03/24 01:28:23 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	main(int ac, char **av, char **env)
 	char	*input;
 	char	*user;
 	char	cwd[1024];
-	char	*line = 0;
+	char	*line;
 	char	*str;
 	
 	(void) ac;
@@ -52,7 +52,7 @@ int	main(int ac, char **av, char **env)
 	{
 		user = ft_strjoin(CYAN, getenv("USER"));
     	getcwd(cwd, 1024);
-    	str = strrchr(cwd, '/') + 1;
+    	str = ft_strrchr(cwd, '/') + 1;
     	if (str == NULL)
 			exit (1);
     	line = ft_strjoin_gnl(user, BRED " @ ");
