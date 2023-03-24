@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:48:26 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/24 00:16:55 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/03/24 00:28:50 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	main(int ac, char **av, char **env)
 	char	*input;
 	char	*user;
 	char	cwd[1024];
-	char	*line;
+	char	*line = 0;
 	char	*str;
 	
 	(void) ac;
@@ -50,17 +50,14 @@ int	main(int ac, char **av, char **env)
 	signal(SIGINT, &sig_handler);
 	while (1)
 	{
-		user = getenv("USER");
+		user = ft_strjoin(CYAN, getenv("USER"));
     	getcwd(cwd, 1024);
-    	str = strrchr(cwd, '/');
+    	str = strrchr(cwd, '/') + 1;
     	if (str == NULL)
 			exit (1);
-		line = ft_strjoin(YELLOW, user);
-    	line = ft_strjoin(line, " ");
-    	line = ft_strjoin(line, BRED);
-    	line = ft_strjoin(line, str);
-    	line = ft_strjoin(line, " ");
-    	line = ft_strjoin(line, B_GREEN "minishell $ " WHITE);
+    	line = ft_strjoin_gnl(user, BRED " @ ");
+    	line = ft_strjoin_gnl(line, str);
+    	line = ft_strjoin_gnl(line, " $ " CX);
     	input = readline(line);
     	free(line);
     	if (!input)

@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/24 00:14:27 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/03/24 00:21:30 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,13 @@
 # define BRED "\e[1;31m"
 # define RED "\033[0;31m"
 # define YELLOW "\033[1;33m"
-# define GREEN "\033[0;32m"
-# define B_GREEN "\e[1;32m"
-# define WHITE  "\e[0;37m"
 # define CX "\033[0m"
+# define BLACK "\e[0;30m"
+# define GREEN "\e[0;32m"
+# define BLUE "\e[0;34m"
+# define PURPLE "\e[0;35m"
+# define CYAN "\e[1;36m"
+# define WHITE "\e[0;37m"
 
 # include "libft/libft.h"
 # include <stdlib.h>
