@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:48:26 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/24 13:20:32 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/03/24 17:18:16 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,6 @@ void	read_input(t_shell *shell)
 	free(input);
 }
 
-/** 
- * Parse the input
- * Validate
- * Excute 
-*/
 int	main(int ac, char **av, char **env)
 {
 	t_shell	shell;
@@ -36,6 +31,7 @@ int	main(int ac, char **av, char **env)
 	(void) ac;
 	(void) av;
 	shell.env = env;
+	shell.path = getenv("PATH");
 	shell.prompt = init_prompt();
 	signal(SIGQUIT, &sig_handler);
 	signal(SIGINT, &sig_handler);
