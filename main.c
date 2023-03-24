@@ -50,15 +50,14 @@ int	main(int ac, char **av, char **env)
 	signal(SIGINT, &sig_handler);
 	while (1)
 	{
-		user = getenv("USER");
+		user = ft_strjoin(YELLOW, getenv("USER"));
     	getcwd(cwd, 1024);
-    	str = strrchr(cwd, '/');
+    	str = strrchr(cwd, '/') + 1;
     	if (str == NULL)
 			exit (1);
-    	line = ft_strjoin(user, " ");
-    	line = ft_strjoin(line, str);
-    	line = ft_strjoin(line, " ");
-    	line = ft_strjoin(line, BRED "minishell $ " GREEN);
+    	line = ft_strjoin_gnl(user, BRED "@");
+    	line = ft_strjoin_gnl(line, str);
+    	line = ft_strjoin_gnl(line, " $ " CX);
     	input = readline(line);
     	free(line);
     	if (!input)
