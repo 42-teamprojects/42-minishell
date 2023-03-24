@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:48:26 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/24 11:02:34 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/03/24 11:23:19 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ int	main(int ac, char **av, char **env)
 	(void) ac;
 	(void) av;
 	shell.env = env;
+	shell.prompt = init_prompt();
 	signal(SIGQUIT, &sig_handler);
 	signal(SIGINT, &sig_handler);
-	shell.prompt = init_prompt();
 	while (1)
 	{
     	input = readline(shell.prompt);
-    	if (!input)
+    	if (!input || !ft_strncmp(input, "exit", 4))
     	    exit(0);
 		add_history(input);
 		free(input);

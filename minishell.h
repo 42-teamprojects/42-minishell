@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/24 11:00:45 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/03/24 11:23:16 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ typedef struct s_shell
 	char		**env;
 }	t_shell;
 
-/* Prompt handling */
+/* Helpers */
 
-char	*init_prompt(void);
+char	*init_prompt();
 
 #endif
