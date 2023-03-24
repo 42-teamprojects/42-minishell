@@ -6,27 +6,21 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:48:26 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/24 11:23:19 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/03/24 11:30:07 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	sig_handler(int sig)
+void	read_input(t_shell *shell)
 {
-	if (sig == SIGINT)
-	{
-		printf("\n");
-		// rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-	}
-	else if (sig == SIGQUIT)
-	{
-		rl_on_new_line();
-		rl_redisplay();
-		return ;
-	}
+	char	*input;
+
+	input = readline(shell->prompt);
+	if (!input || !ft_strncmp(input, "exit", 4))
+		exit(0);
+	add_history(input);
+	free(input);
 }
 
 /** 
@@ -37,7 +31,6 @@ void	sig_handler(int sig)
 int	main(int ac, char **av, char **env)
 {
 	t_shell	shell;
-	char	*input;
 	
 	(void) ac;
 	(void) av;
@@ -47,11 +40,7 @@ int	main(int ac, char **av, char **env)
 	signal(SIGINT, &sig_handler);
 	while (1)
 	{
-    	input = readline(shell.prompt);
-    	if (!input || !ft_strncmp(input, "exit", 4))
-    	    exit(0);
-		add_history(input);
-		free(input);
+		read_input(&shell);
 	}
 	free(shell.prompt);
 }
