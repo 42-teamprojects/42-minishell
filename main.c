@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:48:26 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/24 17:18:16 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/03/24 17:48:46 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@ void	read_input(t_shell *shell)
 	if (!input || !ft_strncmp(input, "exit", 4))
 		exit(0);
 	add_history(input);
+	if (verify_input(input))
+	{
+		free(input);
+		return ;
+	}
 	shell->cmd = init_cmd(input);
 	free(input);
 }
