@@ -8,8 +8,8 @@ LIBFT	= libft/libft.a
 
 SRCS = main.c sources/utils/helpers.c
 
-LDFLAGS="-L/goinfre/yelaissa/homebrew/opt/readline/lib"
-CPPFLAGS="-I/goinfre/yelaissa/homebrew/opt/readline/include"
+LDFLAGS="-L./readline/lib"
+CPPFLAGS="-I./readline/include"
 
 OBJS = $(SRCS:.c=.o)
 
