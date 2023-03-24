@@ -6,7 +6,7 @@ CFLAGS = -Wall -Wextra -Werror
 
 LIBFT	= libft/libft.a
 
-SRCS = main.c 
+SRCS = main.c sources/utils/prompt.c
 
 OBJS = $(SRCS:.c=.o)
 

@@ -38,29 +38,18 @@ int	main(int ac, char **av, char **env)
 {
 	t_shell	shell;
 	char	*input;
-	char	*user;
-	char	cwd[1024];
-	char	*line;
-	char	*str;
 	
 	(void) ac;
 	(void) av;
 	shell.env = env;
 	signal(SIGQUIT, &sig_handler);
 	signal(SIGINT, &sig_handler);
+	shell.prompt = init_prompt();
 	while (1)
 	{
-		user = ft_strjoin(CYAN, getenv("USER"));
-    	getcwd(cwd, 1024);
-    	str = ft_strrchr(cwd, '/') + 1;
-    	if (str == NULL)
-			exit (1);
-    	line = ft_strjoin_gnl(user, " " BRED);
-    	line = ft_strjoin_gnl(line, str);
-    	line = ft_strjoin_gnl(line, YELLOW " $ " CX);
-    	input = readline(line);
-    	free(line);
+    	input = readline(shell.prompt);
     	if (!input)
     	    exit(0);
 	}
+	free(shell.prompt);
 }
