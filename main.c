@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:48:26 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/24 01:28:23 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/03/24 10:11:38 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ int	main(int ac, char **av, char **env)
     	str = ft_strrchr(cwd, '/') + 1;
     	if (str == NULL)
 			exit (1);
-    	line = ft_strjoin_gnl(user, BRED " @ ");
+    	line = ft_strjoin_gnl(user, " " BRED);
     	line = ft_strjoin_gnl(line, str);
-    	line = ft_strjoin_gnl(line, " $ " CX);
+    	line = ft_strjoin_gnl(line, YELLOW " $ " CX);
     	input = readline(line);
     	free(line);
     	if (!input)
