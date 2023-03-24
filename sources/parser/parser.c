@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/24 13:34:35 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/03/24 13:36:23 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	handle_redirects(t_command *cmd, char **args)
 	}
 }
 
-
 t_command	init_cmd(char *input)
 {
 	char		**command;
@@ -69,8 +68,7 @@ t_command	init_cmd(char *input)
 	cmd.name = command[0];
 	cmd.argc = args_count(command) - 1;
 	cmd.args = init_args(command);
-	cmd.input_redirect = 0;
-	cmd.output_redirect = 0;
+	handle_redirects(&cmd, cmd.args);
 	free_split(command);
 	return (cmd);
 }
