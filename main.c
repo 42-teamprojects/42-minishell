@@ -5,27 +5,28 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/23 16:48:26 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/25 09:59:12 by yelaissa         ###   ########.fr       */
+/*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
+/*   Updated: 2023/03/25 14:57:55 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "includes/minishell.h"
 
 void	read_input(t_shell *shell)
 {
 	char	*input;
 
-	input = readline(shell->prompt);
+	input = ft_strtrim(readline(shell->prompt), "\t ");
 	if (!input || !ft_strncmp(input, "exit", 4))
-		throw_err(0);
-	add_history(input);
-	if (!verify_input(input))
-	{
+		throw_err(0, input, shell);
+	if (!ft_strlen(input))
 		return (free(input));
-	}
+	add_history(input);
+	if (!verify_input(shell, input))
+		return (free(input));
 	shell->cmd = init_cmd(input);
 	free(input);
+	input = NULL;
 }
 
 int	main(int ac, char **av, char **env)
@@ -37,11 +38,11 @@ int	main(int ac, char **av, char **env)
 	shell.env = env;
 	shell.path = getenv("PATH");
 	shell.prompt = init_prompt();
-	signal(SIGQUIT, &sig_handler);
 	signal(SIGINT, &sig_handler);
+	signal(SIGQUIT, &sig_handler);
 	while (1)
 	{
 		read_input(&shell);
 	}
-	free(shell.prompt);
+	free_shell(&shell);
 }

@@ -6,14 +6,16 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/25 09:58:58 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/03/25 14:47:02 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "includes/global.h"
+# include "global.h"
+
+/* Structs */
 
 typedef struct s_command
 {
@@ -39,13 +41,13 @@ t_command	init_cmd(char *input);
 
 /* Execution */
 
-int			verify_input(char *str);
+int			verify_input(t_shell *shell, char *str);
 
 /* Helpers */
 
 char		*init_prompt(void);
 void		sig_handler(int sig);
 void		free_split(char **array);
-void		throw_err(int err_code);
-
+void		throw_err(int err_code, char *variable, t_shell *shell);
+void		free_shell(t_shell *shell);
 #endif

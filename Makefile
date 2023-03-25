@@ -4,10 +4,9 @@ CC = cc
 
 CFLAGS = -Wall -Wextra -Werror
 
-LDFLAGS="-L./readline/lib"
-CPPFLAGS="-I./readline/include"
-
 LIBFT	= libft/libft.a
+
+DEPS = includes/global.h includes/minishell.h sources/parser/parser.h
 
 SRCS = main.c sources/utils/helpers.c \
 	sources/utils/errors.c \
@@ -15,12 +14,11 @@ SRCS = main.c sources/utils/helpers.c \
 	sources/parser/parser.c \
 	sources/parser/utils.c
 
-
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJS) minishell.h
+$(NAME): $(LIBFT) $(OBJS) $(DEPS)
 	$(CC) $(CFLAGS) $(OBJS) -lreadline -o  $@ $(LIBFT)
 
 $(LIBFT):

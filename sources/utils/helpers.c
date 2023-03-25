@@ -6,11 +6,11 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 09:28:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/25 09:28:56 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/03/25 14:55:17 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/global.h"
+#include "../../includes/minishell.h"
 
 char	*init_prompt(void)
 {
@@ -19,7 +19,7 @@ char	*init_prompt(void)
 	char	*line;
 	char	*str;
 
-	user = ft_strjoin(GREEN "→  " CYAN, getenv("USER"));
+	user = ft_strjoin(BGREEN "→  " CYAN, getenv("USER"));
 	getcwd(cwd, 1024);
 	str = ft_strrchr(cwd, '/') + 1;
 	if (str == 0)
@@ -62,3 +62,12 @@ void	free_split(char **array)
 		free(array);
 	}
 }
+
+void	free_shell(t_shell *shell)
+{
+	free(shell->prompt);
+	free_split(shell->cmd.args);
+	free(shell->cmd.name);
+}
+// free(shell->cmd.output_redirect);
+// free(shell->cmd.input_redirect);

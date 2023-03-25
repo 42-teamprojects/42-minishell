@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:49 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/24 12:42:49 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/03/25 14:55:27 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # define CX "\033[0m"
 # define BLACK "\e[0;30m"
 # define GREEN "\e[0;32m"
+# define BGREEN "\e[1;32m"
 # define BLUE "\e[0;34m"
 # define PURPLE "\e[0;35m"
 # define CYAN "\e[1;36m"
