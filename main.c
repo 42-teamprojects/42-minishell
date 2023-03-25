@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:48:26 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/24 21:51:59 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/03/25 09:59:12 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,11 @@ void	read_input(t_shell *shell)
 
 	input = readline(shell->prompt);
 	if (!input || !ft_strncmp(input, "exit", 4))
-		exit(0);
+		throw_err(0);
 	add_history(input);
-	if (verify_input(input))
+	if (!verify_input(input))
 	{
-		free(input);
-		return ;
+		return (free(input));
 	}
 	shell->cmd = init_cmd(input);
 	free(input);

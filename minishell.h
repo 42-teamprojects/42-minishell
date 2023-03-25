@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/24 21:51:09 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/03/25 09:58:58 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,18 @@ typedef struct s_shell
 }	t_shell;
 
 /* Parser */
+
 t_command	init_cmd(char *input);
 
 /* Execution */
-void verify_input(char *str);
+
+int			verify_input(char *str);
 
 /* Helpers */
 
 char		*init_prompt(void);
 void		sig_handler(int sig);
 void		free_split(char **array);
+void		throw_err(int err_code);
 
 #endif
