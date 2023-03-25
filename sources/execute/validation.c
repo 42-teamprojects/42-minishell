@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 21:50:33 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/03/25 14:55:17 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/03/25 15:23:20 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	verify_input(t_shell *shell, char *str)
 {
 	char	**command;
-	char	*path_command;
+	char	*path;
 	char	**first_cmd;
 	int		i;
 
@@ -24,14 +24,15 @@ int	verify_input(t_shell *shell, char *str)
 	i = 0;
 	while (command[i])
 	{
-		path_command = ft_strjoin(command[i], "/");
-		path_command = ft_strjoin_gnl(path_command, first_cmd[0]);
-		if (access(path_command, F_OK) == 0)
+		path = ft_strjoin(command[i], "/");
+		path = ft_strjoin_gnl(path, first_cmd[0]);
+		if (access(path, F_OK) == 0 || !ft_strcmp(path, "export") \
+			|| !ft_strcmp(path, "unset"))
 		{
-			free(path_command);
+			free(path);
 			return (1);
 		}
-		free(path_command);
+		free(path);
 		i++;
 	}
 	printf(BRED"→  "CX "minishell: command not found: " BRED"%s\n"CX, \
