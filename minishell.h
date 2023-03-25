@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/24 17:11:40 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/03/24 21:51:09 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ typedef struct s_shell
 
 /* Parser */
 t_command	init_cmd(char *input);
+
+/* Execution */
+void verify_input(char *str);
 
 /* Helpers */
 

@@ -9,7 +9,7 @@ CPPFLAGS="-I./readline/include"
 
 LIBFT	= libft/libft.a
 
-SRCS = main.c sources/utils/helpers.c sources/parser/parser.c \
+SRCS = main.c sources/utils/helpers.c sources/utils/execution.c sources/parser/parser.c \
 	sources/parser/utils.c
 
 
