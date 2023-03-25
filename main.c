@@ -20,7 +20,11 @@ void	read_input(t_shell *shell)
 	if (!input || !ft_strncmp(input, "exit", 4))
 		exit(0);
 	add_history(input);
-	verify_input(input);
+	if (verify_input(input))
+	{
+		free(input);
+		return ;
+	}
 	shell->cmd = init_cmd(input);
 	free(input);
 }
