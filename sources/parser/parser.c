@@ -25,7 +25,18 @@ t_command	init_cmd(char *input)
 	return (cmd);
 }
 
-char	*parse_input(char *input)
+char *parse_input(char *input)
 {
-	return (input);
+	t_quote_state quote_state = valid_quotes(input);
+
+	if (quote_state == NO_QUOTES || quote_state == UNCLOSED_SINGLE_QUOTE \
+		|| quote_state == UNCLOSED_DOUBLE_QUOTE)
+		return (input);
+	else
+	{
+		if (quote_state == CLOSED_SINGLE_QUOTES)
+			return trim_single_quotes(input);
+		else
+			return trim_double_quotes(input);
+	}
 }

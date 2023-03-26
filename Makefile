@@ -14,6 +14,8 @@ SRCS = main.c sources/utils/helpers.c \
 	sources/execute/validation.c \
 	sources/execute/execution.c \
 	sources/parser/parser.c \
+	sources/parser/parsing_utils.c \
+	sources/parser/handle_quotes.c \
 	sources/parser/utils.c
 
 
