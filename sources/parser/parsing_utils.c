@@ -14,22 +14,22 @@
 
 char	*trim_single_quotes(char *input)
 {
-	char	*trimmed;
-	size_t	i;
-	size_t	j;
+	char	*result;
+	int		i;
+	int		j;
 
-	trimmed = ft_strdup(input);
+	result = ft_strdup(input);
 	i = 0;
 	j = 0;
-	while (trimmed[i])
+	while (result[i])
 	{
-		if (trimmed[i] == '\'')
+		if (result[i] == '\'')
 			i++;
 		else
-			trimmed[j++] = trimmed[i++];
+			result[j++] = result[i++];
 	}
-	trimmed[j] = '\0';
-	return (trimmed);
+	result[j] = '\0';
+	return (result);
 }
 
 char	*trim_double_quotes(char *input)
