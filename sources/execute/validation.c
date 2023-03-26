@@ -6,19 +6,17 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 21:50:33 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/03/25 20:10:11 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/03/26 13:34:34 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "exec.h"
 
 int	verify_input(t_shell *shell, char *str)
 {
 	char	**command;
 	char	*path;
 	char	**first_cmd;
-	int		status;
-	pid_t	pid;
 	int		i;
 
 	command = ft_split(shell->path, ':');
@@ -31,25 +29,8 @@ int	verify_input(t_shell *shell, char *str)
 		if (access(path, F_OK) == 0 || !ft_strcmp(path, "export") \
 			|| !ft_strcmp(path, "unset"))
 		{
-			pid = fork();
-			if (pid == -1)
-			{
-			  printf("%s\n", strerror(errno));
-			  return (-1);
-			}
-			if (pid == 0)
-			{
-				if (execve(path, first_cmd, NULL) == -1)
-				{
-					printf("%s\n", strerror(errno));
-					return (-1);
-				}
-			}
-			else
-			{
-				waitpid(pid, &status, 0);
-				return (0);
-			}
+			exec_input(command, first_cmd, path);
+			return (0);
 		}
 		free(path);
 		i++;
@@ -57,4 +38,31 @@ int	verify_input(t_shell *shell, char *str)
 	printf(BRED"→  "CX "minishell: command not found: " BRED"%s\n"CX, \
 	first_cmd[0]);
 	return (free_split(first_cmd), free_split(command), 0);
+}
+
+int	exec_input(char **command, char **first_cmd, char *path)
+{
+	pid_t	pid;
+	int		status;
+
+	pid = fork();
+	if (pid == -1)
+	{
+		printf("%s\n", strerror(errno));
+		return (-1);
+	}
+	else if (pid == 0)
+	{
+		if (execve(path, first_cmd, NULL) == -1)
+		{
+			printf("%s\n", strerror(errno));
+			exit(1);
+		}
+	}
+	else
+	{
+		waitpid(pid, &status, 0);
+		return (free_split(first_cmd), free_split(command), 0);
+	}
+	return (0);
 }
