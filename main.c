@@ -40,6 +40,7 @@ int	main(int ac, char **av, char **env)
 	shell.prompt = init_prompt();
 	signal(SIGINT, &sig_handler);
 	signal(SIGQUIT, &sig_handler);
+	ft_bzero(&shell.cmd, sizeof(t_command));
 	while (1)
 	{
 		read_input(&shell);

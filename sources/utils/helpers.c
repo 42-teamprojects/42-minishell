@@ -66,8 +66,10 @@ void	free_split(char **array)
 void	free_shell(t_shell *shell)
 {
 	free(shell->prompt);
-	free_split(shell->cmd.args);
-	free(shell->cmd.name);
+	if (shell->cmd.args != NULL)
+		free_split(shell->cmd.args);
+	if (shell->cmd.name != NULL)
+		free(shell->cmd.name);
 }
 // free(shell->cmd.output_redirect);
 // free(shell->cmd.input_redirect);
