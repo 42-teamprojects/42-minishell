@@ -31,8 +31,8 @@ int	verify_input(t_shell *shell, char *str)
 	path = getenv("PATH");
 	paths = ft_split(path, ':');
 	first_cmd = ft_split(str, ' ');
-	i = 0;
-	while (paths[i])
+	i = -1;
+	while (paths[++i])
 	{
 		path = ft_strjoin(paths[i], "/");
 		path = ft_strjoin_gnl(path, first_cmd[0]);
@@ -43,7 +43,6 @@ int	verify_input(t_shell *shell, char *str)
 			return (1);
 		}
 		free(path);
-		i++;
 	}
 	if (is_valid_cmd(first_cmd[0]))
 		return (1);
