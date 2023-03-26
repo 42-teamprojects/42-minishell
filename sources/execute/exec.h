@@ -15,6 +15,6 @@
 
 # include "../../includes/minishell.h"
 
-int	exec_input(char **command, char **first_cmd, char *path);
+
 
 #endif

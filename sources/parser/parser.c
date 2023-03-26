@@ -24,3 +24,8 @@ t_command	init_cmd(char *input)
 	free_split(command);
 	return (cmd);
 }
+
+char	*parse_input(char *input)
+{
+	return (input);
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 09:28:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/25 21:28:22 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/03/26 21:28:22 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ void	free_split(char **array)
 void	free_shell(t_shell *shell)
 {
 	free(shell->prompt);
+	if (shell->path != NULL)
+		free(shell->path);
 	if (shell->cmd.args != NULL)
 		free_split(shell->cmd.args);
 	if (shell->cmd.name != NULL)

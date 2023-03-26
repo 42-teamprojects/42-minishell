@@ -25,6 +25,7 @@ typedef struct s_command
 	char	*input_redirect;
 	char	*output_redirect;
 	char	out_mode;
+	char	**full_cmd;
 }	t_command;
 
 typedef struct s_shell
@@ -38,10 +39,13 @@ typedef struct s_shell
 /* Parser */
 
 t_command	init_cmd(char *input);
+char		*parse_input(char *input);
 
 /* Execution */
 
 int			verify_input(t_shell *shell, char *str);
+int			ft_exec(t_shell *shell);
+void		ft_exec_builtin(t_shell *shell);
 
 /* Helpers */
 
@@ -50,4 +54,7 @@ void		sig_handler(int sig);
 void		free_split(char **array);
 void		throw_err(int err_code, char *variable, t_shell *shell);
 void		free_shell(t_shell *shell);
+
+int			args_count(char **args);
+char		**dup_list(char **list);
 #endif

@@ -12,57 +12,42 @@
 
 #include "exec.h"
 
+int	is_valid_cmd(char *str)
+{
+	if (ft_strcmp(str, "cd") == 0 || ft_strcmp(str, "pwd") == 0 || \
+		ft_strcmp(str, "export") == 0 || ft_strcmp(str, "unset") == 0 || \
+		ft_strcmp(str, "env") == 0 || ft_strcmp(str, "echo") == 0)
+		return (1);
+	return (0);
+}
+
 int	verify_input(t_shell *shell, char *str)
 {
-	char	**command;
+	char	**paths;
 	char	*path;
 	char	**first_cmd;
 	int		i;
 
-	command = ft_split(shell->path, ':');
+	path = getenv("PATH");
+	paths = ft_split(path, ':');
 	first_cmd = ft_split(str, ' ');
 	i = 0;
-	while (command[i])
+	while (paths[i])
 	{
-		path = ft_strjoin(command[i], "/");
+		path = ft_strjoin(paths[i], "/");
 		path = ft_strjoin_gnl(path, first_cmd[0]);
-		if (access(path, F_OK) == 0 || !ft_strcmp(path, "export") \
-			|| !ft_strcmp(path, "unset"))
+		if (access(path, F_OK) == 0 && !is_valid_cmd(first_cmd[0]))
 		{
-			exec_input(command, first_cmd, path);
-			return (0);
+			shell->path = ft_strdup(path);
+			shell->cmd.full_cmd = dup_list(first_cmd);
+			return (1);
 		}
 		free(path);
 		i++;
 	}
+	if (is_valid_cmd(first_cmd[0]))
+		return (1);
 	printf(BRED"→  "CX "minishell: command not found: " BRED"%s\n"CX, \
 	first_cmd[0]);
-	return (free_split(first_cmd), free_split(command), 0);
-}
-
-int	exec_input(char **command, char **first_cmd, char *path)
-{
-	pid_t	pid;
-	int		status;
-
-	pid = fork();
-	if (pid == -1)
-	{
-		printf("%s\n", strerror(errno));
-		return (-1);
-	}
-	else if (pid == 0)
-	{
-		if (execve(path, first_cmd, NULL) == -1)
-		{
-			printf("%s\n", strerror(errno));
-			exit(1);
-		}
-	}
-	else
-	{
-		waitpid(pid, &status, 0);
-		return (free_split(first_cmd), free_split(command), 0);
-	}
-	return (0);
+	return (free_split(first_cmd), free_split(paths), 0);
 }

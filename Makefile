@@ -10,7 +10,9 @@ LIBFT	= libft/libft.a
 
 SRCS = main.c sources/utils/helpers.c \
 	sources/utils/errors.c \
+	sources/utils/utilities.c \
 	sources/execute/validation.c \
+	sources/execute/execution.c \
 	sources/parser/parser.c \
 	sources/parser/utils.c
 

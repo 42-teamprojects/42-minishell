@@ -10,17 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/global.h"
-
-int	args_count(char **args)
-{
-	int	i;
-
-	i = 0;
-	while (args[i])
-		i++;
-	return (i);
-}
+#include "parser.h"
 
 char	**init_args(char **command)
 {
