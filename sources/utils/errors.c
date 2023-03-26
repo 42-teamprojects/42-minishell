@@ -20,3 +20,9 @@ void	throw_err(int err_code, char *variable, t_shell *shell)
 	free_shell(shell);
 	exit(err_code);
 }
+
+void	print404(char *cmd)
+{
+	printf(BRED"→  "CX "minishell: command not found: " BRED"%s\n"CX, \
+		cmd);
+}

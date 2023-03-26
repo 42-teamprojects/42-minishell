@@ -52,9 +52,14 @@ void		ft_exec_builtin(t_shell *shell);
 char		*init_prompt(void);
 void		sig_handler(int sig);
 void		free_split(char **array);
-void		throw_err(int err_code, char *variable, t_shell *shell);
 void		free_shell(t_shell *shell);
 
 int			args_count(char **args);
 char		**dup_list(char **list);
+
+/* Errors */
+
+void		print404(char *cmd);
+void		throw_err(int err_code, char *variable, t_shell *shell);
+
 #endif
