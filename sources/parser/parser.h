@@ -29,6 +29,6 @@ typedef enum e_quote_state
 
 char			**init_args(char **command);
 t_quote_state	valid_quotes(char *input);
-char			*trim_single_quotes(char *input); 
+char			*trim_single_quotes(char *input);
 char			*trim_double_quotes(char *input);
 #endif
