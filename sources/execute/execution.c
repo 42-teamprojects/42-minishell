@@ -28,8 +28,7 @@ int	ft_exec(t_shell *shell)
 		if (execve(shell->path, shell->cmd.full_cmd, shell->env) == -1)
 		{
 			printf("%s\n", strerror(errno));
-			free_shell(shell);
-			exit(1);
+			throw_err(0, shell);
 		}
 	}
 	else

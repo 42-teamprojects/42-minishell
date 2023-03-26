@@ -34,6 +34,8 @@ typedef struct s_shell
 	char		*prompt;
 	char		*path;
 	char		**env;
+	char		**path_list;
+	int			exit_status;
 }	t_shell;
 
 /* Parser */
@@ -46,6 +48,7 @@ char		*parse_input(char *input);
 int			verify_input(t_shell *shell, char *str);
 int			ft_exec(t_shell *shell);
 void		ft_exec_builtin(t_shell *shell);
+void		free_exec(t_shell *shell);
 
 /* Helpers */
 
@@ -60,6 +63,6 @@ char		**dup_list(char **list);
 /* Errors */
 
 void		print404(char *cmd);
-void		throw_err(int err_code, char *variable, t_shell *shell);
+void		throw_err(int err_code, t_shell *shell);
 
 #endif

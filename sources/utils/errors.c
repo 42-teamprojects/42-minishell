@@ -12,13 +12,11 @@
 
 #include "../../includes/minishell.h"
 
-void	throw_err(int err_code, char *variable, t_shell *shell)
+void	throw_err(int err_code, t_shell *shell)
 {
 	printf("\n");
-	if (variable)
-		free(variable);
-	free_shell(shell);
-	exit(err_code);
+	if (err_code == 0)
+		shell->exit_status = 0;
 }
 
 void	print404(char *cmd)

@@ -51,7 +51,7 @@ void	free_split(char **array)
 {
 	int	i;
 
-	if (array)
+	if (array[0])
 	{
 		i = 0;
 		while (array[i])
@@ -72,6 +72,7 @@ void	free_shell(t_shell *shell)
 		free_split(shell->cmd.args);
 	if (shell->cmd.name != NULL)
 		free(shell->cmd.name);
+	free_split(shell->path_list);
 }
 // free(shell->cmd.output_redirect);
 // free(shell->cmd.input_redirect);

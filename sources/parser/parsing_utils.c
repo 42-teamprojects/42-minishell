@@ -18,7 +18,9 @@ char	*trim_single_quotes(char *input)
 	int		i;
 	int		j;
 
-	result = ft_strdup(input);
+	result = malloc(strlen(input));
+	if (!result)
+		return (NULL);
 	i = 0;
 	j = 0;
 	while (result[i])

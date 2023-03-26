@@ -8,11 +8,13 @@ HEADERS = includes/global.h includes/minishell.h
 
 LIBFT	= libft/libft.a
 
-SRCS = main.c sources/utils/helpers.c \
+SRCS = main.c \
+	sources/utils/helpers.c \
 	sources/utils/errors.c \
 	sources/utils/utilities.c \
 	sources/execute/validation.c \
 	sources/execute/execution.c \
+	sources/execute/utils.c \
 	sources/parser/parser.c \
 	sources/parser/parsing_utils.c \
 	sources/parser/handle_quotes.c \

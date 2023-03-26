@@ -12,13 +12,25 @@
 
 #include "includes/minishell.h"
 
+void	init_shell(t_shell *shell, char **env)
+{
+	shell->exit_status = 1;
+	shell->env = env;
+	shell->prompt = init_prompt();
+	shell->path = NULL;
+	shell->path_list = ft_split(getenv("PATH"), ':');
+	signal(SIGINT, &sig_handler);
+	signal(SIGQUIT, &sig_handler);
+	ft_bzero(&shell->cmd, sizeof(t_command));
+}
+
 void	read_input(t_shell *shell)
 {
 	char	*input;
 
 	input = ft_strtrim(readline(shell->prompt), "\t ");
 	if (!input || !ft_strcmp(input, "exit"))
-		throw_err(0, input, shell);
+		return (free(input), throw_err(0, shell));
 	if (!ft_strlen(input))
 		return (free(input));
 	add_history(input);
@@ -37,19 +49,14 @@ int	main(int ac, char **av, char **env)
 
 	(void) ac;
 	(void) av;
-	shell.env = env;
-	shell.prompt = init_prompt();
-	signal(SIGINT, &sig_handler);
-	signal(SIGQUIT, &sig_handler);
-	ft_bzero(&shell.cmd, sizeof(t_command));
-	while (1)
+	init_shell(&shell, env);
+	while (shell.exit_status)
 	{
 		read_input(&shell);
 		if (shell.path != NULL)
 		{
 			ft_exec(&shell);
-			shell.path = NULL;
-			shell.cmd.full_cmd = NULL;
+			free_exec(&shell);
 		}
 		else if (shell.cmd.name != NULL)
 		{

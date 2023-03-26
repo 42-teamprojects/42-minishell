@@ -23,29 +23,26 @@ int	is_valid_cmd(char *str)
 
 int	verify_input(t_shell *shell, char *str)
 {
-	char	**paths;
 	char	*path;
-	char	**first_cmd;
+	char	**command;
 	int		i;
 
-	path = getenv("PATH");
-	paths = ft_split(path, ':');
-	first_cmd = ft_split(str, ' ');
+	command = ft_split(str, ' ');
 	i = -1;
-	while (paths[++i])
+	while (shell->path_list[++i])
 	{
-		path = ft_strjoin(paths[i], "/");
-		path = ft_strjoin_gnl(path, first_cmd[0]);
-		if (access(path, F_OK) == 0 && !is_valid_cmd(first_cmd[0]))
+		path = ft_strjoin(shell->path_list[i], "/");
+		path = ft_strjoin_gnl(path, command[0]);
+		if (access(path, F_OK) == 0 && !is_valid_cmd(command[0]))
 		{
 			shell->path = ft_strdup(path);
-			shell->cmd.full_cmd = dup_list(first_cmd);
-			return (1);
+			shell->cmd.full_cmd = dup_list(command);
+			return (free(path), free_split(command), 1);
 		}
 		free(path);
 	}
-	if (is_valid_cmd(first_cmd[0]))
-		return (1);
-	print404(first_cmd[0]);
-	return (free_split(first_cmd), free_split(paths), 0);
+	if (is_valid_cmd(command[0]))
+		return (free_split(command), 1);
+	print404(command[0]);
+	return (free_split(command), 0);
 }

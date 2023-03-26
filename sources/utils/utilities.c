@@ -27,7 +27,7 @@ char	**dup_list(char **list)
 	int		i;
 	char	**args;
 
-	args = (char **)malloc(sizeof(char *) * (args_count(list)));
+	args = (char **)malloc(sizeof(char *) * (args_count(list) + 1));
 	if (!args)
 		return (NULL);
 	i = 0;
