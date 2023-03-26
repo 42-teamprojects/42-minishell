@@ -47,6 +47,6 @@ int	verify_input(t_shell *shell, char *str)
 	}
 	if (is_valid_cmd(first_cmd[0]))
 		return (1);
-	return (print404(first_cmd[0]), free_split(first_cmd), \
-		free_split(paths), 0);
+	print404(first_cmd[0]);
+	return (free_split(first_cmd), free_split(paths), 0);
 }
