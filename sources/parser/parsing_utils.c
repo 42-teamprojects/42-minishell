@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_utils.h                                    :+:      :+:    :+:   */
+/*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 13:02:11 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/26 16:56:18 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/03/27 18:03:54 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ char	*trim_single_quotes(char *input)
 		return (NULL);
 	i = 0;
 	j = 0;
-	while (result[i])
+	while (input[i])
 	{
-		if (result[i] == '\'')
+		if (input[i] == 39 && (i == 0 || input[i - 1] != '\\'))
 			i++;
 		else
-			result[j++] = result[i++];
+			result[j++] = input[i++];
 	}
 	result[j] = '\0';
 	return (result);

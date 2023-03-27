@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/26 17:37:46 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/03/27 18:06:02 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	read_input(t_shell *shell)
 		return (free(input));
 	add_history(input);
 	input = parse_input(input);
+	if (!*input || !ft_strlen(input))
+		return (free(input));
 	if (!verify_input(shell, input))
 		return (free(input));
 	else if (shell->path == NULL)
