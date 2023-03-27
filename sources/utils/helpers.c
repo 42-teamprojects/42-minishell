@@ -68,11 +68,5 @@ void	free_shell(t_shell *shell)
 	free(shell->prompt);
 	if (shell->path != NULL)
 		free(shell->path);
-	if (shell->cmd.args != NULL)
-		free_split(shell->cmd.args);
-	if (shell->cmd.name != NULL)
-		free(shell->cmd.name);
 	free_split(shell->path_list);
 }
-// free(shell->cmd.output_redirect);
-// free(shell->cmd.input_redirect);

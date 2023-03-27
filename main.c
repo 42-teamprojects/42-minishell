@@ -61,6 +61,7 @@ int	main(int ac, char **av, char **env)
 		else if (shell.cmd.name != NULL)
 		{
 			ft_exec_builtin(&shell);
+			free(shell.cmd.name);
 			shell.cmd.name = NULL;
 		}
 	}
