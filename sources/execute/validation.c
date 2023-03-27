@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 21:50:33 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/03/26 13:34:34 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/03/27 19:43:23 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	verify_input(t_shell *shell, char *str)
 	char	**command;
 	int		i;
 
+	if (!*str || !ft_strlen(str))
+		return (print404(str), 0);
 	command = ft_split(str, ' ');
 	i = -1;
 	while (shell->path_list[++i])
