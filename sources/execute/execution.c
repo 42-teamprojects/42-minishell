@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   helpers.c                                          :+:      :+:    :+:   */
+/*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/26 22:41:22 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/03/27 23:23:03 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,18 @@ int	ft_exec(t_shell *shell)
 
 void	ft_exec_builtin(t_shell *shell)
 {
-	// if (!ft_strcmp(shell->cmd.name, "echo"))
-	// 	ft_echo(shell);
-	// else if (!ft_strcmp(shell->cmd.name, "cd"))
-	// 	ft_cd(shell);
-	// else if (!ft_strcmp(shell->cmd.name, "pwd"))
-	// 	ft_pwd(shell);
+	if (!ft_strcmp(shell->cmd.name, "echo"))
+		ft_echo(shell);
+	else if (!ft_strcmp(shell->cmd.name, "pwd"))
+		ft_pwd(shell);
+	else if (!ft_strcmp(shell->cmd.name, "env"))
+		ft_env(shell);
+	else if (!ft_strcmp(shell->cmd.name, "cd"))
+		ft_cd(shell);
 	// else if (!ft_strcmp(shell->cmd.name, "export"))
 	// 	ft_export(shell);
 	// else if (!ft_strcmp(shell->cmd.name, "unset"))
 	// 	ft_unset(shell);
-	// else if (!ft_strcmp(shell->cmd.name, "env"))
-	// 	ft_env(shell);
-	(void) shell;
-	printf("to be implemented\n");
+	// (void) shell;
+	// printf("to be implemented\n");
 }

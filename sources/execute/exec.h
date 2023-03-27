@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 12:21:19 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/03/26 13:34:56 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/03/27 23:09:33 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 # include "../../includes/minishell.h"
 
-
+void	ft_pwd(t_shell *shell);
+void	ft_echo(t_shell *shell);
+void	ft_env(t_shell *shell);
+int		ft_cd(t_shell *shell);
 
 #endif
