@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/27 19:57:28 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/03/27 21:36:46 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_command	init_cmd(char *input)
 	return (cmd);
 }
 
-char	*parse_input(char *input)
+char	*remove_quotes(char *input)
 {
 	t_quote_state	quote_state;
 
@@ -40,4 +40,14 @@ char	*parse_input(char *input)
 		else
 			return (trim_double_quotes(input));
 	}
+}
+
+char	*parse_input(char *input)
+{
+	char	**in;
+
+	if (ft_strchr(input, ' ') == NULL)
+		return (remove_quotes(input));
+	// in = ft_split_quotes(input, ' ');
+	// return (remove_quotes(input));
 }
