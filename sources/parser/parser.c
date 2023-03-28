@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/27 21:36:46 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/03/27 23:48:04 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,11 @@ char	*parse_input(char *input)
 
 	if (ft_strchr(input, ' ') == NULL)
 		return (remove_quotes(input));
-	// in = ft_split_quotes(input, ' ');
-	// return (remove_quotes(input));
+	in = ft_split_cmd(input, ' ');
+	if (in == NULL)
+		return (input);
+	int i = -1;
+	while (in[++i])
+		printf("%s\n", in[i]);
+	return (remove_quotes(input));
 }

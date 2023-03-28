@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 22:29:47 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/27 20:46:39 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/03/27 23:18:12 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,47 +69,6 @@ char	**ft_split(char const *s, char c)
 		wordlen = ft_wordlen(s, c, i);
 		splited[j] = ft_substr(s, i, wordlen);
 		i += wordlen;
-		j++;
-	}
-	splited[j] = 0;
-	return (splited);
-}
-
-char	**ft_split_quotes(char const *s, char c)
-{
-	int		i;
-	int		j;
-	int		wordlen;
-	int		countwords;
-	char	**splited;
-	int		start;
-
-	if (!s)
-		return (NULL);
-	countwords = ft_countwords(s, c);
-	splited = (char **)malloc(sizeof(char *) * (countwords + 1));
-	if (!splited)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (j < countwords)
-	{
-		while (s[i] == c)
-			i++;
-		if (s[i] == '"' || s[i] == '\'')
-		{
-			start = i++;
-			while (s[i] && s[i] != s[start])
-				i++;
-			splited[j] = ft_substr(s, start + 1, i - start - 1);
-			i++;
-		}
-		else
-		{
-			wordlen = ft_wordlen(s, c, i);
-			splited[j] = ft_substr(s, i, wordlen);
-			i += wordlen;
-		}
 		j++;
 	}
 	splited[j] = 0;
