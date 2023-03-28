@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/28 10:53:17 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/03/28 18:45:39 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	read_input(t_shell *shell)
 	if (!verify_input(command, shell))
 		return (free(input));
 	else if (shell->path == NULL)
-		shell->cmd = init_cmd(input);
+		shell->cmd = init_cmd(command);
 	free(input);
 	input = NULL;
 }

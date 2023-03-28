@@ -6,18 +6,16 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/28 18:39:34 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/03/28 18:46:00 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-t_command	init_cmd(char *input)
+t_command	init_cmd(char **command)
 {
-	char		**command;
 	t_command	cmd;
 
-	command = ft_split(input, ' ');
 	cmd.name = ft_strdup(command[0]);
 	cmd.argc = args_count(command) - 1;
 	cmd.args = init_args(command);
@@ -67,8 +65,9 @@ char	**parse_input(char *input)
 	{
 		if (ft_strlen(in[i]) == 0)
 			break ;
-		out[i] = remove_quotes(in[i]);
+		out[i] = remove_quotes(ft_strdup(in[i]));
 	}
 	out[i] = NULL;
+	free_split(in);
 	return (out);
 }
