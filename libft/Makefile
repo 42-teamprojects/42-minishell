@@ -30,6 +30,7 @@ SRCS = ft_isalpha.c \
       ft_strnstr.c \
       ft_itoa.c    \
       ft_split.c \
+      ft_split_cmd.c \
       ft_memmove.c \
       ft_memchr.c \
       ft_memcmp.c \
@@ -65,8 +66,8 @@ CFLAGS		= -Wall -Wextra -Werror
 
 RM			= rm -f
 
-%.o : %.c
-			$(CC) $(CFLAGS) -c $< -o $@
+# %.o : %.c
+# 			$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME):	$(OBJS)
 			ar rcs $@ $^
