@@ -1,46 +1,42 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split_cmd.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/28 16:40:41 by yelaissa          #+#    #+#             */
+/*   Updated: 2023/03/28 16:40:42 by yelaissa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
-static int	ft_countwords(char const *str, char c);
-static int	ft_wordlen(char const *str, char c, int i);
-static int	ft_skipdelimiter(char const *str, char c, int i);
-static char	*ft_getquoted(char const *str, int *i);
-
-char	**ft_split_cmd(char const *s, char c)
+static int	ft_skipdelimiter(char const *str, char c, int i)
 {
-	int		i;
-	int		j;
-	int		wordlen;
-	int		countwords;
-	char	**splited;
+	while (str[i] == c)
+		i++;
+	return (i);
+}
 
-	if (!s)
-		return (NULL);
-	countwords = ft_countwords(s, c);
-	splited = (char **)malloc(sizeof(char *) * (countwords + 1));
-	if (!splited)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (j < countwords)
+static char	*ft_getquoted(char const *str, int *i)
+{
+	int		start;
+	int		end;
+	char	*quoted;
+
+	start = ++(*i);
+	end = start;
+	while (str[end] && str[end] != str[start - 1])
+		end++;
+	if (!str[end])
 	{
-		i = ft_skipdelimiter(s, c, i);
-		if (s[i] == '\'' || s[i] == '\"')
-			splited[j] = ft_getquoted(s, &i);
-		else
-		{
-			wordlen = ft_wordlen(s, c, i);
-			if (wordlen == -1)
-			{
-				free(splited);
-				return (NULL);
-			}
-			splited[j] = ft_substr(s, i, wordlen);
-			i += wordlen;
-		}
-		j++;
+		*i = -1;
+		return (NULL);
 	}
-	splited[j] = NULL;
-	return (splited);
+	quoted = ft_substr(str, start, end - start);
+	*i = end + 1;
+	return (quoted);
 }
 
 static int	ft_countwords(char const *str, char c)
@@ -82,29 +78,88 @@ static int	ft_wordlen(char const *str, char c, int i)
 	return (len);
 }
 
-static int	ft_skipdelimiter(char const *str, char c, int i)
+static int	ft_quoted_wordlen(char const *s, int start)
 {
-	while (str[i] == c)
-		i++;
-	return (i);
+	int		i;
+	char	quote;
+
+	i = start + 1;
+	quote = s[start];
+	while (s[i] != '\0')
+	{
+		if (s[i] == quote)
+			return (i - start + 1);
+		else if (s[i] == '\\' && quote != '\'')
+			i += 2;
+		else
+			i++;
+	}
+	return (-1);
 }
 
-static char	*ft_getquoted(char const *str, int *i)
-{
-	int		start;
-	int		end;
-	char	*quoted;
 
-	start = ++(*i);
-	end = start;
-	while (str[end] && str[end] != str[start - 1])
-		end++;
-	if (!str[end])
-	{
-		*i = -1;
+static char	*ft_escape_quotes(char const *word)
+{
+	char	*escaped;
+	int		i;
+	int		j;
+
+	escaped = (char *)malloc(sizeof(char) * (ft_strlen(word) + 1));
+	if (!escaped)
 		return (NULL);
+	ft_bzero(escaped, ft_strlen(word) + 1);
+	i = 0;
+	j = 0;
+	while (word[i])
+	{
+		escaped[j++] = word[i++];
 	}
-	quoted = ft_substr(str, start, end - start);
-	*i = end + 1;
-	return (quoted);
+	return (escaped);
+}
+
+char	**ft_split_cmd(char const *s, char c)
+{
+	int		i;
+	int		j;
+	int		wordlen;
+	int		countwords;
+	char	**splited;
+
+	if (!s)
+		return (NULL);
+	countwords = ft_countwords(s, c);
+	splited = (char **)malloc(sizeof(char *) * (countwords + 1));
+	if (!splited)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (j < countwords)
+	{
+		i = ft_skipdelimiter(s, c, i);
+		if (s[i] == '\"' || s[i] == '\'')
+		{
+			wordlen = ft_quoted_wordlen(s, i);
+			if (wordlen == -1)
+			{
+				free(splited);
+				return (NULL);
+			}
+			splited[j] = ft_escape_quotes(ft_substr(s, i, wordlen));
+			i += wordlen;
+		}
+		else
+		{
+			wordlen = ft_wordlen(s, c, i);
+			if (wordlen == -1)
+			{
+				free(splited);
+				return (NULL);
+			}
+			splited[j] = ft_substr(s, i, wordlen);
+			i += wordlen;
+		}
+		j++;
+	}
+	splited[j] = NULL;
+	return (splited);
 }

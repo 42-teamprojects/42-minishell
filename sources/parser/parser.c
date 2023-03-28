@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/27 23:48:04 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/03/28 16:40:58 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,26 @@ char	*remove_quotes(char *input)
 	}
 }
 
-char	*parse_input(char *input)
+char	**parse_input(char *input)
 {
 	char	**in;
-
+	int 	i;
+	
 	if (ft_strchr(input, ' ') == NULL)
-		return (remove_quotes(input));
+	{
+		in = malloc(sizeof(char *) * 2);
+		in[0] = remove_quotes(input);
+		in[1] = NULL;
+		return (in);
+	}
 	in = ft_split_cmd(input, ' ');
 	if (in == NULL)
-		return (input);
-	int i = -1;
-	while (in[++i])
-		printf("%s\n", in[i]);
-	return (remove_quotes(input));
+	{
+		printf("Error: malloc failed");
+		exit(0);
+	}
+	i = -1;
+	// while (in[++i])
+	// 	printf("%s\n", in[i]);
+	return (in);
 }
