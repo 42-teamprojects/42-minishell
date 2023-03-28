@@ -3,11 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/28 16:40:58 by yelaissa         ###   ########.fr       */
-/*   Updated: 2023/03/28 18:46:00 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/03/28 19:56:42 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +19,7 @@ t_command	init_cmd(char **command)
 	cmd.name = ft_strdup(command[0]);
 	cmd.argc = args_count(command) - 1;
 	cmd.args = init_args(command);
-	free_split(command);
+	// free_split(command);
 	return (cmd);
 }
 

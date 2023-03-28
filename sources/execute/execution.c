@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/27 23:23:03 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/03/28 19:56:30 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ void	ft_exec_builtin(t_shell *shell)
 {
 	if (!ft_strcmp(shell->cmd.name, "echo"))
 		ft_echo(shell);
+	else if (!ft_strcmp(shell->cmd.name, "cd"))
+		ft_cd(shell);
 	else if (!ft_strcmp(shell->cmd.name, "pwd"))
 		ft_pwd(shell);
 	else if (!ft_strcmp(shell->cmd.name, "env"))
 		ft_env(shell);
-	else if (!ft_strcmp(shell->cmd.name, "cd"))
-		ft_cd(shell);
 	// else if (!ft_strcmp(shell->cmd.name, "export"))
 	// 	ft_export(shell);
 	// else if (!ft_strcmp(shell->cmd.name, "unset"))
