@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/28 18:37:40 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/03/28 18:39:34 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,5 @@ char	**parse_input(char *input)
 		out[i] = remove_quotes(in[i]);
 	}
 	out[i] = NULL;
-	free_split(in);
 	return (out);
 }
