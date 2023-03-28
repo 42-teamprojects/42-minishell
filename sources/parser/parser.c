@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/27 23:48:04 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/03/28 11:51:23 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,48 @@ char	*remove_quotes(char *input)
 	}
 }
 
-char	*parse_input(char *input)
+char	*trim_backslash(char const *s)
+{
+	char	*new;
+	size_t	i;
+	size_t	j;
+
+	new = malloc(sizeof(char) * (strlen(s) + 1));
+	if (!new)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (s[i])
+	{
+		if (s[i] == '\\' && s[i + 1] == '\"')
+			i++;
+		new[j++] = s[i++];
+	}
+	new[j] = '\0';
+	return (new);
+}
+
+char	**parse_input(char *input)
 {
 	char	**in;
-
+	// char	**in2;
+	int 	i;
+	
 	if (ft_strchr(input, ' ') == NULL)
-		return (remove_quotes(input));
+	{
+		in = malloc(sizeof(char *) * 2);
+		in[0] = remove_quotes(input);
+		in[1] = NULL;
+		return (in);
+	}
 	in = ft_split_cmd(input, ' ');
 	if (in == NULL)
-		return (input);
-	int i = -1;
+	{
+		printf("Error: malloc failed");
+		exit(0);
+	}
+	i = -1;
 	while (in[++i])
-		printf("%s\n", in[i]);
-	return (remove_quotes(input));
+		printf("%s\n", trim_backslash(in[i]));
+	return (in);
 }

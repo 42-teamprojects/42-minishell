@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/27 19:18:19 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/03/28 10:53:17 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	init_shell(t_shell *shell, char **env)
 void	read_input(t_shell *shell)
 {
 	char	*input;
+	char	**command;
 
 	input = ft_strtrim(readline(shell->prompt), "\t ");
 	if (!input || !ft_strcmp(input, "exit"))
@@ -34,8 +35,8 @@ void	read_input(t_shell *shell)
 	if (!ft_strlen(input))
 		return (free(input));
 	add_history(input);
-	input = parse_input(input);
-	if (!verify_input(shell, input))
+	command = parse_input(input);
+	if (!verify_input(command, shell))
 		return (free(input));
 	else if (shell->path == NULL)
 		shell->cmd = init_cmd(input);

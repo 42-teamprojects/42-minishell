@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/27 22:17:42 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/03/28 15:08:23 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ typedef struct s_shell
 /* Parser */
 
 t_command	init_cmd(char *input);
-char		*parse_input(char *input);
+char		**parse_input(char *input);
 
 /* Execution */
 
-int			verify_input(t_shell *shell, char *str);
+int			verify_input(char **command, t_shell *shell);
 int			ft_exec(t_shell *shell);
 void		ft_exec_builtin(t_shell *shell);
 void		free_exec(t_shell *shell);
