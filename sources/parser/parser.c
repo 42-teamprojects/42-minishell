@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/28 11:48:03 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/03/28 11:51:23 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,27 @@ char	*remove_quotes(char *input)
 	}
 }
 
+char	*trim_backslash(char const *s)
+{
+	char	*new;
+	size_t	i;
+	size_t	j;
+
+	new = malloc(sizeof(char) * (strlen(s) + 1));
+	if (!new)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (s[i])
+	{
+		if (s[i] == '\\' && s[i + 1] == '\"')
+			i++;
+		new[j++] = s[i++];
+	}
+	new[j] = '\0';
+	return (new);
+}
+
 char	**parse_input(char *input)
 {
 	char	**in;
@@ -63,6 +84,6 @@ char	**parse_input(char *input)
 	}
 	i = -1;
 	while (in[++i])
-		printf("%s\n", ft_trim_quotes_backslash(in[i]));
+		printf("%s\n", trim_backslash(in[i]));
 	return (in);
 }
