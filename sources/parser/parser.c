@@ -6,22 +6,17 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/03/28 16:45:49 by yelaissa         ###   ########.fr       */
-=======
 /*   Updated: 2023/03/28 16:40:58 by yelaissa         ###   ########.fr       */
->>>>>>> b090bc8c914388e04c81f6b230c89cc7d2c07c47
+/*   Updated: 2023/03/28 18:46:00 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-t_command	init_cmd(char *input)
+t_command	init_cmd(char **command)
 {
-	char		**command;
 	t_command	cmd;
 
-	command = ft_split(input, ' ');
 	cmd.name = ft_strdup(command[0]);
 	cmd.argc = args_count(command) - 1;
 	cmd.args = init_args(command);
@@ -49,6 +44,7 @@ char	*remove_quotes(char *input)
 char	**parse_input(char *input)
 {
 	char	**in;
+	char	**out;
 	int 	i;
 
 	if (ft_strchr(input, ' ') == NULL)
@@ -61,11 +57,18 @@ char	**parse_input(char *input)
 	in = ft_split_cmd(input, ' ');
 	if (in == NULL)
 	{
-		printf("Error: malloc failed");
+		printf("Error: unclosed quotes");
 		exit(0);
 	}
+	out = malloc(sizeof(char *) * (args_count(in)) + 1);
 	i = -1;
-	// while (in[++i])
-	// 	printf("%s\n", in[i]);
-	return (in);
+	while (in[++i])
+	{
+		if (ft_strlen(in[i]) == 0)
+			break ;
+		out[i] = remove_quotes(ft_strdup(in[i]));
+	}
+	out[i] = NULL;
+	free_split(in);
+	return (out);
 }

@@ -4,3 +4,4 @@ a.out
 *.o
 */*.o
 .vscode
+libft/libft.a
