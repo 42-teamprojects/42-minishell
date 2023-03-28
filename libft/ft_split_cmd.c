@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split_cmd.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/28 16:40:41 by yelaissa          #+#    #+#             */
+/*   Updated: 2023/03/28 16:40:42 by yelaissa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 static int	ft_skipdelimiter(char const *str, char c, int i)
@@ -66,17 +78,6 @@ static int	ft_wordlen(char const *str, char c, int i)
 	return (len);
 }
 
-static char	*ft_strnew(size_t size)
-{
-	char	*str;
-
-	str = (char *)malloc(sizeof(char) * (size + 1));
-	if (str == NULL)
-		return (NULL);
-	ft_bzero(str, size + 1);
-	return (str);
-}
-
 static int	ft_quoted_wordlen(char const *s, int start)
 {
 	int		i;
@@ -102,15 +103,14 @@ static char	*ft_escape_quotes(char const *word)
 	int		i;
 	int		j;
 
-	escaped = ft_strnew(ft_strlen(word) * 2);
+	escaped = (char *)malloc(sizeof(char) * (ft_strlen(word) + 1));
 	if (!escaped)
 		return (NULL);
+	ft_bzero(escaped, ft_strlen(word) + 1);
 	i = 0;
 	j = 0;
 	while (word[i])
 	{
-		if (word[i] == '\"' || word[i] == '\'')
-			escaped[j++] = '\\';
 		escaped[j++] = word[i++];
 	}
 	return (escaped);
