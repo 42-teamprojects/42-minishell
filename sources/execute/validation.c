@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 21:50:33 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/03/27 19:43:23 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/03/28 10:52:33 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,13 @@ int	is_valid_cmd(char *str)
 	return (0);
 }
 
-int	verify_input(t_shell *shell, char *str)
+int	verify_input(char **command, t_shell *shell)
 {
 	char	*path;
-	char	**command;
 	int		i;
 
-	if (!*str || !ft_strlen(str))
-		return (print404(str), 0);
-	command = ft_split(str, ' ');
+	if (!command || !*command || !args_count(command))
+		return (print404(command[0]), 0);
 	i = -1;
 	while (shell->path_list[++i])
 	{
@@ -39,12 +37,12 @@ int	verify_input(t_shell *shell, char *str)
 		{
 			shell->path = ft_strdup(path);
 			shell->cmd.full_cmd = dup_list(command);
-			return (free(path), free_split(command), 1);
+			return (free(path), 1);
 		}
 		free(path);
 	}
 	if (is_valid_cmd(command[0]))
-		return (free_split(command), 1);
+		return (1);
 	print404(command[0]);
-	return (free_split(command), 0);
+	return (0);
 }
