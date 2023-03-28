@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/28 16:40:58 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/03/28 18:33:17 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ char	*remove_quotes(char *input)
 char	**parse_input(char *input)
 {
 	char	**in;
+	char	**out;
 	int 	i;
 	
 	if (ft_strchr(input, ' ') == NULL)
@@ -57,11 +58,17 @@ char	**parse_input(char *input)
 	in = ft_split_cmd(input, ' ');
 	if (in == NULL)
 	{
-		printf("Error: malloc failed");
+		printf("Error: unclosed quotes");
 		exit(0);
 	}
+	out = malloc(sizeof(char *) * (args_count(in)) + 1);
 	i = -1;
-	// while (in[++i])
-	// 	printf("%s\n", in[i]);
-	return (in);
+	while (in[++i])
+	{
+		if (ft_strlen(in[i]) == 0)
+			break ;
+		out[i] = remove_quotes(in[i]);
+	}
+	out[i] = NULL;
+	return (out);
 }
