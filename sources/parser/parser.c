@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/28 11:51:23 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/03/28 15:24:24 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	**parse_input(char *input)
 	char	**in;
 	// char	**in2;
 	int 	i;
-	
+
 	if (ft_strchr(input, ' ') == NULL)
 	{
 		in = malloc(sizeof(char *) * 2);

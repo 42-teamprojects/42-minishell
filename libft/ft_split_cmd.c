@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split_cmd.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/28 15:22:55 by htalhaou          #+#    #+#             */
+/*   Updated: 2023/03/28 15:23:17 by htalhaou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 static int	ft_skipdelimiter(char const *str, char c, int i)
@@ -95,7 +107,6 @@ static int	ft_quoted_wordlen(char const *s, int start)
 	}
 	return (-1);
 }
-
 
 static char	*ft_escape_quotes(char const *word)
 {
