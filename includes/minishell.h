@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/28 18:45:28 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/03/30 11:31:52 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_shell
 	char		*pwd;
 	char		**path_list;
 	int			exit_status;
+	int			state;
 }	t_shell;
 
 /* Parser */
