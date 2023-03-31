@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 12:21:19 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/03/30 13:14:58 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/03/31 23:15:05 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ int		ft_cd(t_shell *shell);
 int		ft_unset(t_shell *shell);
 int		unset_help(t_shell *shell);
 void	ft_export(t_shell *shell);
-
+int		ft_setenv(const char *name, const char *value,
+			int overwrite, t_shell *shell);
 #endif

@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 19:32:42 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/03/30 17:57:26 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/03/31 21:18:26 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	ft_export(t_shell *shell)
 	var_name = ft_split(shell->cmd.args[0], '=');
 	if (var_name[1] != NULL)
 	{
-		result = setenv(var_name[0], var_name[1], 0);
+		result = ft_setenv(var_name[0], var_name[1], 0, shell);
 		if (result == 0)
 			printf("Exported %s=%s\n", var_name[0], var_name[1]);
 		else
