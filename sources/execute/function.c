@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 19:32:42 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/03/31 21:18:26 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/04/01 20:05:01 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,16 +74,18 @@ int	ft_cd(t_shell *shell)
 	return (0);
 }
 
-// int	ft_unset(t_shell *shell)
-// {
-// 	if (unsetenv(shell->cmd.args[0]))
-// 	{
-// 		perror("unsetenv");
-// 		return (0);
-// 	}
-// 	printf("Environment variable '%s' has been unset.\n", shell->cmd.args[0]);
-// 	return (1);
-// }
+
+int	ft_unset(t_shell *shell)
+{
+	if (unset_help(shell))
+	{
+		perror("unset");
+		return (0);
+	}
+	printf("Environment variable '%s' has been unset.\n",
+		shell->cmd.full_cmd[0]);
+	return (1);
+}
 
 void	ft_export(t_shell *shell)
 {
