@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 09:28:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/26 21:28:22 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/02 16:28:29 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 char	*init_prompt(void)
 {
 	char	*user;
-	char	cwd[1024];
+	char	cwd[PATH_MAX];
 	char	*line;
 	char	*str;
 
 	user = ft_strjoin(BGREEN "→  " CYAN, getenv("USER"));
-	getcwd(cwd, 1024);
+	getcwd(cwd, PATH_MAX);
 	str = ft_strrchr(cwd, '/') + 1;
 	if (str == 0)
 		exit (1);

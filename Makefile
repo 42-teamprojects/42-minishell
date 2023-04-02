@@ -19,7 +19,8 @@ SRCS = main.c \
 	sources/parser/parsing_utils.c \
 	sources/parser/handle_quotes.c \
 	sources/parser/utils.c \
-	sources/execute/function.c
+	sources/execute/function.c \
+	sources/execute/more_function.c
 
 
 OBJS = $(SRCS:.c=.o)
