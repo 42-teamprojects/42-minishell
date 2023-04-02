@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/28 18:45:28 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/02 16:54:12 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,32 @@
 # define MINISHELL_H
 
 # include "global.h"
+
+/* enums */
+
+typedef enum e_status
+{
+	IN_DQUOTE,
+	IN_SQUOTE,
+	ESCAPE,
+	DEFAULT,
+}	t_status;
+
+typedef enum e_token
+{
+	SPACE = ' ',
+	NEW_LINE = '\n',
+	SQOUTE = '\'',
+	DQUOTE = '\"',
+	ESCAPE = '\\',
+	VAR = '$',
+	PIPE = '|',
+	RIN = '<',
+	ROUT = '>',
+	WORD = -1,
+	HEREDOC = -2,
+	AROUT = -3,
+}	t_token;
 
 /* Structs */
 
