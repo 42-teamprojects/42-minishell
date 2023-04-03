@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/03 17:30:50 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/03 19:44:19 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ int				get_var(t_lexer *lexer, char *input, t_state state);
 int				get_word(t_lexer *lexer, char *input, t_state state);
 void			print_lexer(t_lexer *lexer);
 void			change_state(t_lexer *lexer, char c, t_state *state);
+int				valid_syntax(t_lexer *lexer);
+
 /* Minishell */
 
 typedef struct s_command
@@ -108,7 +110,7 @@ typedef struct s_shell
 /* Parser */
 
 t_command		init_cmd(char **command);
-char			**parse_input(char *input);
+char			**parse_input(t_lexer *lexer);
 
 /* Execution */
 
