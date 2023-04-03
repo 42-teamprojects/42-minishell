@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/02 16:54:12 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/03 17:30:50 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,74 @@
 # define MINISHELL_H
 
 # include "global.h"
+# include "lexer.h"
 
 /* enums */
 
-typedef enum e_status
+typedef enum e_state
 {
 	IN_DQUOTE,
 	IN_SQUOTE,
-	ESCAPE,
+	ESCAPED,
 	DEFAULT,
-}	t_status;
+}	t_state;
 
-typedef enum e_token
+typedef enum e_token_type
 {
-	SPACE = ' ',
-	NEW_LINE = '\n',
 	SQOUTE = '\'',
 	DQUOTE = '\"',
 	ESCAPE = '\\',
 	VAR = '$',
 	PIPE = '|',
-	RIN = '<',
-	ROUT = '>',
+	RD_IN = '<',
+	RD_OUT = '>',
 	WORD = -1,
 	HEREDOC = -2,
-	AROUT = -3,
+	RD_AOUT = -3,
+	NEW_LINE = '\n',
+	SPACE = ' ',
+}	t_token_type;
+
+/* Lexer */
+
+typedef struct s_token
+{
+	int				len;
+	char			*content;
+	t_token_type	type;
+	t_state			state;
 }	t_token;
 
-/* Structs */
+typedef struct s_dll
+{
+	struct s_dll		*prev;
+	t_token				*token;
+	struct s_dll		*next;
+}	t_dll;
+
+typedef struct s_lexer
+{
+	t_dll	*head;
+	int		size;
+}	t_lexer;
+
+t_lexer			*lexer(char *input);
+t_token			*new_token(char *content, int len, \
+		t_token_type type, t_state state);
+t_lexer			*init_lexer(void);
+int				add_token(t_lexer *lexer, t_token *token);
+void			free_lexer(t_lexer *lexer);
+int				is_space(char c);
+int				is_token(char c);
+t_token_type	get_token_type(char *str);
+int				is_redirection(char *str);
+int				get_token_length(char *str);
+int				get_token(char *input, t_lexer *lexer, int i, t_state state);
+int				get_var(t_lexer *lexer, char *input, t_state state);
+int				get_word(t_lexer *lexer, char *input, t_state state);
+void			print_lexer(t_lexer *lexer);
+void			change_state(t_lexer *lexer, char c, t_state *state);
+/* Minishell */
 
 typedef struct s_command
 {
@@ -56,6 +96,7 @@ typedef struct s_command
 
 typedef struct s_shell
 {
+	t_lexer		*lexer;
 	t_command	cmd;
 	char		*prompt;
 	char		*path;
@@ -66,29 +107,28 @@ typedef struct s_shell
 
 /* Parser */
 
-t_command	init_cmd(char **command);
-char		**parse_input(char *input);
+t_command		init_cmd(char **command);
+char			**parse_input(char *input);
 
 /* Execution */
 
-int			verify_input(char **command, t_shell *shell);
-int			ft_exec(t_shell *shell);
-void		ft_exec_builtin(t_shell *shell);
-void		free_exec(t_shell *shell);
+int				verify_input(char **command, t_shell *shell);
+int				ft_exec(t_shell *shell);
+void			ft_exec_builtin(t_shell *shell);
+void			free_exec(t_shell *shell);
 
 /* Helpers */
 
-char		*init_prompt(void);
-void		sig_handler(int sig);
-void		free_split(char **array);
-void		free_shell(t_shell *shell);
+char			*init_prompt(void);
+void			sig_handler(int sig);
+void			free_split(char **array);
+void			free_shell(t_shell *shell);
 
-int			args_count(char **args);
-char		**dup_list(char **list);
+int				args_count(char **args);
+char			**dup_list(char **list);
 
 /* Errors */
 
-void		print404(char *cmd);
-void		throw_err(int err_code, t_shell *shell);
-
+void			print404(char *cmd);
+void			throw_err(int err_code, t_shell *shell);
 #endif

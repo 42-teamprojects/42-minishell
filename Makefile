@@ -19,7 +19,11 @@ SRCS = main.c \
 	sources/parser/parsing_utils.c \
 	sources/parser/handle_quotes.c \
 	sources/parser/utils.c \
-	sources/execute/function.c
+	sources/execute/function.c \
+	sources/lexer/lexer_init.c \
+	sources/lexer/lexer_utils.c \
+	sources/lexer/tokenizer.c \
+	sources/lexer/lexer.c \
 
 
 OBJS = $(SRCS:.c=.o)

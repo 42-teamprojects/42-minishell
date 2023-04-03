@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/28 19:35:14 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/04/03 10:48:42 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_exec(t_shell *shell)
 {
 	pid_t	pid;
-	int		status;
+	int		state;
 
 	pid = fork();
 	if (pid == -1)
@@ -33,7 +33,7 @@ int	ft_exec(t_shell *shell)
 	}
 	else
 	{
-		waitpid(pid, &status, 0);
+		waitpid(pid, &state, 0);
 		return (0);
 	}
 	return (0);

@@ -6,24 +6,24 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 16:49:37 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/02 16:54:49 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/03 12:07:27 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "../../includes/lexer.h"
 
 // Function to create a new token
-t_data	*new_token(char *content, int len, t_token type, t_status status)
+t_token	*new_token(char *content, int len, t_token_type type, t_state state)
 {
-	t_data	*new;
+	t_token	*new;
 
-	new = (t_data *)malloc(sizeof(t_data));
+	new = (t_token *) malloc(sizeof(t_token));
 	if (!new)
 		return (0);
 	new->content = content;
 	new->len = len;
 	new->type = type;
-	new->status = status;
+	new->state = state;
 	return (new);
 }
 
@@ -41,15 +41,15 @@ t_lexer	*init_lexer(void)
 }
 
 // Function to add a new token to the end of the lexer
-int	add_token(t_lexer *lexer, t_data *data)
+int	add_token(t_lexer *lexer, t_token *token)
 {
-	t_lst	*new_node;
-	t_lst	*last_node;
+	t_dll	*new_node;
+	t_dll	*last_node;
 
-	new_node = (t_lst *) malloc(sizeof(t_lst));
+	new_node = (t_dll *) malloc(sizeof(t_dll));
 	if (!new_node)
 		return (0);
-	new_node->data = *data;
+	new_node->token = token;
 	new_node->next = NULL;
 	new_node->prev = NULL;
 	if (lexer->head == NULL)
@@ -70,15 +70,15 @@ int	add_token(t_lexer *lexer, t_data *data)
 // Function to free the lexer
 void	free_lexer(t_lexer *lexer)
 {
-	t_lst	*node;
-	t_lst	*temp;
+	t_dll	*node;
+	t_dll	*temp;
 
 	node = lexer->head;
 	while (node != NULL)
 	{
 		temp = node;
 		node = node->next;
-		free(temp->data.content);
+		free(temp->token->content);
 		free(temp);
 	}
 	free(lexer);
