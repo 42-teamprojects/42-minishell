@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/03 19:45:14 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/04 14:17:33 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	init_shell(t_shell *shell, char **env)
 void	read_input(t_shell *shell)
 {
 	char	*input;
-	// char	**command;
 
 	input = ft_strtrim(readline(shell->prompt), "\t ");
 	if (!input || !ft_strcmp(input, "exit"))

@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 12:21:51 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/03 16:29:21 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/04 15:00:51 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 t_token_type	is_redirection(char *str)
 {
-	if (*str == '>')
-		return (RD_OUT);
-	if (*str == '<')
-		return (RD_IN);
 	if (*str == '>' && *(str + 1) == '>')
 		return (RD_AOUT);
 	if (*str == '<' && *(str + 1) == '<')
 		return (HEREDOC);
+	if (*str == '>')
+		return (RD_OUT);
+	if (*str == '<')
+		return (RD_IN);
 	return (0);
 }
 
