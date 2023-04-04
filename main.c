@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/02 21:17:47 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/04/03 15:32:40 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	main(int ac, char **av, char **env)
 	init_shell(&shell, env);
 	while (shell.exit_status)
 	{
+		shell.prompt = init_prompt();
 		read_input(&shell);
 		if (shell.path != NULL)
 		{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 21:50:33 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/03/28 10:52:33 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/04 23:14:56 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,36 @@ int	is_valid_cmd(char *str)
 
 int	verify_input(char **command, t_shell *shell)
 {
-	char	*path;
+	char	*path = NULL;
 	int		i;
 
+	path = ft_strjoin_gnl(path, command[0]);
+	// printf("parth 0 == %s\n", path);
 	if (!command || !*command || !args_count(command))
 		return (print404(command[0]), 0);
 	i = -1;
-	while (shell->path_list[++i])
+	if (access(path, F_OK) == 0 && !is_valid_cmd(command[0]))
 	{
-		path = ft_strjoin(shell->path_list[i], "/");
-		path = ft_strjoin_gnl(path, command[0]);
-		if (access(path, F_OK) == 0 && !is_valid_cmd(command[0]))
+		shell->path = ft_strdup(path);
+		shell->cmd.full_cmd = dup_list(command);
+		// printf("full.cmd = %s\n", *shell->cmd.full_cmd);
+		return (free(path), 1);
+	}
+	else
+	{
+		while (shell->path_list[++i])
 		{
-			shell->path = ft_strdup(path);
-			shell->cmd.full_cmd = dup_list(command);
-			return (free(path), 1);
+			path = ft_strjoin(shell->path_list[i], "/");
+			path = ft_strjoin_gnl(path, command[0]);
+			if (access(path, F_OK) == 0 && !is_valid_cmd(command[0]))
+			{
+				shell->path = ft_strdup(path);
+				shell->cmd.full_cmd = dup_list(command);
+				// printf("%s\n", shell->path);
+				return (free(path), 1);
+			}
+			free(path);
 		}
-		free(path);
 	}
 	if (is_valid_cmd(command[0]))
 		return (1);

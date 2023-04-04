@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/02 21:18:29 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/04/04 22:36:05 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_exec(t_shell *shell)
 	}
 	else if (pid == 0)
 	{
-		printf("%s\niiii=%s\n", shell->path, shell->cmd.full_cmd[0]);
+		// printf("path = %s\ncommand = %s\n", shell->path, shell->cmd.full_cmd[0]);
 		if (execve(shell->path, shell->cmd.full_cmd, shell->env) == -1)
 		{
 			printf("%s\n", strerror(errno));
