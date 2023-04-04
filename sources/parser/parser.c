@@ -6,15 +6,15 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/03 19:44:58 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/04 21:28:51 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-t_command	init_cmd(char **command)
+t_command	*init_cmd(char **command)
 {
-	t_command	cmd;
+	t_command	*cmd;
 
 	cmd.name = ft_strdup(command[0]);
 	cmd.argc = args_count(command) - 1;
@@ -23,25 +23,10 @@ t_command	init_cmd(char **command)
 	return (cmd);
 }
 
-// char	*remove_quotes(char *input)
-// {
-// 	t_quote_state	quote_state;
-
-// 	quote_state = valid_quotes(input);
-// 	if (quote_state == NO_QUOTES || quote_state == UNCLOSED_SINGLE_QUOTE \
-// 		|| quote_state == UNCLOSED_DOUBLE_QUOTE)
-// 		return (input);
-// 	else
-// 	{
-// 		if (quote_state == CLOSED_SINGLE_QUOTES)
-// 			return (trim_single_quotes(input));
-// 		else
-// 			return (trim_double_quotes(input));
-// 	}
-// }
-
-char	**parse_input(t_lexer *lexer)
+t_command	**parse_cmds(t_shell *shell)
 {
-	print_lexer(lexer);
-	return (ft_split("ls -la", ' '));
+	t_command	**commands;
+
+	commands = (t_command **) malloc(sizeof(t_command *) \
+		* cmds_len(shell->lexer->head));
 }

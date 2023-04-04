@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/03 19:44:19 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/04 21:29:08 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,16 +90,13 @@ typedef struct s_command
 	char	*name;
 	char	**args;
 	int		argc;
-	char	*input_redirect;
-	char	*output_redirect;
-	char	out_mode;
 	char	**full_cmd;
 }	t_command;
 
 typedef struct s_shell
 {
 	t_lexer		*lexer;
-	t_command	cmd;
+	t_command	*cmd;
 	char		*prompt;
 	char		*path;
 	char		**env;
@@ -109,8 +106,7 @@ typedef struct s_shell
 
 /* Parser */
 
-t_command		init_cmd(char **command);
-char			**parse_input(t_lexer *lexer);
+t_command		*init_cmd(char **command);
 
 /* Execution */
 
