@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 16:49:37 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/03 12:07:27 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/05 14:01:31 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,15 @@ t_lexer	*init_lexer(void)
 // Function to add a new token to the end of the lexer
 int	add_token(t_lexer *lexer, t_token *token)
 {
-	t_dll	*new_node;
-	t_dll	*last_node;
+	t_dll		*new_node;
+	t_dll		*last_node;
+	static	int	i;
 
 	new_node = (t_dll *) malloc(sizeof(t_dll));
 	if (!new_node)
 		return (0);
 	new_node->token = token;
+	new_node->idx = i;
 	new_node->next = NULL;
 	new_node->prev = NULL;
 	if (lexer->head == NULL)
@@ -64,6 +66,7 @@ int	add_token(t_lexer *lexer, t_token *token)
 	last_node->next = new_node;
 	new_node->prev = last_node;
 	lexer->size++;
+	i++;
 	return (1);
 }
 
