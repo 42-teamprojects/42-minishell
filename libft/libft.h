@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/10 15:47:07 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/27 23:18:44 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/05 17:22:50 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@
 typedef struct s_list
 {
 	void			*content;
-	int				x;
-	int				y;
 	struct s_list	*next;
 }	t_list;
 

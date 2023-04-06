@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 13:03:26 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/04 16:44:34 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/06 19:59:28 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,25 @@ char	**init_args(char **command)
 
 int	args_len(t_dll *tokens)
 {
-	int		i;
-	t_dll	*tmp;
-	t_dll	*tmp2;
+	int				i;
+	t_dll			*tmp;
+	t_token_type	type;
 
 	i = 0;
 	tmp = tokens;
 	while (tmp && tmp->token->type != PIPE)
 	{
-		if (tmp->token->type == WORD || tmp->token->type == ENV)
+		if (tmp->token->type == WORD || tmp->token->type == VAR)
 			i++;
 		else if (tmp->token->type == DQUOTE || tmp->token->type == SQUOTE)
 		{
-			tmp2 = tmp2->next;
-			while (tmp2 && tmp2->type != type)
-				tmp2 = tmp2->next;
+			type = tmp->token->type;
 			i++;
+			tmp = tmp->next;
+			while (tmp && tmp->token->type != type)
+				tmp = tmp->next;
+			if (tmp->next && tmp->next->token->type == WORD)
+				i--;
 		}
 		tmp = tmp->next;
 	}

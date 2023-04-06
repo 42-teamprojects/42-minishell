@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 13:02:11 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/28 11:41:32 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/06 20:59:57 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-char	*trim_single_quotes(char *input)
+char	*trim_SQUOTEs(char *input)
 {
 	char	*result;
 	int		i;
@@ -34,7 +34,7 @@ char	*trim_single_quotes(char *input)
 	return (result);
 }
 
-char	*trim_double_quotes(char *input)
+char	*trim_DQUOTEs(char *input)
 {
 	char	*result;
 	int		i;

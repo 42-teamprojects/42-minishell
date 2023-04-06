@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/04 14:17:33 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/06 18:33:31 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	init_shell(t_shell *shell, char **env)
 
 void	read_input(t_shell *shell)
 {
-	char	*input;
+	char		*input;
+	t_command	**commands;
 
 	input = ft_strtrim(readline(shell->prompt), "\t ");
 	if (!input || !ft_strcmp(input, "exit"))
@@ -37,7 +38,7 @@ void	read_input(t_shell *shell)
 	if (valid_syntax(shell->lexer))
 	{
 		print_lexer(shell->lexer);
-		// command = parse_input(shell->lexer);
+		commands = parse(shell);
 		// if (!verify_input(command, shell))
 		// 	return (free(input));
 		// else if (shell->path == NULL)
@@ -62,11 +63,11 @@ int	main(int ac, char **av, char **env)
 			ft_exec(&shell);
 			free_exec(&shell);
 		}
-		else if (shell.cmd.name != NULL)
+		else if (shell.cmd->name != NULL)
 		{
 			ft_exec_builtin(&shell);
-			free(shell.cmd.name);
-			shell.cmd.name = NULL;
+			free(shell.cmd->name);
+			shell.cmd->name = NULL;
 		}
 		free(shell.prompt);
 	}

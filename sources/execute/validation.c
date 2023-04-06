@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 21:50:33 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/03/28 10:52:33 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/06 20:57:37 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	verify_input(char **command, t_shell *shell)
 		if (access(path, F_OK) == 0 && !is_valid_cmd(command[0]))
 		{
 			shell->path = ft_strdup(path);
-			shell->cmd.full_cmd = dup_list(command);
+			shell->cmd->full_cmd = dup_list(command);
 			return (free(path), 1);
 		}
 		free(path);

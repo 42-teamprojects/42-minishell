@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 12:21:51 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/04 15:00:51 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/05 16:02:15 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_token_type	get_token_type(char *str)
 	else if (*str == '"')
 		return (DQUOTE);
 	else if (*str == '\'')
-		return (SQOUTE);
+		return (SQUOTE);
 	else if (*str == '\\')
 		return (ESCAPE);
 	else if (*str == ' ')

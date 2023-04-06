@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 09:49:08 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/03 17:31:16 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/05 16:02:15 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,11 @@ void	print_node(t_token *node)
 {
 	printf("| %-10s | %-10d | %-10s | %-10s |\n", node->content, node->len, 
 			node->state == IN_DQUOTE ? "IN_DQOUTE" :
-			node->state == IN_SQUOTE ? "IN_SQOUTE" :
+			node->state == IN_SQUOTE ? "IN_SQUOTE" :
 			node->state == ESCAPED ? "ESCAPED" :
 			node->state == DEFAULT ? "DEFAULT" :
 	       "UNKNOWN",
-	       node->type == SQOUTE ? "SQOUTE" :
+	       node->type == SQUOTE ? "SQUOTE" :
 	       node->type == DQUOTE ? "DQUOTE" :
 	       node->type == ESCAPE ? "ESCAPE" :
 	       node->type == VAR ? "VAR" :

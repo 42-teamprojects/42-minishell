@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 09:57:19 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/03 19:36:03 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/06 19:27:17 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_dll	*check_quotes(t_dll **tokens, t_token_type type)
 			break ;
 	}
 	if (!*tokens)
-		printf("minishell: unclosed quotes detected.\n");
+		printf("minishell: syntax error\n");
 	return (*tokens);
 }
 
@@ -45,7 +45,7 @@ int	valid_syntax(t_lexer *lexer)
 	tmp = lexer->head;
 	while (tmp)
 	{
-		if (tmp->token->type == DQUOTE || tmp->token->type == SQOUTE)
+		if (tmp->token->type == DQUOTE || tmp->token->type == SQUOTE)
 		{
 			if (!check_quotes(&tmp, tmp->token->type))
 				return (0);

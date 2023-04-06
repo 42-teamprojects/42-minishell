@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/05 13:59:36 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/06 18:30:57 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef enum e_state
 
 typedef enum e_token_type
 {
-	SQOUTE = '\'',
+	SQUOTE = '\'',
 	DQUOTE = '\"',
 	ESCAPE = '\\',
 	VAR = '$',
@@ -108,6 +108,7 @@ typedef struct s_shell
 /* Parser */
 
 t_command		*init_cmd(char **command);
+t_command		**parse(t_shell *shell);
 
 /* Execution */
 

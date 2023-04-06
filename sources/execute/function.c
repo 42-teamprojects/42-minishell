@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   function.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 19:32:42 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/03/28 19:32:52 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/04/06 20:58:18 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	ft_echo(t_shell *shell)
 	int	i;
 
 	i = 0;
-	while (i < shell->cmd.argc)
+	while (i < shell->cmd->argc)
 	{
-		printf("%s\n", shell->cmd.args[i]);
+		printf("%s\n", shell->cmd->args[i]);
 		i++;
 	}
 }
@@ -44,11 +44,11 @@ void	ft_env(t_shell *shell)
 
 int	ft_cd(t_shell *shell)
 {
-	if (shell->cmd.args[0] == NULL)
+	if (shell->cmd->args[0] == NULL)
 	{
 		chdir(ft_strjoin("/Users/", getenv("USER")));
 	}
-	else if (chdir(shell->cmd.args[0]) != 0)
+	else if (chdir(shell->cmd->args[0]) != 0)
 	{
 		printf("%s\n", strerror(errno));
 		return (1);
