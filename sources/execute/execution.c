@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/04 22:36:05 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/04/06 22:49:01 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_exec(t_shell *shell)
 	}
 	else if (pid == 0)
 	{
-		// printf("path = %s\ncommand = %s\n", shell->path, shell->cmd.full_cmd[0]);
+		printf("path = %s\ncommand = %s\n", shell->path, shell->cmd.full_cmd[0]);
 		if (execve(shell->path, shell->cmd.full_cmd, shell->env) == -1)
 		{
 			printf("%s\n", strerror(errno));
@@ -46,7 +46,8 @@ void	ft_exec_builtin(t_shell *shell)
 		ft_echo(shell);
 	else if (!ft_strcmp(shell->cmd.name, "cd"))
 		ft_cd(shell);
-	else if (!ft_strcmp(shell->cmd.name, "pwd"))
+	else if (!ft_strcmp(shell->cmd.name, "pwd") \
+		|| !ft_strcmp(shell->cmd.name, "/bin/pwd"))
 		ft_pwd(shell);
 	else if (!ft_strcmp(shell->cmd.name, "env"))
 		ft_env(shell);

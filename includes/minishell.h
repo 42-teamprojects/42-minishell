@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/02 21:37:55 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/04/06 15:29:45 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,12 @@ typedef struct s_shell
 	int			exit_status;
 	int			state;
 }	t_shell;
+
+// typedef struct s_var
+// {
+// 	char	*name;
+// 	char	*valeur;
+// }	t_var;
 
 /* Parser */
 

@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 19:32:42 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/04 22:00:10 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/04/06 21:58:02 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,35 +18,6 @@ void	ft_pwd(t_shell *shell)
 
 	(void)shell;
 	printf("%s\n", getcwd(s, sizeof(s)));
-}
-
-void	ft_echo(t_shell *shell)
-{
-	int				i;
-	char			*dollar_sign;
-	char			*var_name;
-	char			*var_value;
-	int				state;
-
-	i = 0;
-	state = 3;
-	dollar_sign = strchr(*shell->cmd.args, '$');
-	if (state == DOUBLE_QUOTE && dollar_sign)
-	{
-		var_name = dollar_sign + 1;
-		var_value = getenv(var_name);
-		if (var_value)
-			printf("%s\n", var_value);
-		else
-			printf("Variable not found: %s\n", var_name);
-	}
-	else if (state == SINGLE_QUOTE && dollar_sign)
-	{
-		var_name = dollar_sign + 1;
-		printf("%s\n", shell->cmd.args[0]);
-	}
-	else
-		printf("%s\n", shell->cmd.args[0]);
 }
 
 void	ft_env(t_shell *shell)
@@ -71,4 +42,69 @@ int	ft_cd(t_shell *shell)
 		return (1);
 	}
 	return (0);
+}
+
+char	*ft_getenv(t_shell	*shell, const char *name)
+{
+	char	**values;
+	char	*value;
+	int		name_len;
+	int		i;
+
+	value = NULL;
+	values = NULL;
+	name_len = ft_strlen(name);
+	i = 0;
+	while (shell->env[i])
+	{
+		if (ft_strncmp(shell->env[i], name, name_len) == 0
+			&& shell->env[i][name_len] == '=')
+		{
+			values = ft_split(shell->env[i], '=');
+			value = ft_strdup(values[1]);
+			free_split(values);
+			break ;
+		}
+		i++;
+	}
+	return (value);
+}
+
+void	ft_echo(t_shell *shell)
+{
+	int		i;
+	char	*var_name;
+	int		state;
+	char	*dollar_sign;
+	char	*var_value;
+
+	i = 0;
+	state = 3;
+	while (i < shell->cmd.argc)
+	{
+		dollar_sign = strchr(shell->cmd.args[i], '$');
+		if (state == DOUBLE_QUOTE && dollar_sign)
+		{
+			if (*(dollar_sign + 1) == '\0')
+				printf("$ ");
+			else
+			{
+				var_name = dollar_sign + 1;
+				var_value = ft_getenv(shell, var_name);
+				if (var_value)
+					printf("%s ", var_value);
+				else
+					printf("");
+			}
+		}
+		else if (state == SINGLE_QUOTE && dollar_sign)
+		{
+			var_name = dollar_sign + 1;
+			printf("%s", shell->cmd.args[i]);
+		}
+		else
+			printf("%s ", shell->cmd.args[i]);
+		i++;
+	}
+	printf("\n");
 }
