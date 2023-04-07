@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/06 18:33:31 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/07 23:15:35 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	init_shell(t_shell *shell, char **env)
 	shell->path_list = ft_split(getenv("PATH"), ':');
 	signal(SIGINT, &sig_handler);
 	signal(SIGQUIT, &sig_handler);
-	ft_bzero(&shell->cmd, sizeof(t_command));
 }
 
 void	read_input(t_shell *shell)
@@ -39,8 +38,15 @@ void	read_input(t_shell *shell)
 	{
 		print_lexer(shell->lexer);
 		commands = parse(shell);
+		for (int i = 0; commands[i]; i++)
+		{
+			printf("commands[%d] = %s\n", i, commands[i]->name);
+			for (int j = 0; commands[i]->args[j]; j++)
+				printf("commands[%d]->args[%d] = %s\n", i, j, commands[i]->args[j]);
+		}
+		free_lexer(shell->lexer);
 		// if (!verify_input(command, shell))
-		// 	return (free(input));
+			// return (free(input));
 		// else if (shell->path == NULL)
 		// 	shell->cmd = init_cmd(command);
 		// input = NULL;
@@ -58,18 +64,18 @@ int	main(int ac, char **av, char **env)
 	{
 		shell.prompt = init_prompt();
 		read_input(&shell);
-		if (shell.path != NULL)
-		{
-			ft_exec(&shell);
-			free_exec(&shell);
-		}
-		else if (shell.cmd->name != NULL)
-		{
-			ft_exec_builtin(&shell);
-			free(shell.cmd->name);
-			shell.cmd->name = NULL;
-		}
-		free(shell.prompt);
+		// if (shell.path != NULL)
+		// {
+		// 	ft_exec(&shell);
+		// 	free_exec(&shell);
+		// }
+		// else if (shell.cmd->name != NULL)
+		// {
+		// 	ft_exec_builtin(&shell);
+		// 	free(shell.cmd->name);
+		// 	shell.cmd->name = NULL;
+		// }
+		// free(shell.prompt);
 	}
 	free_shell(&shell);
 }

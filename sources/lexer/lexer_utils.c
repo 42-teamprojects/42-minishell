@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 09:49:08 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/05 16:02:15 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/07 19:47:06 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/lexer.h"
 
-int	is_space(char c)
+int	is_WSPACE(char c)
 {
 	if (ft_strchr(" \t\v\r\f\n", c) != NULL)
 		return (1);
@@ -21,7 +21,7 @@ int	is_space(char c)
 
 int	is_token(char c)
 {
-	if (is_space(c) || ft_strchr("\'\"<>|$\n\0", c) != NULL)
+	if (is_WSPACE(c) || ft_strchr("\'\"<>|$\n\0", c) != NULL)
 		return (1);
 	return (0);
 }
@@ -97,7 +97,7 @@ void	print_node(t_token *node)
 	       node->type == HEREDOC ? "HEREDOC" :
 	       node->type == RD_AOUT ? "RD_AOUT" :
 	       node->type == NEW_LINE ? "NEW_LINE" :
-	       node->type == SPACE ? "SPACE" :
+	       node->type == WSPACE ? "WSPACE" :
 	       "UNKNOWN");
 }
 
