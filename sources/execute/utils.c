@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 12:29:45 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/06 22:55:36 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/04/07 18:30:33 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,88 +19,6 @@ void	free_exec(t_shell *shell)
 	free_split(shell->cmd.full_cmd);
 	shell->cmd.full_cmd = NULL;
 }
-
-// int	unset_help(t_shell *shell)
-// {
-// 	int		i;
-// 	char	**next;
-
-// 	i = 0;
-// 	if (shell == NULL || shell->env == NULL || shell->cmd.full_cmd == NULL)
-// 		return (-1);
-// 	while (shell->env[i])
-// 	{
-// 		if (ft_strncmp(shell->cmd.full_cmd[0], shell->env[i],
-// 				ft_strlen(*shell->cmd.full_cmd)) == 0
-// 			&& (shell->env[i])[ft_strlen(shell->cmd.full_cmd[0])] == '=')
-// 		{
-// 			next = &shell->env[i] + 1;
-// 			while (*next != NULL)
-// 			{
-// 				shell->env[i] = *next;
-// 				next++;
-// 			}
-// 			shell->env[i] = NULL;
-// 			return (0);
-// 		}
-// 		shell->env[i]++;
-// 	}
-// 	return (0);
-// }
-
-int	unset_help(t_shell *shell)
-{
-	int		i;
-	char	*name;
-	char	**new_environ;
-
-	i = 0;
-	while (shell->env[i])
-		i++;
-	new_environ = malloc((i + 1) * sizeof(char *));
-	if (new_environ == NULL)
-		return (-1);
-	exit (0);
-	i = -1;
-	while (shell->env[++i])
-	{
-		if (ft_strncmp(shell->env[i], name, ft_strlen(name)) == 0
-			&& shell->env[i][ft_strlen(name)] == '=')
-			i++;
-		else
-			ft_memcpy(new_environ, shell->env, i * sizeof(char *));
-	}
-	free(shell->env);
-	shell->env = new_environ;
-	return (0);
-}
-
-// int	unset_help(t_shell *shell, char *name)
-// {
-// 	int		i;
-// 	int		j;
-// 	char	**new_environ;
-
-// 	i = 0;
-// 	while (shell->env[i])
-// 		i++;
-// 	new_environ = malloc((i + 1) * sizeof(char *));
-// 	if (new_environ == NULL)
-// 		return (-1);
-// 	i = -1;
-// 	j = 0;
-// 	while (shell->env[++i])
-// 	{
-// 		if (ft_strncmp(shell->env[i], name, ft_strlen(name)) == 0
-// 			&& shell->env[i][ft_strlen(name)] == '=')
-// 			continue ;
-// 		new_environ[j++] = ft_strdup(shell->env[i]);
-// 	}
-// 	new_environ[j] = NULL;
-// 	free(shell->env);
-// 	shell->env = new_environ;
-// 	return (0);
-// }
 
 int	ft_setenv_help(char *name, char *value, t_shell *shell, int i)
 {
@@ -150,3 +68,52 @@ int	ft_setenv(char *name, char *value, t_shell *shell)
 		ft_setenv_help(name, value, shell, i);
 	return (0);
 }
+
+// int	check_overwrite(char *name, t_shell *shell)
+// {
+// 	int	i;
+// 	int	overwrite;
+
+// 	overwrite = 0;
+// 	i = -1;
+// 	while (shell->env[++i])
+// 	{
+// 		if (ft_strncmp(shell->env[i], name, ft_strlen(name)) == 0
+// 			&& shell->env[i][ft_strlen(name)] == '=')
+// 		{
+// 			overwrite = 1;
+// 			break ;
+// 		}
+// 	}
+// 	return (overwrite);
+// }
+
+// void    ft_export_new(t_shell *shell, char *variable)
+// {
+// 	int        i;
+// 	char    **var;
+// 	char    **new_env;	
+// 	var = ft_split(variable,'=');
+// 	i = 0;
+// 	while (shell->env[i])
+// 	{
+// 	    if(!ft_strncmp(shell->env[i],var[0],ft_strlen(var[0])) && shell->env[i][ft_strlen(var[0]) + 1] == '=')
+// 	    {
+// 	        free(shell->env[i]);
+// 	        shell->env[i] = ft_strdup(variable);
+// 	        return ;
+// 	    }
+// 	    i++;
+// 	}
+// 	new_env = malloc(sizeof(char) * i + 2);
+// 	i = 0;
+// 	while (shell->env[i])
+// 	{
+// 	    new_env[i] = ft_strdup(shell->env[i]);
+// 	    free(shell->env[i]);
+// 	    i++;
+// 	}
+// 	new_env[i] = ft_strdup(variable);
+// 	i++;
+// 	new_env[i] = NULL;
+// }
