@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 13:03:26 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/07 23:02:01 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/08 01:07:56 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,4 @@ int	cmds_len(t_dll *tokens)
 		tmp = tmp->next;
 	}
 	return (i);
-}
-
-t_token_type	get_quote_type(t_state state)
-{
-	if (state == IN_DQUOTE)
-		return (DQUOTE);
-	return (SQUOTE);
 }

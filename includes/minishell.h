@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/07 19:47:06 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/08 00:03:17 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef enum e_state
 	IN_SQUOTE,
 	ESCAPED,
 	DEFAULT,
+	S_UNKNOWN,
 }	t_state;
 
 typedef enum e_token_type
@@ -40,6 +41,7 @@ typedef enum e_token_type
 	RD_AOUT = -3,
 	NEW_LINE = '\n',
 	WSPACE = ' ',
+	UNKNOWN,
 }	t_token_type;
 
 /* Lexer */

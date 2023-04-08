@@ -17,6 +17,7 @@ SRCS = main.c \
 	sources/execute/utils.c \
 	sources/parser/parser.c \
 	sources/parser/parser_utils.c \
+	sources/parser/parser_cmd.c \
 	sources/execute/function.c \
 	sources/lexer/lexer_init.c \
 	sources/lexer/lexer_utils.c \

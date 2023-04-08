@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 13:02:11 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/07 23:00:01 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/08 01:07:59 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@
 # include "../../includes/minishell.h"
 
 char			**init_args(char **command);
-char			*trim_SQUOTEs(char *input);
-char			*trim_DQUOTEs(char *input);
 int				args_len(t_dll *tokens);
 int				cmds_len(t_dll *tokens);
-t_token_type	get_quote_type(t_state state);
+char			**parse_cmds(t_dll **tokens);
+char			*parse_quotes(t_dll **tokens);
 #endif
