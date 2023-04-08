@@ -6,11 +6,11 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 11:25:39 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/03 17:27:07 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/08 16:51:15 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/lexer.h"
+#include "minishell.h"
 
 int	tokenize(char *input, t_lexer *lexer, int i, t_state *state)
 {

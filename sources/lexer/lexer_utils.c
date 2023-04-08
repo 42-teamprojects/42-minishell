@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 09:49:08 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/07 19:47:06 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/08 16:51:25 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/lexer.h"
+#include "minishell.h"
 
-int	is_WSPACE(char c)
+int	is_space(char c)
 {
 	if (ft_strchr(" \t\v\r\f\n", c) != NULL)
 		return (1);
@@ -21,7 +21,7 @@ int	is_WSPACE(char c)
 
 int	is_token(char c)
 {
-	if (is_WSPACE(c) || ft_strchr("\'\"<>|$\n\0", c) != NULL)
+	if (is_space(c) || ft_strchr("\'\"<>|$\n\0", c) != NULL)
 		return (1);
 	return (0);
 }

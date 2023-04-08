@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 13:02:11 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/08 01:07:59 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/08 16:53:03 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
-# include "../../includes/minishell.h"
+#include "minishell.h"
 
 char			**init_args(char **command);
 int				args_len(t_dll *tokens);

@@ -6,14 +6,14 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 12:21:19 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/08 16:08:13 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/08 16:53:03 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXEC_H
 # define EXEC_H
 
-# include "../../includes/minishell.h"
+#include "minishell.h"
 
 void	ft_pwd(t_shell **shell);
 void	ft_echo(t_shell **shell);

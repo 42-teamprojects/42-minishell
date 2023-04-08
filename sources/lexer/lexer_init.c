@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 16:49:37 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/05 14:01:31 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/08 16:51:33 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/lexer.h"
+#include "minishell.h"
 
 // Function to create a new token
 t_token	*new_token(char *content, int len, t_token_type type, t_state state)
@@ -45,7 +45,7 @@ int	add_token(t_lexer *lexer, t_token *token)
 {
 	t_dll		*new_node;
 	t_dll		*last_node;
-	static	int	i;
+	static int	i;
 
 	new_node = (t_dll *) malloc(sizeof(t_dll));
 	if (!new_node)
