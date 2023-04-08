@@ -2,7 +2,7 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -I includes/
 
 HEADERS = includes/global.h includes/minishell.h
 
@@ -15,13 +15,15 @@ SRCS = main.c \
 	sources/execute/validation.c \
 	sources/execute/execution.c \
 	sources/execute/utils.c \
-	sources/parser/parser.c \
-	sources/parser/parsing_utils.c \
-	sources/parser/handle_quotes.c \
-	sources/parser/utils.c \
 	sources/execute/function.c \
-	sources/execute/more_function.c
-
+	sources/execute/more_function.c \
+	sources/parser/parser.c \
+	sources/parser/parser_utils.c \
+	sources/parser/parser_cmd.c \
+	sources/lexer/lexer_init.c \
+	sources/lexer/lexer_utils.c \
+	sources/lexer/tokenizer.c \
+	sources/lexer/lexer.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -31,7 +33,7 @@ $(NAME): $(LIBFT) $(OBJS) $(HEADERS)
 	$(CC) $(CFLAGS) $(OBJS) -lreadline -o  $@ $(LIBFT)
 
 $(LIBFT):
-		make all -C libft
+	make all -C libft
 
 clean:
 	rm -f $(OBJS)
@@ -42,7 +44,7 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all bonus clean fclean re libft
+.PHONY: all clean fclean re libft
 
 # To be deleted
 run: all

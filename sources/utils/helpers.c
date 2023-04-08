@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 09:28:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/02 16:28:29 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/04/08 17:28:12 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 char	*init_prompt(void)
 {
@@ -57,16 +57,15 @@ void	free_split(char **array)
 		while (array[i])
 		{
 			free(array[i]);
+			array[i] = NULL;
 			i++;
 		}
-		free(array);
 	}
 }
 
-void	free_shell(t_shell *shell)
+void	free_shell(t_shell **shell)
 {
-	free(shell->prompt);
-	if (shell->path != NULL)
-		free(shell->path);
-	free_split(shell->path_list);
+	if ((*shell)->path != NULL)
+		free((*shell)->path);
+	free_split((*shell)->path_list);
 }

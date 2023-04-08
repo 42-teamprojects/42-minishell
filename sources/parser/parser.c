@@ -3,71 +3,66 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/29 22:03:29 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/04/08 17:41:42 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "minishell.h"
 
-t_command	init_cmd(char **command)
+t_command	*init_cmd(char **command)
 {
-	t_command	cmd;
+	t_command	*cmd;
 
-	cmd.name = ft_strdup(command[0]);
-	cmd.argc = args_count(command) - 1;
-	cmd.args = init_args(command);
-	// free_split(command);
+	cmd = (t_command *) malloc(sizeof(t_command));
+	if (!cmd)
+		return (NULL);
+	cmd->name = ft_strdup(command[0]);
+	cmd->argc = args_count(command) - 1;
+	cmd->args = init_args(command);
 	return (cmd);
 }
 
-char	*remove_quotes(char *input)
+char	*parse_quotes(t_dll **tokens)
 {
-	t_quote_state	quote_state;
+	t_token_type	type;
+	char			*str_in_quotes;
 
-	quote_state = valid_quotes(input);
-	if (quote_state == NO_QUOTES || quote_state == UNCLOSED_SINGLE_QUOTE \
-		|| quote_state == UNCLOSED_DOUBLE_QUOTE)
-		return (input);
-	else
+	type = (*tokens)->token->type;
+	(*tokens) = (*tokens)->next;
+	str_in_quotes = ft_strdup("");
+	while ((*tokens) && (*tokens)->token->type != type)
 	{
-		if (quote_state == CLOSED_SINGLE_QUOTES)
-			return (trim_single_quotes(input));
-		else
-			return (trim_double_quotes(input));
+		str_in_quotes = ft_strjoin_gnl(str_in_quotes, \
+			(*tokens)->token->content);
+		(*tokens) = (*tokens)->next;
 	}
+	return (str_in_quotes);
 }
 
-char	**parse_input(char *input)
+t_command	**parse(t_shell **shell)
 {
-	char	**in;
-	char	**out;
-	int 	i;
+	int			i;
+	char		**cmd;
+	t_dll		*tokens;
+	t_command	**commands;
 
-	if (ft_strchr(input, ' ') == NULL)
-	{
-		in = malloc(sizeof(char *) * 2);
-		in[0] = remove_quotes(input);
-		in[1] = NULL;
-		return (in);
-	}
-	in = ft_split_cmd(input, ' ');
-	if (in == NULL)
-	{
-		printf("Error: unclosed quotes");
-		exit(0);
-	}
-	out = malloc(sizeof(char *) * (args_count(in)) + 1);
+	(*shell)->cmds_count = cmds_len((*shell)->lexer->head);
+	commands = (t_command **)malloc(sizeof(t_command *) \
+		* ((*shell)->cmds_count + 1));
+	if (!commands)
+		return (NULL);
 	i = -1;
-	while (in[++i])
+	tokens = (*shell)->lexer->head;
+	while (++i < (*shell)->cmds_count)
 	{
-		if (ft_strlen(in[i]) == 0)
+		cmd = parse_cmds(&tokens);
+		if (!cmd)
 			break ;
-		out[i] = remove_quotes(ft_strdup(in[i]));
+		commands[i] = init_cmd(cmd);
 	}
-	out[i] = NULL;
-	free_split(in);
-	return (out);
+	commands[i] = NULL;
+	return (commands);
 }
