@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/08 00:39:15 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/08 11:53:04 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_command	**parse(t_shell *shell)
 	{
 		cmd = parse_cmds(&tokens);
 		if (!cmd)
-			break;
+			break ;
 		commands[i] = init_cmd(cmd);
 	}
 	commands[i] = NULL;

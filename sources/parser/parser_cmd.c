@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:27:23 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/08 00:42:58 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/08 11:47:38 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	is_word(t_dll **tokens)
 {
 	return (((*tokens)->token->type == WORD \
-		|| (*tokens)->token->type == VAR ) \
+		|| (*tokens)->token->type == VAR) \
 		&& (*tokens)->token->state == DEFAULT);
 }
 
