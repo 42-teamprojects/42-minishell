@@ -1,21 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/27 12:29:45 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/08 23:27:50 by htalhaou         ###   ########.fr       */
+/*   Created: 2023/04/08 23:25:05 by htalhaou          #+#    #+#             */
+/*   Updated: 2023/04/08 23:25:20 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_exec(t_shell **shell)
+void	ft_env(t_shell **shell)
 {
-	free((*shell)->path);
-	(*shell)->path = NULL;
-	free_split((*shell)->full_cmd);
-	(*shell)->full_cmd = NULL;
+	int	i;
+
+	i = 0;
+	while ((*shell)->env[i])
+	{
+		printf("%s\n", (*shell)->env[i]);
+		i++;
+	}
 }

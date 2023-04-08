@@ -14,9 +14,14 @@ SRCS = main.c \
 	sources/utils/utilities.c \
 	sources/execute/validation.c \
 	sources/execute/execution.c \
+	sources/execute/ft_cd.c \
+	sources/execute/ft_env.c \
+	sources/execute/ft_echo.c \
+	sources/execute/ft_pwd.c \
+	sources/execute/ft_export.c \
+	sources/execute/ft_getenv.c \
+	sources/execute/ft_unset.c \
 	sources/execute/utils.c \
-	sources/execute/function.c \
-	sources/execute/more_function.c \
 	sources/parser/parser.c \
 	sources/parser/parser_utils.c \
 	sources/parser/parser_cmd.c \
