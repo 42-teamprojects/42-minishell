@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 09:49:08 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/08 16:51:25 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/08 20:10:06 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	print_node(t_token *node)
 	       node->type == HEREDOC ? "HEREDOC" :
 	       node->type == RD_AOUT ? "RD_AOUT" :
 	       node->type == NEW_LINE ? "NEW_LINE" :
-	       node->type == WSPACE ? "WSPACE" :
+	       node->type == space ? "space" :
 	       "UNKNOWN");
 }
 

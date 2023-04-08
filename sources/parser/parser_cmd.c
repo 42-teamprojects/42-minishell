@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:27:23 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/08 17:44:59 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/08 20:10:06 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	is_quote(t_dll **tokens)
 
 static void	handle_word(char **command, int *i, t_dll **tokens)
 {
-	if ((*tokens)->prev && (*tokens)->prev->token->type != WSPACE)
+	if ((*tokens)->prev && (*tokens)->prev->token->type != space)
 		command[*i - 1] = ft_strjoin_gnl(command[*i - 1], \
 			(*tokens)->token->content);
 	else
@@ -36,7 +36,7 @@ static void	handle_word(char **command, int *i, t_dll **tokens)
 
 static void	handle_quote(char **command, int *i, t_dll **tokens)
 {
-	if ((*tokens)->prev && (*tokens)->prev->token->type != WSPACE)
+	if ((*tokens)->prev && (*tokens)->prev->token->type != space)
 		command[*i - 1] = ft_strjoin_gnl(command[*i - 1], \
 			parse_quotes(tokens));
 	else
@@ -54,7 +54,7 @@ char	**parse_cmds(t_dll **tokens)
 		return (NULL);
 	while ((*tokens))
 	{
-		if ((*tokens)->token->type == WSPACE)
+		if ((*tokens)->token->type == space)
 			(*tokens) = (*tokens)->next;
 		if (is_word(tokens))
 			handle_word(command, &i, tokens);

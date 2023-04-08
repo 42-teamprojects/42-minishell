@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/08 17:41:21 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/08 20:24:52 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef enum e_token_type
 	HEREDOC = -2,
 	RD_AOUT = -3,
 	NEW_LINE = '\n',
-	WSPACE = ' ',
+	space = ' ',
 	UNKNOWN,
 }	t_token_type;
 
@@ -73,7 +73,7 @@ t_token			*new_token(char *content, int len, \
 t_lexer			*init_lexer(void);
 int				add_token(t_lexer *lexer, t_token *token);
 void			free_lexer(t_lexer *lexer);
-int				is_WSPACE(char c);
+int				is_space(char c);
 int				is_token(char c);
 t_token_type	get_token_type(char *str);
 int				is_redirection(char *str);

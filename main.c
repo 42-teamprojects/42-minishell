@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/08 17:28:40 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/08 20:37:37 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,6 @@ void	read_input(t_shell **shell)
 }
 
 // print_lexer((*shell)->lexer);
-// for (int i = 0; commands[i]; i++)
-// {
-// 	for (int j = 0; commands[i]->args[j]; j++)
-// 		printf("commands[%d]->args[%d] = %s\n", i, j, commands[i]->args[j]);
-// }
 int	main(int ac, char **av, char **env)
 {
 	t_shell	*shell;
@@ -65,6 +60,8 @@ int	main(int ac, char **av, char **env)
 	{
 		shell->prompt = init_prompt();
 		read_input(&shell);
+		if (shell->exit_status == 0)
+			continue ;
 		if (shell->path != NULL)
 		{
 			ft_exec(&shell);

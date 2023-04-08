@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 09:57:19 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/08 17:28:05 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/08 20:41:28 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_dll	*check_quotes(t_dll **tokens, t_token_type type)
 			break ;
 	}
 	if (!*tokens)
-		printf("minishell: syntax error\n");
+		printf(BRED"→  "CX "minishell: syntax error\n");
 	return (*tokens);
 }
 
