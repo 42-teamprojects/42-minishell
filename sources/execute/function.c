@@ -6,11 +6,11 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 19:32:42 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/08 17:38:37 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/08 22:46:59 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
+#include "minishell.h"
 
 void	ft_pwd(t_shell **shell)
 {
@@ -34,7 +34,16 @@ void	ft_env(t_shell **shell)
 
 int	ft_cd(t_shell **shell)
 {
-	if ((*shell)->cmds[0]->args[0] == NULL)
+	char	s[PATH_MAX];
+
+	getcwd(s, sizeof(s));
+	if ((*shell)->cmds[0]->args[0] && \
+		!ft_strcmp((*shell)->cmds[0]->args[0], "-"))
+	{
+		chdir(ft_getenv(shell, "OLDPWD"));
+		ft_setenv("OLDPWD", s, shell);
+	}
+	else if ((*shell)->cmds[0]->args[0] == NULL)
 		chdir(ft_strjoin("/Users/", getenv("USER")));
 	else if (chdir((*shell)->cmds[0]->args[0]) != 0)
 	{
@@ -73,37 +82,11 @@ char	*ft_getenv(t_shell **shell, const char *name)
 void	ft_echo(t_shell **shell)
 {
 	int			i;
-	char		*var_name;
-	t_state		state;
-	char		*dollar_sign;
-	char		*var_value;
 
 	i = 0;
-	state = IN_DQUOTE;
 	while (i < (*shell)->cmds[0]->argc)
 	{
-		dollar_sign = strchr((*shell)->cmds[0]->args[i], '$');
-		if (state == IN_DQUOTE && dollar_sign)
-		{
-			if (*(dollar_sign + 1) == '\0')
-				printf("$ ");
-			else
-			{
-				var_name = dollar_sign + 1;
-				var_value = ft_getenv(shell, var_name);
-				if (var_value)
-					printf("%s ", var_value);
-				else
-					printf("");
-			}
-		}
-		else if (state == IN_SQUOTE && dollar_sign)
-		{
-			var_name = dollar_sign + 1;
-			printf("%s", (*shell)->cmds[0]->args[i]);
-		}
-		else
-			printf("%s ", (*shell)->cmds[0]->args[i]);
+		printf("%s ", (*shell)->cmds[0]->args[i]);
 		i++;
 	}
 	printf("\n");

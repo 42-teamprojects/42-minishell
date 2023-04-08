@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/08 20:24:52 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/08 22:48:16 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef enum e_token_type
 	HEREDOC = -2,
 	RD_AOUT = -3,
 	NEW_LINE = '\n',
-	space = ' ',
+	SPACE = ' ',
 	UNKNOWN,
 }	t_token_type;
 
@@ -127,6 +127,15 @@ int				is_cmd_exist(t_command **command, t_shell **shell);
 int				ft_exec(t_shell **shell);
 void			ft_exec_builtin(t_shell **shell);
 void			free_exec(t_shell **shell);
+void			ft_pwd(t_shell **shell);
+void			ft_echo(t_shell **shell);
+void			ft_env(t_shell **shell);
+int				ft_cd(t_shell **shell);
+int				ft_unset(t_shell **shell);
+int				ft_export(t_shell **shell);
+int				ft_setenv(char *name, char *value, t_shell **shell);
+int				ft_setenv_help(char *name, char *value, t_shell **shell, int i);
+char			*ft_getenv(t_shell **shell, const char *name);
 
 /* Helpers */
 

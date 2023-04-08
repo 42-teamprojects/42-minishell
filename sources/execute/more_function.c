@@ -6,11 +6,11 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 15:06:44 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/08 17:38:55 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/08 20:51:19 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
+#include "minishell.h"
 
 int	ft_export(t_shell **shell)
 {

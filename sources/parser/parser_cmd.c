@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:27:23 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/08 20:10:06 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/08 21:31:44 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static int	is_word(t_dll **tokens)
 {
-	return (((*tokens)->token->type == WORD \
-		|| (*tokens)->token->type == VAR) \
+	return (((*tokens)->token->type == WORD || \
+		(*tokens)->token->type == VAR) \
 		&& (*tokens)->token->state == DEFAULT);
 }
 
@@ -27,16 +27,25 @@ static int	is_quote(t_dll **tokens)
 
 static void	handle_word(char **command, int *i, t_dll **tokens)
 {
-	if ((*tokens)->prev && (*tokens)->prev->token->type != space)
+	char	*expanded;
+
+	expanded = (*tokens)->token->content;
+	if ((*tokens)->token->type == VAR)
+	{
+		expanded = getenv((*tokens)->token->content + 1);
+		if (!expanded)
+			expanded = ft_strdup("");
+	}
+	if ((*tokens)->prev && (*tokens)->prev->token->type != SPACE)
 		command[*i - 1] = ft_strjoin_gnl(command[*i - 1], \
-			(*tokens)->token->content);
+			expanded);
 	else
-		command[(*i)++] = ft_strdup((*tokens)->token->content);
+		command[(*i)++] = ft_strdup(expanded);
 }
 
 static void	handle_quote(char **command, int *i, t_dll **tokens)
 {
-	if ((*tokens)->prev && (*tokens)->prev->token->type != space)
+	if ((*tokens)->prev && (*tokens)->prev->token->type != SPACE)
 		command[*i - 1] = ft_strjoin_gnl(command[*i - 1], \
 			parse_quotes(tokens));
 	else
@@ -54,7 +63,7 @@ char	**parse_cmds(t_dll **tokens)
 		return (NULL);
 	while ((*tokens))
 	{
-		if ((*tokens)->token->type == space)
+		if ((*tokens)->token->type == SPACE)
 			(*tokens) = (*tokens)->next;
 		if (is_word(tokens))
 			handle_word(command, &i, tokens);

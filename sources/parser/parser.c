@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/08 17:41:42 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/08 21:27:29 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,23 @@ char	*parse_quotes(t_dll **tokens)
 {
 	t_token_type	type;
 	char			*str_in_quotes;
+	char			*expanded;
 
 	type = (*tokens)->token->type;
 	(*tokens) = (*tokens)->next;
 	str_in_quotes = ft_strdup("");
 	while ((*tokens) && (*tokens)->token->type != type)
 	{
+		expanded = (*tokens)->token->content;
+		if ((*tokens)->token->type == VAR && \
+			(*tokens)->token->state == IN_DQUOTE)
+		{
+			expanded = getenv((*tokens)->token->content + 1);
+			if (!expanded)
+				expanded = ft_strdup("");
+		}
 		str_in_quotes = ft_strjoin_gnl(str_in_quotes, \
-			(*tokens)->token->content);
+			expanded);
 		(*tokens) = (*tokens)->next;
 	}
 	return (str_in_quotes);
