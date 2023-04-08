@@ -12,7 +12,7 @@
 
 #include "exec.h"
 
-int	ft_exec(t_shell *shell)
+int	ft_exec(t_shell **shell)
 {
 	pid_t	pid;
 	int		status;
@@ -25,8 +25,8 @@ int	ft_exec(t_shell *shell)
 	}
 	else if (pid == 0)
 	{
-		printf("path = %s\ncommand = %s\n", shell->path, shell->cmd.full_cmd[0]);
-		if (execve(shell->path, shell->cmd.full_cmd, shell->env) == -1)
+		if (execve((*shell)->path, (*shell)->full_cmd, \
+			(*shell)->env) == -1)
 		{
 			printf("%s\n", strerror(errno));
 			throw_err(0, shell);
@@ -40,19 +40,25 @@ int	ft_exec(t_shell *shell)
 	return (0);
 }
 
-void	ft_exec_builtin(t_shell *shell)
+void	ft_exec_builtin(t_shell **shell)
 {
-	if (!ft_strcmp(shell->cmd.name, "echo"))
+	char	*cmd_name;
+
+	cmd_name = (*shell)->cmds[0]->name;
+	if (!ft_strcmp(cmd_name, "echo") || \
+		!ft_strcmp(cmd_name, "/bin/echo"))
 		ft_echo(shell);
-	else if (!ft_strcmp(shell->cmd.name, "cd"))
+	else if (!ft_strcmp(cmd_name, "cd") || \
+		!ft_strcmp(cmd_name, "/usr/bin/cd"))
 		ft_cd(shell);
-	else if (!ft_strcmp(shell->cmd.name, "pwd") \
-		|| !ft_strcmp(shell->cmd.name, "/bin/pwd"))
+	else if (!ft_strcmp(cmd_name, "pwd") || \
+		!ft_strcmp(cmd_name, "/bin/pwd"))
 		ft_pwd(shell);
-	else if (!ft_strcmp(shell->cmd.name, "env"))
+	else if (!ft_strcmp(cmd_name, "env") || \
+		!ft_strcmp(cmd_name, "/usr/bin/env"))
 		ft_env(shell);
-	else if (!ft_strcmp(shell->cmd.name, "export"))
+	else if (!ft_strcmp(cmd_name, "export"))
 		ft_export(shell);
-	else if (!ft_strcmp(shell->cmd.name, "unset"))
+	else if (!ft_strcmp(cmd_name, "unset"))
 		ft_unset(shell);
 }

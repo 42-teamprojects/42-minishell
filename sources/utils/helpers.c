@@ -63,10 +63,10 @@ void	free_split(char **array)
 	}
 }
 
-void	free_shell(t_shell *shell)
+void	free_shell(t_shell **shell)
 {
-	free(shell->prompt);
-	if (shell->path != NULL)
-		free(shell->path);
-	free_split(shell->path_list);
+	free((*shell)->prompt);
+	if ((*shell)->path != NULL)
+		free((*shell)->path);
+	free_split((*shell)->path_list);
 }

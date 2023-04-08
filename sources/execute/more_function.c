@@ -12,14 +12,14 @@
 
 #include "exec.h"
 
-int	ft_export(t_shell *shell)
+int	ft_export(t_shell **shell)
 {
 	int		result;
 	char	**var_name;
 
-	if (shell->cmd.args[0] == NULL)
+	if ((*shell)->cmds[0]->args[0] == NULL)
 		return (-1);
-	var_name = ft_split(shell->cmd.args[0], '=');
+	var_name = ft_split((*shell)->cmds[0]->args[0], '=');
 	if (var_name[1])
 	{
 		result = ft_setenv(var_name[0], var_name[1], shell);
@@ -31,31 +31,31 @@ int	ft_export(t_shell *shell)
 	return (0);
 }
 
-int	ft_unset(t_shell *shell)
+int	ft_unset(t_shell **shell)
 {
 	int		i;
 	int		j;
 	char	**new_environ;
 
 	i = 0;
-	while (shell->env[i])
+	while ((*shell)->env[i])
 		i++;
 	new_environ = malloc((i + 1) * sizeof(char *));
 	if (!new_environ)
 		return (-1);
-	if (shell->cmd.args[0] == NULL)
+	if ((*shell)->cmds[0]->args[0] == NULL)
 		return (-1);
 	i = -1;
 	j = 0;
-	while (shell->env[++i])
+	while ((*shell)->env[++i])
 	{
-		if (ft_strncmp(shell->env[i], shell->cmd.args[0],
-				ft_strlen(shell->cmd.args[0])) == 0
-			&& shell->env[i][ft_strlen(shell->cmd.args[0])] == '=')
+		if (ft_strncmp((*shell)->env[i], (*shell)->cmds[0]->args[0],
+				ft_strlen((*shell)->cmds[0]->args[0])) == 0
+			&& (*shell)->env[i][ft_strlen((*shell)->cmds[0]->args[0])] == '=')
 			continue ;
-		new_environ[j++] = ft_strdup(shell->env[i]);
+		new_environ[j++] = ft_strdup((*shell)->env[i]);
 	}
 	new_environ[j] = NULL;
-	shell->env = new_environ;
+	(*shell)->env = new_environ;
 	return (0);
 }
