@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/08 00:03:17 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/08 16:15:47 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,9 @@ typedef struct s_command
 typedef struct s_shell
 {
 	t_lexer		*lexer;
-	t_command	*cmd;
+	t_command	**cmds;
+	int			cmds_count;
+	char		**full_cmd;	
 	char		*prompt;
 	char		*path;
 	char		**env;
@@ -110,27 +112,27 @@ typedef struct s_shell
 /* Parser */
 
 t_command		*init_cmd(char **command);
-t_command		**parse(t_shell *shell);
+t_command		**parse(t_shell **shell);
 
 /* Execution */
 
-int				verify_input(char **command, t_shell *shell);
-int				ft_exec(t_shell *shell);
-void			ft_exec_builtin(t_shell *shell);
-void			free_exec(t_shell *shell);
+int				is_cmd_exist(t_command **command, t_shell **shell);
+int				ft_exec(t_shell **shell);
+void			ft_exec_builtin(t_shell **shell);
+void			free_exec(t_shell **shell);
 
 /* Helpers */
 
 char			*init_prompt(void);
 void			sig_handler(int sig);
 void			free_split(char **array);
-void			free_shell(t_shell *shell);
+void			free_shell(t_shell **shell);
 
 int				args_count(char **args);
 char			**dup_list(char **list);
 
 /* Errors */
 
-void			print404(char *cmd);
-void			throw_err(int err_code, t_shell *shell);
+void			not_found(char *cmd);
+void			throw_err(int err_code, t_shell **shell);
 #endif

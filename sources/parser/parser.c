@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/08 11:53:04 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/08 16:09:01 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,22 +42,21 @@ char	*parse_quotes(t_dll **tokens)
 	return (str_in_quotes);
 }
 
-t_command	**parse(t_shell *shell)
+t_command	**parse(t_shell **shell)
 {
 	int			i;
 	char		**cmd;
 	t_dll		*tokens;
 	t_command	**commands;
-	int			commands_len;
 
-	commands_len = cmds_len(shell->lexer->head);
+	(*shell)->cmds_count = cmds_len((*shell)->lexer->head);
 	commands = (t_command **)malloc(sizeof(t_command *) \
-		* (commands_len + 1));
+		* ((*shell)->cmds_count + 1));
 	if (!commands)
 		return (NULL);
 	i = -1;
-	tokens = shell->lexer->head;
-	while (++i < commands_len)
+	tokens = (*shell)->lexer->head;
+	while (++i < (*shell)->cmds_count)
 	{
 		cmd = parse_cmds(&tokens);
 		if (!cmd)

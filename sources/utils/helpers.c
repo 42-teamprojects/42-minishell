@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 09:28:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/07 21:32:50 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/08 16:09:01 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ void	free_split(char **array)
 	}
 }
 
-void	free_shell(t_shell *shell)
+void	free_shell(t_shell **shell)
 {
-	if (shell->path != NULL)
-		free(shell->path);
-	free_split(shell->path_list);
+	if ((*shell)->path != NULL)
+		free((*shell)->path);
+	free_split((*shell)->path_list);
 }

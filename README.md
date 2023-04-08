@@ -3,9 +3,9 @@
 ## Snippets
 
 ``` c
-printf("%s \n", shell->cmd->name);
-for(int i=0; shell->cmd->args[i]; i++)
-	printf("%s \n", shell->cmd->args[i]);
+printf("%s \n", (*shell)->cmds[0]->name);
+for(int i=0; (*shell)->cmds[0]->args[i]; i++)
+	printf("%s \n", (*shell)->cmds[0]->args[i]);
 ```
 
 ## To look at

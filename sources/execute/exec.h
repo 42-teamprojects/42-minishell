@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 12:21:19 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/03/28 19:33:15 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/04/08 16:08:13 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # include "../../includes/minishell.h"
 
-void	ft_pwd(t_shell *shell);
-void	ft_echo(t_shell *shell);
-void	ft_env(t_shell *shell);
-int		ft_cd(t_shell *shell);
+void	ft_pwd(t_shell **shell);
+void	ft_echo(t_shell **shell);
+void	ft_env(t_shell **shell);
+int		ft_cd(t_shell **shell);
 #endif

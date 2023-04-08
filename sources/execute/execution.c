@@ -6,13 +6,13 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/06 20:58:18 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/08 16:34:47 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
-int	ft_exec(t_shell *shell)
+int	ft_exec(t_shell **shell)
 {
 	pid_t	pid;
 	int		state;
@@ -25,7 +25,8 @@ int	ft_exec(t_shell *shell)
 	}
 	else if (pid == 0)
 	{
-		if (execve(shell->path, shell->cmd->full_cmd, shell->env) == -1)
+		if (execve((*shell)->path, (*shell)->full_cmd, \
+			(*shell)->env) == -1)
 		{
 			printf("%s\n", strerror(errno));
 			throw_err(0, shell);
@@ -39,19 +40,19 @@ int	ft_exec(t_shell *shell)
 	return (0);
 }
 
-void	ft_exec_builtin(t_shell *shell)
+void	ft_exec_builtin(t_shell **shell)
 {
-	if (!ft_strcmp(shell->cmd->name, "echo"))
+	if (!ft_strcmp((*shell)->cmds[0]->name, "echo"))
 		ft_echo(shell);
-	else if (!ft_strcmp(shell->cmd->name, "cd"))
+	else if (!ft_strcmp((*shell)->cmds[0]->name, "cd"))
 		ft_cd(shell);
-	else if (!ft_strcmp(shell->cmd->name, "pwd"))
+	else if (!ft_strcmp((*shell)->cmds[0]->name, "pwd"))
 		ft_pwd(shell);
-	else if (!ft_strcmp(shell->cmd->name, "env"))
+	else if (!ft_strcmp((*shell)->cmds[0]->name, "env"))
 		ft_env(shell);
-	// else if (!ft_strcmp(shell->cmd->name, "export"))
+	// else if (!ft_strcmp((*shell)->cmds[0]->name, "export"))
 	// 	ft_export(shell);
-	// else if (!ft_strcmp(shell->cmd->name, "unset"))
+	// else if (!ft_strcmp((*shell)->cmds[0]->name, "unset"))
 	// 	ft_unset(shell);
 	// (void) shell;
 	// printf("to be implemented\n");
