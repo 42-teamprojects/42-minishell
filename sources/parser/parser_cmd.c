@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:27:23 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/08 23:58:46 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/09 16:33:03 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	handle_word(char **command, int *i, t_dll **tokens)
 	char	*expanded;
 
 	expanded = (*tokens)->token->content;
-	if ((*tokens)->token->type == VAR)
+	if ((*tokens)->token->type == VAR && (*tokens)->token->len > 1)
 	{
 		expanded = getenv((*tokens)->token->content + 1);
 		if (!expanded)

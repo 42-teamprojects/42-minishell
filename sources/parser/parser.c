@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/08 21:27:29 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/09 16:33:35 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ char	*parse_quotes(t_dll **tokens)
 	while ((*tokens) && (*tokens)->token->type != type)
 	{
 		expanded = (*tokens)->token->content;
-		if ((*tokens)->token->type == VAR && \
-			(*tokens)->token->state == IN_DQUOTE)
+		if ((*tokens)->token->type == VAR && (*tokens)->token->len > 1 \
+			&& (*tokens)->token->state == IN_DQUOTE)
 		{
 			expanded = getenv((*tokens)->token->content + 1);
 			if (!expanded)
