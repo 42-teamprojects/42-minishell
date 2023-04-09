@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 09:49:08 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/08 21:18:16 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/08 23:58:46 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	print_node(t_token *node)
 	       node->type == HEREDOC ? "HEREDOC" :
 	       node->type == RD_AOUT ? "RD_AOUT" :
 	       node->type == NEW_LINE ? "NEW_LINE" :
-	       node->type == SPACE ? "SPACE" :
+	       node->type == WSPACE ? "WSPACE" :
 	       "UNKNOWN");
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 23:26:06 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/08 23:26:52 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/04/09 00:00:08 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,12 @@ int	ft_setenv_help(char *name, char *value, t_shell **shell, int i)
 int	ft_setenv(char *name, char *value, t_shell **shell)
 {
 	int		i;
-	int		len;
 	char	*input;
 	int		overwrite;
 
 	i = -1;
 	if (name == NULL || value == NULL)
 		return (-1);
-	len = ft_strlen(name) + ft_strlen(value) + 2;
 	overwrite = 0;
 	while ((*shell)->env[++i])
 	{

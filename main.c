@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/08 21:52:10 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/09 00:09:33 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,21 +34,20 @@ void	read_input(t_shell **shell)
 	if (!ft_strlen(input))
 		return (free(input));
 	(*shell)->lexer = lexer(input);
-	add_history(input);
+	add_history(ft_strdup(input));
+	free(input);
+	input = NULL;
 	if (valid_syntax((*shell)->lexer))
 	{
 		commands = parse(shell);
 		if (!is_cmd_exist(commands, shell))
-			return (free(input));
+			(*shell)->exit_status = -1;
 		else if ((*shell)->path == NULL)
 			(*shell)->cmds = commands;
 	}
-	input = NULL;
 	free_lexer((*shell)->lexer);
-	free(input);
 }
 
-// print_lexer((*shell)->lexer);
 int	main(int ac, char **av, char **env)
 {
 	t_shell	*shell;
@@ -58,9 +57,10 @@ int	main(int ac, char **av, char **env)
 	init_shell(&shell, env);
 	while (shell->exit_status)
 	{
+		shell->exit_status = 1;
 		shell->prompt = init_prompt();
 		read_input(&shell);
-		if (shell->exit_status == 0)
+		if (shell->exit_status != 1)
 			continue ;
 		if (shell->path != NULL)
 		{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 09:57:19 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/08 20:41:28 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/09 00:21:14 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,14 @@ void	throw_err(int err_code, t_shell **shell)
 	printf("\n");
 	if (err_code == 0)
 		(*shell)->exit_status = 0;
+}
+
+void	console(int status, char *cmd, char *err)
+{
+	if (status == 1)
+		printf(BGREEN"→  "CX "minishell: %s: %s\n"CX, cmd, err);
+	else
+		printf(BRED"→  "CX "minishell: %s: %s\n"CX, cmd, err);
 }
 
 void	not_found(char *cmd)

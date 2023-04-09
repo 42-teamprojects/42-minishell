@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:27:23 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/08 21:31:44 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/08 23:58:46 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	handle_word(char **command, int *i, t_dll **tokens)
 		if (!expanded)
 			expanded = ft_strdup("");
 	}
-	if ((*tokens)->prev && (*tokens)->prev->token->type != SPACE)
+	if ((*tokens)->prev && (*tokens)->prev->token->type != WSPACE)
 		command[*i - 1] = ft_strjoin_gnl(command[*i - 1], \
 			expanded);
 	else
@@ -45,7 +45,7 @@ static void	handle_word(char **command, int *i, t_dll **tokens)
 
 static void	handle_quote(char **command, int *i, t_dll **tokens)
 {
-	if ((*tokens)->prev && (*tokens)->prev->token->type != SPACE)
+	if ((*tokens)->prev && (*tokens)->prev->token->type != WSPACE)
 		command[*i - 1] = ft_strjoin_gnl(command[*i - 1], \
 			parse_quotes(tokens));
 	else
@@ -63,7 +63,7 @@ char	**parse_cmds(t_dll **tokens)
 		return (NULL);
 	while ((*tokens))
 	{
-		if ((*tokens)->token->type == SPACE)
+		if ((*tokens)->token->type == WSPACE)
 			(*tokens) = (*tokens)->next;
 		if (is_word(tokens))
 			handle_word(command, &i, tokens);

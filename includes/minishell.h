@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/08 22:48:16 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/09 00:20:37 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef enum e_token_type
 	HEREDOC = -2,
 	RD_AOUT = -3,
 	NEW_LINE = '\n',
-	SPACE = ' ',
+	WSPACE = ' ',
 	UNKNOWN,
 }	t_token_type;
 
@@ -151,4 +151,5 @@ char			**dup_list(char **list);
 
 void			not_found(char *cmd);
 void			throw_err(int err_code, t_shell **shell);
+void			console(int status, char *cmd, char *err);
 #endif

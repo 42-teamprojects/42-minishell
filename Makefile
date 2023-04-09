@@ -19,7 +19,6 @@ SRCS = main.c \
 	sources/execute/ft_echo.c \
 	sources/execute/ft_pwd.c \
 	sources/execute/ft_export.c \
-	sources/execute/ft_getenv.c \
 	sources/execute/ft_unset.c \
 	sources/execute/utils.c \
 	sources/parser/parser.c \
