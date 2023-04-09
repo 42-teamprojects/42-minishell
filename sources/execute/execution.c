@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/08 20:51:19 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/09 23:49:39 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_exec(t_shell **shell)
 	pid = fork();
 	if (pid == -1)
 	{
-		printf("%s\n", strerror(errno));
+		console(0, "", strerror(errno));
 		return (-1);
 	}
 	else if (pid == 0)
@@ -28,13 +28,14 @@ int	ft_exec(t_shell **shell)
 		if (execve((*shell)->path, (*shell)->full_cmd, \
 			(*shell)->env) == -1)
 		{
-			printf("%s\n", strerror(errno));
+			console(0, (*shell)->path, strerror(errno));
 			throw_err(0, shell);
 		}
 	}
 	else
 	{
 		waitpid(pid, &state, 0);
+		(*shell)->status_code = (int)(state >> 8);
 		return (0);
 	}
 	return (0);

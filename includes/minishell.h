@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/09 15:51:55 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/09 23:52:54 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,18 @@ int				valid_syntax(t_lexer *lexer);
 
 /* Minishell */
 
+typedef struct s_rd
+{
+	char	*input;
+	char	*output;
+}	t_rd;
+
 typedef struct s_command
 {
 	char	*name;
 	char	**args;
 	int		argc;
+	t_rd	*redir;
 	char	**full_cmd;
 }	t_command;
 
@@ -99,16 +106,15 @@ typedef struct s_shell
 {
 	t_lexer		*lexer;
 	t_command	**cmds;
+	char		**files;
 	int			cmds_count;
-	char		**full_cmd;	
+	char		**full_cmd;
 	char		*prompt;
 	char		*path;
 	char		**env;
-	char		*pwd;
 	char		**path_list;
-	int			overwrite;
 	int			exit_status;
-	int			state;
+	int			status_code;
 }	t_shell;
 
 /* Parser */

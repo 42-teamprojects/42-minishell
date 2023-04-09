@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/09 00:09:33 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/09 23:30:26 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	read_input(t_shell **shell)
 	if (!input || !ft_strcmp(input, "exit"))
 		return (free(input), throw_err(0, shell));
 	if (!ft_strlen(input))
-		return (free(input));
+		return (free(input), throw_err(-3, shell));
 	(*shell)->lexer = lexer(input);
 	add_history(ft_strdup(input));
 	free(input);
@@ -40,6 +40,7 @@ void	read_input(t_shell **shell)
 	if (valid_syntax((*shell)->lexer))
 	{
 		commands = parse(shell);
+		print_lexer((*shell)->lexer);
 		if (!is_cmd_exist(commands, shell))
 			(*shell)->exit_status = -1;
 		else if ((*shell)->path == NULL)

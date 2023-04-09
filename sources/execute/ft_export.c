@@ -3,30 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 23:26:06 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/09 00:00:08 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/09 22:41:20 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	check_var(char *var)
+{
+	int	i;
+
+	if ((*var >= '0' && *var <= '9'))
+		return (console(0, var, "not a valid identifier"), 0);
+	i = 0;
+	while (var[++i])
+	{
+		if (!ft_isalnum(var[i]) && var[i] != '\n' && var[i] != '\0')
+			return (console(0, var, "not a valid identifier"), 0);
+	}
+	return (1);
+}
+
 int	ft_export(t_shell **shell)
 {
 	int		result;
-	char	**var_name;
+	char	**var;
 
 	if ((*shell)->cmds[0]->args[0] == NULL)
 		return (-1);
-	var_name = ft_split((*shell)->cmds[0]->args[0], '=');
-	if (var_name[1])
+	var = ft_split((*shell)->cmds[0]->args[0], '=');
+	if (!var)
+		return (1);
+	if (check_var(var[0]) && var[1])
 	{
-		result = ft_setenv(var_name[0], var_name[1], shell);
+		result = ft_setenv(var[0], var[1], shell);
 		if (result == 0)
-			printf("Exported %s=%s\n", var_name[0], var_name[1]);
+			printf("Exported %s=%s\n", var[0], var[1]);
 		else
-			printf("Failed to export %s=%s\n", var_name[0], var_name[1]);
+			printf("Failed to export %s=%s\n", var[0], var[1]);
 	}
 	return (0);
 }
