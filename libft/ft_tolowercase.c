@@ -1,46 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utilities.c                                        :+:      :+:    :+:   */
+/*   ft_tolowercase.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/25 11:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/10 20:34:46 by htalhaou         ###   ########.fr       */
+/*   Created: 2023/04/10 16:33:10 by htalhaou          #+#    #+#             */
+/*   Updated: 2023/04/10 16:36:00 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "global.h"
+#include "libft.h"
 
-int	args_count(char **args)
+char	*ft_tolowercase(char *str)
 {
-	int	i;
-
-	i = 0;
-	while (args[i])
-		i++;
-	return (i);
-}
-
-char	**dup_list(char **list)
-{
+	char	*lower;
 	int		i;
-	char	**args;
 
-	args = (char **)malloc(sizeof(char *) * (args_count(list) + 1));
-	if (!args)
-		return (NULL);
+	lower = (char *)malloc(sizeof(char) * (ft_strlen(str) + 1));
 	i = 0;
-	while (list[i])
+	while (str[i])
 	{
-		args[i] = ft_strdup(list[i]);
+		lower[i] = ft_tolower(str[i]);
 		i++;
 	}
-	args[i] = NULL;
-	return (args);
-}
-
-void	delete_content(void *data)
-{
-	free(data);
+	lower[i] = '\0';
+	return (lower);
 }

@@ -12,6 +12,7 @@ SRCS = ft_isalpha.c \
       ft_strlcat.c \
       ft_toupper.c \
       ft_tolower.c \
+      ft_tolowercase.c \
       ft_strchr.c \
       ft_calloc.c \
       ft_strrchr.c \
@@ -67,8 +68,8 @@ CFLAGS		= -Wall -Wextra -Werror
 
 RM			= rm -f
 
-# %.o : %.c
-# 			$(CC) $(CFLAGS) -c $< -o $@
+%.o : %.c
+			$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME):	$(OBJS)
 			ar rcs $@ $^

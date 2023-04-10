@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 21:50:33 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/09 23:59:33 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/10 19:42:09 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,16 @@ char	**make_cmd_list(t_command *command)
 
 int	is_valid_cmd(char *str)
 {
-	if (ft_strcmp(str, "cd") == 0 || \
-		ft_strcmp(str, "pwd") == 0 || \
-		ft_strcmp(str, "env") == 0 || \
-		ft_strcmp(str, "echo") == 0 || \
+	if (ft_strcmp(ft_tolowercase(str), "cd") == 0 || \
+		ft_strcmp(ft_tolowercase(str), "pwd") == 0 || \
+		ft_strcmp(ft_tolowercase(str), "env") == 0 || \
+		ft_strcmp(ft_tolowercase(str), "echo") == 0 || \
 		ft_strcmp(str, "export") == 0 || \
 		ft_strcmp(str, "unset") == 0 || \
-		ft_strcmp(str, "/usr/bin/cd") == 0 || \
-		ft_strcmp(str, "/bin/pwd") == 0 || \
-		ft_strcmp(str, "/usr/bin/env") == 0 || \
-		ft_strcmp(str, "/bin/echo") == 0 || \
+		ft_strcmp(ft_tolowercase(str), "/usr/bin/cd") == 0 || \
+		ft_strcmp(ft_tolowercase(str), "/bin/pwd") == 0 || \
+		ft_strcmp(ft_tolowercase(str), "/usr/bin/env") == 0 || \
+		ft_strcmp(ft_tolowercase(str), "/bin/echo") == 0 || \
 		ft_strcmp(str, "export") == 0 || \
 		ft_strcmp(str, "unset") == 0)
 		return (1);

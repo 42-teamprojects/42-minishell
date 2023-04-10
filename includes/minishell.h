@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/09 23:52:54 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/10 20:34:57 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ typedef struct s_shell
 	char		*prompt;
 	char		*path;
 	char		**env;
+	t_list		*exp;
 	char		**path_list;
 	int			exit_status;
 	int			status_code;
@@ -142,6 +143,8 @@ int				ft_export(t_shell **shell);
 int				ft_setenv(char *name, char *value, t_shell **shell);
 int				ft_setenv_help(char *name, char *value, t_shell **shell, int i);
 char			*ft_getenv(t_shell **shell, const char *name);
+void			export_env(t_shell **shell);
+void			ft_setexport(t_list **export, char *name);
 
 /* Helpers */
 
@@ -152,6 +155,7 @@ void			free_shell(t_shell **shell);
 
 int				args_count(char **args);
 char			**dup_list(char **list);
+void			delete_content(void *data);
 
 /* Errors */
 

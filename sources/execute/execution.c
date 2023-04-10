@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/09 23:49:39 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/10 16:40:44 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,17 +46,17 @@ void	ft_exec_builtin(t_shell **shell)
 	char	*cmd_name;
 
 	cmd_name = (*shell)->cmds[0]->name;
-	if (!ft_strcmp(cmd_name, "echo") || \
-		!ft_strcmp(cmd_name, "/bin/echo"))
+	if (!ft_strcmp(ft_tolowercase(cmd_name), "echo") || \
+		!ft_strcmp(ft_tolowercase(cmd_name), "/bin/echo"))
 		ft_echo(shell);
 	else if (!ft_strcmp(cmd_name, "cd") || \
 		!ft_strcmp(cmd_name, "/usr/bin/cd"))
 		ft_cd(shell);
-	else if (!ft_strcmp(cmd_name, "pwd") || \
-		!ft_strcmp(cmd_name, "/bin/pwd"))
+	else if (!ft_strcmp(ft_tolowercase(cmd_name), "pwd") || \
+		!ft_strcmp(ft_tolowercase(cmd_name), "/bin/pwd"))
 		ft_pwd(shell);
-	else if (!ft_strcmp(cmd_name, "env") || \
-		!ft_strcmp(cmd_name, "/usr/bin/env"))
+	else if (!ft_strcmp(ft_tolowercase(cmd_name), "env") || \
+		!ft_strcmp(ft_tolowercase(cmd_name), "/usr/bin/env"))
 		ft_env(shell);
 	else if (!ft_strcmp(cmd_name, "export"))
 		ft_export(shell);

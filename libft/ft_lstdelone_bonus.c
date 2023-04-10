@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstdelone_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 10:56:19 by yelaissa          #+#    #+#             */
-/*   Updated: 2022/10/09 20:15:32 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/10 20:44:26 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,29 @@ void	ft_lstdelone(t_list *lst, void (*del)(void*))
 	{
 		del(lst->content);
 		free(lst);
+	}
+}
+
+void	remove_node(t_list **head, void *key, void (*del)(void*))
+{
+	t_list	*curr;
+	t_list	*prev;
+
+	curr = *head;
+	prev = NULL;
+	while (curr != NULL)
+	{
+		if (ft_memcmp(curr->content, key, sizeof(key)) == 0)
+		{
+			if (prev == NULL)
+				*head = curr->next;
+			else
+				prev->next = curr->next;
+			del(curr->content);
+			free(curr);
+			return ;
+		}
+		prev = curr;
+		curr = curr->next;
 	}
 }

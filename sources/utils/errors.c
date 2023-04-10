@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 09:57:19 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/09 22:43:26 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/10 13:17:17 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 void	throw_err(int err_code, t_shell **shell)
 {
 	if (err_code == 0)
+	{
+		(*shell)->exit_status = 0;
 		printf("\n");
+	}
 	if (err_code)
 		(*shell)->exit_status = err_code;
 }

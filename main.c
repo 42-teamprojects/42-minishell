@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/09 23:30:26 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/10 18:22:25 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	init_shell(t_shell **shell, char **env)
 	(*shell) = (t_shell *) malloc(sizeof(t_shell));
 	(*shell)->exit_status = 1;
 	(*shell)->env = env;
+	(*shell)->exp = NULL;
 	(*shell)->path = NULL;
 	(*shell)->path_list = ft_split(getenv("PATH"), ':');
 	signal(SIGINT, &sig_handler);
@@ -40,7 +41,7 @@ void	read_input(t_shell **shell)
 	if (valid_syntax((*shell)->lexer))
 	{
 		commands = parse(shell);
-		print_lexer((*shell)->lexer);
+		// print_lexer((*shell)->lexer);
 		if (!is_cmd_exist(commands, shell))
 			(*shell)->exit_status = -1;
 		else if ((*shell)->path == NULL)

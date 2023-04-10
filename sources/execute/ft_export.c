@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 23:26:06 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/09 22:41:20 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/10 20:50:20 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,24 @@ int	check_var(char *var)
 {
 	int	i;
 
-	if ((*var >= '0' && *var <= '9'))
-		return (console(0, var, "not a valid identifier"), 0);
 	i = 0;
+	if (var == NULL || ft_strchr(var, '$') != NULL \
+		|| (!ft_isalpha(var[0]) && var[0] != '_'))
+	{
+		var = ft_concat(2, "export: ", var);
+		console(0, var, "not a valid identifier");
+		free(var);
+		return (0);
+	}
 	while (var[++i])
 	{
-		if (!ft_isalnum(var[i]) && var[i] != '\n' && var[i] != '\0')
-			return (console(0, var, "not a valid identifier"), 0);
+		if (!ft_isalnum(var[i]) && var[i] != '_')
+		{
+			var = ft_concat(2, "export: ", var);
+			console(0, var, "not a valid identifier");
+			free(var);
+			return (0);
+		}
 	}
 	return (1);
 }
@@ -31,21 +42,54 @@ int	ft_export(t_shell **shell)
 {
 	int		result;
 	char	**var;
+	char	*value;
 
 	if ((*shell)->cmds[0]->args[0] == NULL)
-		return (-1);
+		return (export_env(shell), 1);
+	if (ft_strchr((*shell)->cmds[0]->args[0], '=') == NULL)
+	{
+		return (ft_setexport(&(*shell)->exp, (*shell)->cmds[0]->args[0]), 1);
+	}
+	value = ft_strchr((*shell)->cmds[0]->args[0], '=') + 1;
+	if (!value)
+		return (1);
 	var = ft_split((*shell)->cmds[0]->args[0], '=');
 	if (!var)
 		return (1);
-	if (check_var(var[0]) && var[1])
+	if (check_var(var[0]) && value)
 	{
-		result = ft_setenv(var[0], var[1], shell);
-		if (result == 0)
-			printf("Exported %s=%s\n", var[0], var[1]);
-		else
-			printf("Failed to export %s=%s\n", var[0], var[1]);
+		remove_node(&(*shell)->exp, var[0], delete_content);
+		result = ft_setenv(var[0], value, shell);
 	}
+	free_split(var);
 	return (0);
+}
+
+void	export_env(t_shell **shell)
+{
+	int		i;
+	char	**var;
+	char	*value;
+	t_list	*exp;
+
+	i = 0;
+	while ((*shell)->env[i])
+	{
+		value = ft_strchr((*shell)->env[i], '=') + 1;
+		if (!value)
+			exit (0);
+		var = ft_split((*shell)->env[i], '=');
+		printf("declare -x %s=\"%s\"\n", var[0], value);
+		free_split(var);
+		i++;
+	}
+	exp = (*shell)->exp;
+	while (exp)
+	{
+		printf("declare -x %s\n", exp->content);
+		free_split(var);
+		exp = exp->next;
+	}
 }
 
 int	ft_setenv_help(char *name, char *value, t_shell **shell, int i)
@@ -57,8 +101,7 @@ int	ft_setenv_help(char *name, char *value, t_shell **shell, int i)
 	if (new_environ == NULL)
 		return (-1);
 	ft_memcpy(new_environ, (*shell)->env, i * sizeof(char *));
-	input = ft_strjoin(name, "=");
-	input = ft_strjoin_gnl(input, value);
+	input = ft_concat(3, name, "=", value);
 	new_environ[i] = input;
 	new_environ[i + 1] = NULL;
 	(*shell)->env = new_environ;
