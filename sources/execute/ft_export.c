@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 23:26:06 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/10 20:50:20 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/04/10 22:17:24 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,33 +36,6 @@ int	check_var(char *var)
 		}
 	}
 	return (1);
-}
-
-int	ft_export(t_shell **shell)
-{
-	int		result;
-	char	**var;
-	char	*value;
-
-	if ((*shell)->cmds[0]->args[0] == NULL)
-		return (export_env(shell), 1);
-	if (ft_strchr((*shell)->cmds[0]->args[0], '=') == NULL)
-	{
-		return (ft_setexport(&(*shell)->exp, (*shell)->cmds[0]->args[0]), 1);
-	}
-	value = ft_strchr((*shell)->cmds[0]->args[0], '=') + 1;
-	if (!value)
-		return (1);
-	var = ft_split((*shell)->cmds[0]->args[0], '=');
-	if (!var)
-		return (1);
-	if (check_var(var[0]) && value)
-	{
-		remove_node(&(*shell)->exp, var[0], delete_content);
-		result = ft_setenv(var[0], value, shell);
-	}
-	free_split(var);
-	return (0);
 }
 
 void	export_env(t_shell **shell)
@@ -135,4 +108,33 @@ int	ft_setenv(char *name, char *value, t_shell **shell)
 	else
 		ft_setenv_help(name, value, shell, i);
 	return (0);
+}
+
+int	ft_export(t_shell **shell)
+{
+	int		result;
+	char	**var;
+	char	*value;
+
+	if ((*shell)->cmds[0]->args[0] == NULL)
+		return (export_env(shell), 1);
+	if (ft_strchr((*shell)->cmds[0]->args[0], '=') == NULL)
+	{
+		if (!ft_is_var_exist((*shell)->env, (*shell)->cmds[0]->args[0]))
+			return (ft_setexport(&(*shell)->exp, \
+				(*shell)->cmds[0]->args[0]), 1);
+		return (1);
+	}
+	value = ft_strchr((*shell)->cmds[0]->args[0], '=') + 1;
+	if (!value)
+		return (1);
+	var = ft_split((*shell)->cmds[0]->args[0], '=');
+	if (!var)
+		return (1);
+	if (check_var(var[0]) && value)
+	{
+		remove_node(&(*shell)->exp, var[0], free);
+		result = ft_setenv(var[0], value, shell);
+	}
+	return (free_split(var), 0);
 }

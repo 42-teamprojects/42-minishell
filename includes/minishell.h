@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/10 20:34:57 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/04/10 22:17:49 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ int				ft_setenv_help(char *name, char *value, t_shell **shell, int i);
 char			*ft_getenv(t_shell **shell, const char *name);
 void			export_env(t_shell **shell);
 void			ft_setexport(t_list **export, char *name);
+int				ft_is_var_exist(char **env, char *key);
 
 /* Helpers */
 

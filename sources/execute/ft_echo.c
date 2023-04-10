@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 23:24:42 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/10 16:30:21 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/04/10 22:26:50 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,11 @@ void	ft_echo(t_shell **shell)
 	int	flag;
 
 	flag = 0;
+	if (!(*shell)->cmds[0]->args[0])
+	{
+		printf("\n");
+		return ;
+	}
 	i = check_for_option((*shell)->cmds[0]->args, &flag);
 	while (i < (*shell)->cmds[0]->argc)
 	{

@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 12:29:45 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/10 20:34:36 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/04/10 22:17:06 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,22 @@ void	ft_setexport(t_list **export, char *name)
 	}
 	remove_node(export, name, delete_content);
 	ft_lstadd_front(export, ft_lstnew(name));
+}
+
+int	ft_is_var_exist(char **env, char *key)
+{
+	int		i;
+	char	**var;
+
+	i = -1;
+	while (env[++i])
+	{
+		var = ft_split(env[i], '=');
+		if (!var)
+			return (1);
+		if (!ft_strcmp(key, var[0]))
+			return (1);
+		free_split(var);
+	}
+	return (0);
 }

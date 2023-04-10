@@ -6,11 +6,12 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 10:56:19 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/10 20:44:26 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/04/10 22:18:58 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 void	ft_lstdelone(t_list *lst, void (*del)(void*))
 {
@@ -30,7 +31,8 @@ void	remove_node(t_list **head, void *key, void (*del)(void*))
 	prev = NULL;
 	while (curr != NULL)
 	{
-		if (ft_memcmp(curr->content, key, sizeof(key)) == 0)
+		if (!ft_strcmp(curr->content, key) \
+			|| ft_memcmp(curr->content, key, sizeof(key)) == 0)
 		{
 			if (prev == NULL)
 				*head = curr->next;
