@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 21:50:33 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/09 23:56:37 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/09 23:59:33 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,9 @@ int	is_valid_cmd(char *str)
 
 int	check_command(t_shell **shell, char *path, char **command)
 {
+	if (!ft_strcmp(command[0], "$?"))
+		return (console(1, ft_itoa((*shell)->status_code), \
+		"command not found"), 0);
 	if (access(path, F_OK) == 0 && !is_valid_cmd(command[0]))
 	{
 		(*shell)->path = ft_strdup(path);
