@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 21:50:33 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/11 18:28:04 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/11 20:27:08 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	check_command(t_shell **shell, char *path, char **command)
 	if (access(path, F_OK) == 0 && !is_valid_cmd(command[0]))
 	{
 		(*shell)->path = ft_strdup(path);
-		(*shell)->full_cmd = command;
+		(*shell)->full_cmd = dup_list(command);
 		free(path);
 		return (1);
 	}
