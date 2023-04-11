@@ -1,0 +1,2 @@
+		print_lexer((*shell)->lexer);
+int	main(int ac, char **av, char **env)

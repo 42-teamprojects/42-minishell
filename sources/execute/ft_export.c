@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 23:26:06 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/10 22:17:24 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/04/11 15:14:22 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_var(char *var)
+int	check_var(t_shell **shell, char *var)
 {
 	int	i;
 
 	i = 0;
+	(void) shell;
 	if (var == NULL || ft_strchr(var, '$') != NULL \
 		|| (!ft_isalpha(var[0]) && var[0] != '_'))
 	{
@@ -115,26 +116,36 @@ int	ft_export(t_shell **shell)
 	int		result;
 	char	**var;
 	char	*value;
+	int		i;
 
 	if ((*shell)->cmds[0]->args[0] == NULL)
 		return (export_env(shell), 1);
-	if (ft_strchr((*shell)->cmds[0]->args[0], '=') == NULL)
+	i = -1;
+	while ((*shell)->cmds[0]->args[++i])
 	{
-		if (!ft_is_var_exist((*shell)->env, (*shell)->cmds[0]->args[0]))
-			return (ft_setexport(&(*shell)->exp, \
-				(*shell)->cmds[0]->args[0]), 1);
-		return (1);
+		if (ft_strchr((*shell)->cmds[0]->args[i], '=') == NULL)
+		{
+			if (check_var(shell, (*shell)->cmds[0]->args[i]) && \
+				!ft_is_var_exist((*shell)->env, (*shell)->cmds[0]->args[i]))
+			{
+				ft_setexport(&(*shell)->exp, (*shell)->cmds[0]->args[i]);
+				continue ;
+			}
+			continue ;
+		}
+		value = ft_strchr((*shell)->cmds[0]->args[i], '=') + 1;
+		if (!value)
+			return (1);
+		var = ft_split((*shell)->cmds[0]->args[i], '=');
+		if (!var)
+			return (1);
+		if (check_var(shell, var[0]) && value)
+		{
+			remove_node(&(*shell)->exp, var[0], free);
+			result = ft_setenv(var[0], value, shell);
+		}
+		free_split(var);
 	}
-	value = ft_strchr((*shell)->cmds[0]->args[0], '=') + 1;
-	if (!value)
-		return (1);
-	var = ft_split((*shell)->cmds[0]->args[0], '=');
-	if (!var)
-		return (1);
-	if (check_var(var[0]) && value)
-	{
-		remove_node(&(*shell)->exp, var[0], free);
-		result = ft_setenv(var[0], value, shell);
-	}
-	return (free_split(var), 0);
+	return (1);
 }
+
