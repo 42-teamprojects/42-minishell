@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 21:50:33 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/11 17:23:04 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/11 18:28:04 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	check_cmd(t_command *command, t_shell **shell)
 	path = cmd[0];
 	if (is_valid_cmd(cmd[0]))
 		return (1);
-	if (*cmd[0] == '/')
+	if (ft_strchr(cmd[0], '/') != NULL)
 	{
 		if (check_command(shell, path, cmd))
 			return (1);
