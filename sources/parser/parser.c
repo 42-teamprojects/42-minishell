@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/09 16:33:35 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/13 21:12:35 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,30 +25,32 @@ t_command	*init_cmd(char **command)
 	return (cmd);
 }
 
-char	*parse_quotes(t_dll **tokens)
+char	**parse_cmds(t_dll **tokens, t_shell **shell)
 {
-	t_token_type	type;
-	char			*str_in_quotes;
-	char			*expanded;
+	char	**command;
+	int		i;
 
-	type = (*tokens)->token->type;
-	(*tokens) = (*tokens)->next;
-	str_in_quotes = ft_strdup("");
-	while ((*tokens) && (*tokens)->token->type != type)
+	i = 0;
+	command = (char **)malloc(sizeof(char *) * (args_len(*tokens) + 1));
+	if (!command)
+		return (NULL);
+	while ((*tokens))
 	{
-		expanded = (*tokens)->token->content;
-		if ((*tokens)->token->type == VAR && (*tokens)->token->len > 1 \
-			&& (*tokens)->token->state == IN_DQUOTE)
+		if ((*tokens)->token->type == WSPACE)
+			(*tokens) = (*tokens)->next;
+		if (is_word(tokens))
+			handle_word(command, &i, tokens, shell);
+		if (is_quote(tokens))
+			handle_quote(command, &i, tokens, shell);
+		if ((*tokens)->token->type == PIPE)
 		{
-			expanded = getenv((*tokens)->token->content + 1);
-			if (!expanded)
-				expanded = ft_strdup("");
+			(*tokens) = (*tokens)->next;
+			break ;
 		}
-		str_in_quotes = ft_strjoin_gnl(str_in_quotes, \
-			expanded);
 		(*tokens) = (*tokens)->next;
 	}
-	return (str_in_quotes);
+	command[i] = NULL;
+	return (command);
 }
 
 t_command	**parse(t_shell **shell)
@@ -67,7 +69,7 @@ t_command	**parse(t_shell **shell)
 	tokens = (*shell)->lexer->head;
 	while (++i < (*shell)->cmds_count)
 	{
-		cmd = parse_cmds(&tokens);
+		cmd = parse_cmds(&tokens, shell);
 		if (!cmd)
 			break ;
 		commands[i] = init_cmd(cmd);

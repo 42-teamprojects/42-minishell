@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/11 18:38:53 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/13 21:48:49 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,13 @@ void	read_input(t_shell **shell)
 		return (free(input), throw_err(0, shell));
 	if (!ft_strlen(input))
 		return (free(input), throw_err(-3, shell));
-	(*shell)->lexer = lexer(input);
 	add_history(ft_strdup(input));
-	free(input);
+	(*shell)->lexer = lexer(input);
 	input = NULL;
 	if (valid_syntax((*shell)->lexer))
 	{
 		commands = parse(shell);
-		// print_lexer((*shell)->lexer);
+		print_lexer((*shell)->lexer);
 		if (!is_cmd_exist(commands, shell))
 			(*shell)->exit_status = -1;
 		else if ((*shell)->path == NULL)

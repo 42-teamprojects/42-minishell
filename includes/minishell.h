@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/10 22:17:49 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/04/13 21:13:48 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,9 +125,15 @@ t_command		**parse(t_shell **shell);
 char			**init_args(char **command);
 int				args_len(t_dll *tokens);
 int				cmds_len(t_dll *tokens);
-char			**parse_cmds(t_dll **tokens);
-char			*parse_quotes(t_dll **tokens);
-
+t_command		**parse(t_shell **shell);
+char			*parse_quotes(t_dll **tokens, t_shell **shell);
+char			**parse_cmds(t_dll **tokens, t_shell **shell);
+void			handle_word(char **command, int *i, t_dll **tokens, \
+	t_shell **shell);
+void			handle_quote(char **command, int *i, t_dll **tokens, \
+	t_shell **shell);
+int				is_word(t_dll **tokens);
+int				is_quote(t_dll **tokens);
 /* Execution */
 
 int				is_cmd_exist(t_command **command, t_shell **shell);

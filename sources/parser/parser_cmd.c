@@ -6,33 +6,33 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:27:23 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/09 16:33:03 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/13 21:13:35 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	is_word(t_dll **tokens)
+int	is_word(t_dll **tokens)
 {
 	return (((*tokens)->token->type == WORD || \
 		(*tokens)->token->type == VAR) \
 		&& (*tokens)->token->state == DEFAULT);
 }
 
-static int	is_quote(t_dll **tokens)
+int	is_quote(t_dll **tokens)
 {
 	return ((*tokens)->token->type == DQUOTE \
 		|| (*tokens)->token->type == SQUOTE);
 }
 
-static void	handle_word(char **command, int *i, t_dll **tokens)
+void	handle_word(char **command, int *i, t_dll **tokens, t_shell **shell)
 {
 	char	*expanded;
 
 	expanded = (*tokens)->token->content;
 	if ((*tokens)->token->type == VAR && (*tokens)->token->len > 1)
 	{
-		expanded = getenv((*tokens)->token->content + 1);
+		expanded = ft_getenv(shell, (*tokens)->token->content + 1);
 		if (!expanded)
 			expanded = ft_strdup("");
 	}
@@ -43,39 +43,38 @@ static void	handle_word(char **command, int *i, t_dll **tokens)
 		command[(*i)++] = ft_strdup(expanded);
 }
 
-static void	handle_quote(char **command, int *i, t_dll **tokens)
+void	handle_quote(char **command, int *i, t_dll **tokens, \
+	t_shell **shell)
 {
 	if ((*tokens)->prev && (*tokens)->prev->token->type != WSPACE)
 		command[*i - 1] = ft_strjoin_gnl(command[*i - 1], \
-			parse_quotes(tokens));
+			parse_quotes(tokens, shell));
 	else
-		command[(*i)++] = parse_quotes(tokens);
+		command[(*i)++] = parse_quotes(tokens, shell);
 }
 
-char	**parse_cmds(t_dll **tokens)
+char	*parse_quotes(t_dll **tokens, t_shell **shell)
 {
-	char	**command;
-	int		i;
+	t_token_type	type;
+	char			*str_in_quotes;
+	char			*expanded;
 
-	i = 0;
-	command = (char **)malloc(sizeof(char *) * (args_len(*tokens) + 1));
-	if (!command)
-		return (NULL);
-	while ((*tokens))
+	type = (*tokens)->token->type;
+	(*tokens) = (*tokens)->next;
+	str_in_quotes = ft_strdup("");
+	while ((*tokens) && (*tokens)->token->type != type)
 	{
-		if ((*tokens)->token->type == WSPACE)
-			(*tokens) = (*tokens)->next;
-		if (is_word(tokens))
-			handle_word(command, &i, tokens);
-		if (is_quote(tokens))
-			handle_quote(command, &i, tokens);
-		if ((*tokens)->token->type == PIPE)
+		expanded = (*tokens)->token->content;
+		if ((*tokens)->token->type == VAR && (*tokens)->token->len > 1 \
+			&& (*tokens)->token->state == IN_DQUOTE)
 		{
-			(*tokens) = (*tokens)->next;
-			break ;
+			expanded = ft_getenv(shell, (*tokens)->token->content + 1);
+			if (!expanded)
+				expanded = ft_strdup("");
 		}
+		str_in_quotes = ft_strjoin_gnl(str_in_quotes, \
+			expanded);
 		(*tokens) = (*tokens)->next;
 	}
-	command[i] = NULL;
-	return (command);
+	return (str_in_quotes);
 }

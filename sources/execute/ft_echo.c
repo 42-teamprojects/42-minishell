@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 23:24:42 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/11 16:39:46 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/13 20:36:14 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,10 @@ void	ft_echo(t_shell **shell)
 	i = check_for_option((*shell)->cmds[0]->args, &flag);
 	while (i < (*shell)->cmds[0]->argc)
 	{
-		printf("%s ", (*shell)->cmds[0]->args[i]);
+		if (i != (*shell)->cmds[0]->argc - 1)
+			printf("%s ", (*shell)->cmds[0]->args[i]);
+		else
+			printf("%s", (*shell)->cmds[0]->args[i]);
 		i++;
 	}
 	if (!flag)

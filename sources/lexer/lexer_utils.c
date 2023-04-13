@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 09:49:08 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/09 22:40:46 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/13 22:30:29 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	get_var(t_lexer *lexer, char *input, t_state state)
 	char	*var;
 
 	i = 1;
-	while (!is_token(input[i]))
+	while (!is_token(input[i]) && (ft_isalpha(input[i]) || input[i] == '_'))
 		i++;
 	var = ft_substr(input, 0, i);
 	add_token(lexer, new_token(var, i, VAR, state));
