@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 16:49:37 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/08 16:51:33 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/14 23:07:40 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,13 @@ void	free_lexer(t_lexer *lexer)
 		free(temp);
 	}
 	free(lexer);
+}
+
+t_dll	*get_last_node(t_dll *tokens)
+{
+	if (!tokens)
+		return (NULL);
+	while (tokens->next)
+		tokens = tokens->next;
+	return (tokens);
 }

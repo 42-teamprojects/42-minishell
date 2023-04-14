@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:27:23 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/13 21:13:35 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/14 22:07:47 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,14 @@ int	is_quote(t_dll **tokens)
 {
 	return ((*tokens)->token->type == DQUOTE \
 		|| (*tokens)->token->type == SQUOTE);
+}
+
+int	is_redir(t_dll **tokens)
+{
+	return ((*tokens)->token->type == RD_OUT \
+		|| (*tokens)->token->type == RD_IN \
+		|| (*tokens)->token->type == RD_AOUT \
+		|| (*tokens)->token->type == HEREDOC);
 }
 
 void	handle_word(char **command, int *i, t_dll **tokens, t_shell **shell)

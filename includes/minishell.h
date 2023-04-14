@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/13 21:13:48 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/14 23:20:03 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,10 @@ typedef enum e_token_type
 	PIPE = '|',
 	RD_IN = '<',
 	RD_OUT = '>',
+	FILE_IN,
+	FILE_OUT,
+	FILE_APPEND,
+	FILE_HEREDOC,
 	WORD = -1,
 	HEREDOC = -2,
 	RD_AOUT = -3,
@@ -84,7 +88,7 @@ int				get_word(t_lexer *lexer, char *input, t_state state);
 void			print_lexer(t_lexer *lexer);
 void			change_state(t_lexer *lexer, char c, t_state *state);
 int				valid_syntax(t_lexer *lexer);
-
+t_dll			*get_last_node(t_dll *tokens);
 /* Minishell */
 
 typedef struct s_rd
@@ -134,6 +138,7 @@ void			handle_quote(char **command, int *i, t_dll **tokens, \
 	t_shell **shell);
 int				is_word(t_dll **tokens);
 int				is_quote(t_dll **tokens);
+int				is_redir(t_dll **tokens);
 /* Execution */
 
 int				is_cmd_exist(t_command **command, t_shell **shell);
