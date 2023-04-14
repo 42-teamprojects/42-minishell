@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 09:49:08 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/14 23:43:03 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/14 23:55:48 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,31 +48,37 @@ int	get_word(t_lexer *lexer, char *input, t_state state)
 {
 	size_t			i;
 	char			*word;
-	// t_dll			*last_token;
-	// t_token_type	type;
+	t_dll			*last_token;
+	t_token_type	type;
 
-	// last_token = get_last_node(lexer->head);
+	last_token = NULL;
+	type = WORD;
+	if (lexer->head)
+	{
+		last_token = get_last_node(lexer->head);
+		type = last_token->token->type;
+	}
 	i = 0;
 	while (!is_token(input[i]))
 	{
-		// if (last_token && last_token->token->type == WSPACE)
-		// {
-		// 	last_token = last_token->prev;
-		// 	continue ;
-		// }
+		if (last_token && type == WSPACE)
+		{
+			last_token = last_token->prev;
+			type = last_token->token->type;
+			continue ;
+		}
 		i++;
 	}
 	word = ft_substr(input, 0, i);
-	// type = last_token->token->type;
-	// if (last_token && type == RD_OUT)
-	// 	add_token(lexer, new_token(word, i, FILE_OUT, state));
-	// else if (last_token && type == RD_IN)
-	// 	add_token(lexer, new_token(word, i, FILE_IN, state));
-	// else if (last_token && type == RD_AOUT)
-	// 	add_token(lexer, new_token(word, i, FILE_APPEND, state));
-	// else if (last_token && type == HEREDOC)
-	// 	add_token(lexer, new_token(word, i, HEREDOC, state));
-	// else
+	if (last_token && type == RD_OUT)
+		add_token(lexer, new_token(word, i, FILE_OUT, state));
+	else if (last_token && type == RD_IN)
+		add_token(lexer, new_token(word, i, FILE_IN, state));
+	else if (last_token && type == RD_AOUT)
+		add_token(lexer, new_token(word, i, FILE_APPEND, state));
+	else if (last_token && type == HEREDOC)
+		add_token(lexer, new_token(word, i, HEREDOC, state));
+	else
 		add_token(lexer, new_token(word, i, WORD, state));
 	return (i);
 }
