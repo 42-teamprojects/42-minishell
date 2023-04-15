@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/13 21:48:49 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/15 20:16:45 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@ void	init_shell(t_shell **shell, char **env)
 	(*shell)->exp = NULL;
 	(*shell)->path = NULL;
 	(*shell)->path_list = ft_split(getenv("PATH"), ':');
+	// (*shell)->files[0] = "test.txt";
+	// (*shell)->files[1] = "test1.txt";
+	// (*shell)->files[2] = "\0";
 	signal(SIGINT, &sig_handler);
 	signal(SIGQUIT, &sig_handler);
 }
@@ -65,6 +68,8 @@ int	main(int ac, char **av, char **env)
 			continue ;
 		if (shell->path != NULL)
 		{
+			// if (shell->cmds[0]->redir->output)
+			// 	rediterct_output(&shell);
 			ft_exec(&shell);
 			free_exec(&shell);
 		}
