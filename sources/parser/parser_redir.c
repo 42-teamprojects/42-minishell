@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:26:32 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/16 22:42:17 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/16 22:45:34 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void	handle_redir(t_rd **rd, t_dll **tokens, t_shell **shell)
 	char			*file;
 
 	type = (*tokens)->token->type;
-	while ((*tokens)->token->type != WORD && (*tokens)->token->type != VAR)
+	while ((*tokens)->token->type != WORD && (*tokens)->token->type != VAR \
+		&& (*tokens)->token->type != SQUOTE && (*tokens)->token->type != DQUOTE)
 		*tokens = (*tokens)->next;
 	if ((*tokens)->token->type == VAR && type != HEREDOC)
 	{
@@ -62,6 +63,8 @@ void	handle_redir(t_rd **rd, t_dll **tokens, t_shell **shell)
 			return ;
 		}
 	}
+	else if (is_quote(tokens))
+		file = parse_quotes(tokens, shell);
 	else
 		file = ft_strdup((*tokens)->token->content);
 	// if (type == HEREDOC)
