@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/16 13:40:25 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/16 22:23:16 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,14 +89,14 @@ void			print_lexer(t_lexer *lexer);
 void			change_state(t_lexer *lexer, char c, t_state *state);
 int				valid_syntax(t_lexer *lexer);
 t_dll			*get_last_node(t_dll *tokens);
-t_token_type	get_redir_type(t_lexer *lexer);
 
 /* Minishell */
 
 typedef struct s_rd
 {
-	char	*input;
-	char	*output;
+	char				*file;
+	t_token_type		type;
+	struct s_rd			*next;
 }	t_rd;
 
 typedef struct s_command
@@ -126,14 +126,12 @@ typedef struct s_shell
 
 /* Parser */
 
-t_command		*init_cmd(char **command);
 t_command		**parse(t_shell **shell);
 char			**init_args(char **command);
 int				args_len(t_dll *tokens);
 int				cmds_len(t_dll *tokens);
 t_command		**parse(t_shell **shell);
 char			*parse_quotes(t_dll **tokens, t_shell **shell);
-char			**parse_cmds(t_dll **tokens, t_shell **shell);
 void			handle_word(char **command, int *i, t_dll **tokens, \
 	t_shell **shell);
 void			handle_quote(char **command, int *i, t_dll **tokens, \
@@ -141,6 +139,13 @@ void			handle_quote(char **command, int *i, t_dll **tokens, \
 int				is_word(t_dll **tokens);
 int				is_quote(t_dll **tokens);
 int				is_redir(t_dll **tokens);
+t_command		*init_cmd(char **command, t_rd *rd);
+char			**parse_cmds(t_dll **tokens, t_shell **shell, t_rd **rd);
+t_rd			*new_rd(char *file, t_token_type type);
+void			rd_addfront(t_rd **rd, t_rd *new);
+void			free_rd(t_rd **rd);
+void			handle_redir(t_rd **rd, t_dll **tokens, t_shell **shell);
+void			print_redir(t_rd *rd);
 /* Execution */
 
 int				is_cmd_exist(t_command **command, t_shell **shell);

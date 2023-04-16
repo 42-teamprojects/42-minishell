@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 11:25:39 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/16 13:54:24 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/16 14:08:17 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	tokenize(char *input, t_lexer *lexer, int i, t_state *state)
 {
-	t_token_type	type;
 	if (is_token(input[i]))
 	{
 		if (input[i] == '\'' || input[i] == '\"' || input[i] == '\\')
@@ -23,8 +22,7 @@ int	tokenize(char *input, t_lexer *lexer, int i, t_state *state)
 		{
 			if (is_token(input[i + 1]) || input[i + 1] == '=')
 			{
-				type = get_redir_type(lexer);
-				add_token(lexer, new_token(ft_strdup("$"), 1, type, *state));
+				add_token(lexer, new_token(ft_strdup("$"), 1, WORD, *state));
 				i++;
 			}
 			else

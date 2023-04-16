@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 09:49:08 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/16 13:41:27 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/16 22:28:08 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,12 @@ int	get_word(t_lexer *lexer, char *input, t_state state)
 {
 	size_t			i;
 	char			*word;
-	t_token_type	type;
 
 	i = 0;
 	while (!is_token(input[i]))
 		i++;
 	word = ft_substr(input, 0, i);
-	type = get_redir_type(lexer);
-	add_token(lexer, new_token(word, i, type, state));
+	add_token(lexer, new_token(word, i, WORD, state));
 	return (i);
 }
 

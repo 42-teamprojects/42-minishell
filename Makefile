@@ -24,11 +24,11 @@ SRCS = main.c \
 	sources/parser/parser.c \
 	sources/parser/parser_utils.c \
 	sources/parser/parser_cmd.c \
+	sources/parser/parser_redir.c \
 	sources/lexer/lexer_init.c \
 	sources/lexer/lexer_utils.c \
 	sources/lexer/tokenizer.c \
 	sources/lexer/lexer.c \
-	sources/lexer/lexer_redir.c \
 
 # create necessary directories
 OBJDIR = obj
@@ -54,11 +54,11 @@ OBJS = $(UTILSDIR)/helpers.o \
 	$(PARSERDIR)/parser.o \
 	$(PARSERDIR)/parser_utils.o \
 	$(PARSERDIR)/parser_cmd.o \
+	$(PARSERDIR)/parser_redir.o \
 	$(LEXERDIR)/lexer_init.o \
 	$(LEXERDIR)/lexer_utils.o \
 	$(LEXERDIR)/tokenizer.o \
 	$(LEXERDIR)/lexer.o \
-	$(LEXERDIR)/lexer_redir.o \
 
 all: $(NAME)
 

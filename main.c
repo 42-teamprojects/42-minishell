@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/14 23:18:22 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/16 22:26:53 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,11 @@ void	read_input(t_shell **shell)
 	(*shell)->lexer = lexer(input);
 	input = NULL;
 	print_lexer((*shell)->lexer);
-	return (throw_err(-3, shell));
+	// return (throw_err(-3, shell));
 	if (valid_syntax((*shell)->lexer))
 	{
 		commands = parse(shell);
+		print_redir(commands[0]->redir);
 		if (!is_cmd_exist(commands, shell))
 			(*shell)->exit_status = -1;
 		else if ((*shell)->path == NULL)
