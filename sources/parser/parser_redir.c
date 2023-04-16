@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:26:32 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/16 22:45:34 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/16 22:53:38 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,17 +72,28 @@ void	handle_redir(t_rd **rd, t_dll **tokens, t_shell **shell)
 	rd_addfront(rd, new_rd(file, type));
 }
 
+void	print_rd(char *file, t_token_type type)
+{
+	printf("| %-10s | %-10s |\n", file,
+	       type == RD_IN ? "RD_IN" :
+	       type == RD_OUT ? "RD_OUT" :
+	       type == HEREDOC ? "HEREDOC" :
+	       type == RD_AOUT ? "RD_AOUT" :
+	       "UNKNOWN");
+}
+
 void	print_redir(t_rd *rd)
 {
-	t_rd	*tmp;
+	t_rd	*node;
 
-	tmp = rd;
-	if (tmp)
-		printf("REDIR LIST\n");
-	while (tmp)
+	printf("+------------+------------+\n");
+	printf("| FILE       | TYPE       |\n");
+	printf("+------------+------------+\n");
+	node = rd;
+	while (node)
 	{
-		printf("redir type: %i\n", tmp->type);
-		printf("redir arg: %s\n", tmp->file);
-		tmp = tmp->next;
+		print_rd(node->file, node->type);
+		node = node->next;
 	}
+	printf("+------------+------------+\n");
 }
