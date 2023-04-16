@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 23:26:06 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/13 22:54:30 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/16 13:24:55 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	export_env(t_shell **shell)
 	exp = (*shell)->exp;
 	while (exp)
 	{
-		printf("declare -x %s\n", exp->content);
+		printf("declare -x %s\n", (char *)exp->content);
 		free_split(var);
 		exp = exp->next;
 	}
@@ -113,7 +113,6 @@ int	ft_setenv(char *name, char *value, t_shell **shell)
 
 int	ft_export(t_shell **shell)
 {
-	int		result;
 	char	**var;
 	char	*value;
 	int		i;
@@ -142,7 +141,7 @@ int	ft_export(t_shell **shell)
 		if (check_var(shell, var[0]) && value)
 		{
 			remove_node(&(*shell)->exp, var[0], free);
-			result = ft_setenv(var[0], value, shell);
+			ft_setenv(var[0], value, shell);
 		}
 		free_split(var);
 	}

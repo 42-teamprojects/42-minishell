@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 12:29:45 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/10 22:17:06 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/04/16 13:25:14 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,6 @@ char	*ft_getenv(t_shell **shell, const char *name)
 
 void	ft_setexport(t_list **export, char *name)
 {
-	t_list	*tmp;
-
-	tmp = *export;
 	if (!*export)
 	{
 		ft_lstadd_front(export, ft_lstnew(name));

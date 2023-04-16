@@ -27,7 +27,8 @@ SRCS = main.c \
 	sources/lexer/lexer_init.c \
 	sources/lexer/lexer_utils.c \
 	sources/lexer/tokenizer.c \
-	sources/lexer/lexer.c
+	sources/lexer/lexer.c \
+	sources/lexer/lexer_redir.c \
 
 # create necessary directories
 OBJDIR = obj
@@ -56,7 +57,8 @@ OBJS = $(UTILSDIR)/helpers.o \
 	$(LEXERDIR)/lexer_init.o \
 	$(LEXERDIR)/lexer_utils.o \
 	$(LEXERDIR)/tokenizer.o \
-	$(LEXERDIR)/lexer.o
+	$(LEXERDIR)/lexer.o \
+	$(LEXERDIR)/lexer_redir.o \
 
 all: $(NAME)
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 09:49:08 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/14 23:55:48 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/16 13:41:27 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,38 +48,14 @@ int	get_word(t_lexer *lexer, char *input, t_state state)
 {
 	size_t			i;
 	char			*word;
-	t_dll			*last_token;
 	t_token_type	type;
 
-	last_token = NULL;
-	type = WORD;
-	if (lexer->head)
-	{
-		last_token = get_last_node(lexer->head);
-		type = last_token->token->type;
-	}
 	i = 0;
 	while (!is_token(input[i]))
-	{
-		if (last_token && type == WSPACE)
-		{
-			last_token = last_token->prev;
-			type = last_token->token->type;
-			continue ;
-		}
 		i++;
-	}
 	word = ft_substr(input, 0, i);
-	if (last_token && type == RD_OUT)
-		add_token(lexer, new_token(word, i, FILE_OUT, state));
-	else if (last_token && type == RD_IN)
-		add_token(lexer, new_token(word, i, FILE_IN, state));
-	else if (last_token && type == RD_AOUT)
-		add_token(lexer, new_token(word, i, FILE_APPEND, state));
-	else if (last_token && type == HEREDOC)
-		add_token(lexer, new_token(word, i, HEREDOC, state));
-	else
-		add_token(lexer, new_token(word, i, WORD, state));
+	type = get_redir_type(lexer);
+	add_token(lexer, new_token(word, i, type, state));
 	return (i);
 }
 
@@ -129,10 +105,10 @@ void	print_node(t_token *node)
 	       node->type == RD_AOUT ? "RD_AOUT" :
 	       node->type == NEW_LINE ? "NEW_LINE" :
 	       node->type == WSPACE ? "WSPACE" :
-	       node->type == FILE_IN ? "FILE_IN" :
-	       node->type == FILE_OUT ? "FILE_OUT" :
-	       node->type == FILE_APPEND ? "FILE_APPEND" :
-	       node->type == FILE_HEREDOC ? "FILE_HEREDOC" :
+	       node->type == F_IN ? "FILE_IN" :
+	       node->type == F_OUT ? "FILE_OUT" :
+	       node->type == F_APPEND ? "FILE_APPEND" :
+	       node->type == F_HEREDOC ? "FILE_HEREDOC" :
 	       "UNKNOWN");
 }
 

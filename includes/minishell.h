@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/14 23:20:03 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/16 13:40:25 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ typedef enum e_token_type
 	PIPE = '|',
 	RD_IN = '<',
 	RD_OUT = '>',
-	FILE_IN,
-	FILE_OUT,
-	FILE_APPEND,
-	FILE_HEREDOC,
+	F_IN,
+	F_OUT,
+	F_APPEND,
+	F_HEREDOC,
 	WORD = -1,
 	HEREDOC = -2,
 	RD_AOUT = -3,
@@ -89,6 +89,8 @@ void			print_lexer(t_lexer *lexer);
 void			change_state(t_lexer *lexer, char c, t_state *state);
 int				valid_syntax(t_lexer *lexer);
 t_dll			*get_last_node(t_dll *tokens);
+t_token_type	get_redir_type(t_lexer *lexer);
+
 /* Minishell */
 
 typedef struct s_rd
