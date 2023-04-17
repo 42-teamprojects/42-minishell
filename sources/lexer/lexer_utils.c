@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 09:49:08 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/16 22:28:08 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/17 17:40:36 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	is_token(char c)
 	return (0);
 }
 
-int	get_var(t_lexer *lexer, char *input, t_state state)
+int	get_var(t_lexer **lexer, char *input, t_state state)
 {
 	size_t	i;
 	char	*var;
@@ -44,7 +44,7 @@ int	get_var(t_lexer *lexer, char *input, t_state state)
 	return (i);
 }
 
-int	get_word(t_lexer *lexer, char *input, t_state state)
+int	get_word(t_lexer **lexer, char *input, t_state state)
 {
 	size_t			i;
 	char			*word;
@@ -57,9 +57,8 @@ int	get_word(t_lexer *lexer, char *input, t_state state)
 	return (i);
 }
 
-void	change_state(t_lexer *lexer, char c, t_state *state)
+void	change_state(char c, t_state *state)
 {
-	(void) lexer;
 	if (c == '\'')
 	{
 		if (*state == IN_SQUOTE)
@@ -112,12 +111,12 @@ void	print_node(t_token *node)
 
 void	print_lexer(t_lexer *lexer)
 {
-	t_dll	*node;
+	t_lexer	*node;
 
 	printf("+------------+------------+------------+------------+\n");
 	printf("| CONTENT    | LENGTH     | STATE      | TYPE       |\n");
 	printf("+------------+------------+------------+------------+\n");
-	node = lexer->head;
+	node = lexer;
 	while (node)
 	{
 		print_node(node->token);

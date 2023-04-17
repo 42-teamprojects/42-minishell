@@ -12,6 +12,7 @@ SRCS = main.c \
 	sources/utils/helpers.c \
 	sources/utils/errors.c \
 	sources/utils/utilities.c \
+	sources/utils/check_syntax.c \
 	sources/execute/validation.c \
 	sources/execute/execution.c \
 	sources/execute/ft_cd.c \
@@ -21,6 +22,7 @@ SRCS = main.c \
 	sources/execute/ft_export.c \
 	sources/execute/ft_unset.c \
 	sources/execute/utils.c \
+	sources/parser/utils.c \
 	sources/parser/parser.c \
 	sources/parser/parser_utils.c \
 	sources/parser/parser_cmd.c \
@@ -42,6 +44,7 @@ $(shell mkdir -p $(UTILSDIR) $(EXECUTEDIR) $(PARSERDIR) $(LEXERDIR))
 OBJS = $(UTILSDIR)/helpers.o \
 	$(UTILSDIR)/errors.o \
 	$(UTILSDIR)/utilities.o \
+	$(UTILSDIR)/check_syntax.o \
 	$(EXECUTEDIR)/validation.o \
 	$(EXECUTEDIR)/execution.o \
 	$(EXECUTEDIR)/ft_cd.o \
@@ -51,6 +54,7 @@ OBJS = $(UTILSDIR)/helpers.o \
 	$(EXECUTEDIR)/ft_export.o \
 	$(EXECUTEDIR)/ft_unset.o \
 	$(EXECUTEDIR)/utils.o \
+	$(PARSERDIR)/utils.o \
 	$(PARSERDIR)/parser.o \
 	$(PARSERDIR)/parser_utils.o \
 	$(PARSERDIR)/parser_cmd.o \

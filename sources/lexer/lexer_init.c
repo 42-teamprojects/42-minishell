@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 16:49:37 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/14 23:07:40 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/17 18:12:33 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,67 +27,50 @@ t_token	*new_token(char *content, int len, t_token_type type, t_state state)
 	return (new);
 }
 
-// Function to initialize a new lexer
-t_lexer	*init_lexer(void)
-{
-	t_lexer	*lexer;
-
-	lexer = (t_lexer *) malloc(sizeof(t_lexer));
-	if (!lexer)
-		return (0);
-	lexer->head = NULL;
-	lexer->size = 0;
-	return (lexer);
-}
-
 // Function to add a new token to the end of the lexer
-int	add_token(t_lexer *lexer, t_token *token)
+int	add_token(t_lexer **lexer, t_token *token)
 {
-	t_dll		*new_node;
-	t_dll		*last_node;
-	static int	i;
+	t_lexer		*new_node;
+	t_lexer		*last_node;
 
-	new_node = (t_dll *) malloc(sizeof(t_dll));
+	if (!lexer || !token)
+		return (0);
+	new_node = (t_lexer *) malloc(sizeof(t_lexer));
 	if (!new_node)
 		return (0);
 	new_node->token = token;
-	new_node->idx = i;
 	new_node->next = NULL;
 	new_node->prev = NULL;
-	if (lexer->head == NULL)
+	if (!*lexer)
 	{
-		lexer->head = new_node;
-		lexer->size++;
+		*lexer = new_node;
 		return (1);
 	}
-	last_node = lexer->head;
+	last_node = *lexer;
 	while (last_node->next != NULL)
 		last_node = last_node->next;
 	last_node->next = new_node;
 	new_node->prev = last_node;
-	lexer->size++;
-	i++;
 	return (1);
 }
 
 // Function to free the lexer
 void	free_lexer(t_lexer *lexer)
 {
-	t_dll	*node;
-	t_dll	*temp;
+	t_lexer	*node;
+	t_lexer	*temp;
 
-	node = lexer->head;
+	node = lexer;
 	while (node != NULL)
 	{
 		temp = node;
 		node = node->next;
 		free(temp->token->content);
-		free(temp);
 	}
 	free(lexer);
 }
 
-t_dll	*get_last_node(t_dll *tokens)
+t_lexer	*get_last_node(t_lexer *tokens)
 {
 	if (!tokens)
 		return (NULL);

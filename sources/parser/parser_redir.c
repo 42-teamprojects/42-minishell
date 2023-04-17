@@ -3,14 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:26:32 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/17 00:27:35 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/17 17:32:08 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
+{
+	t_token_type	type;
+	char			*file;
+
+	type = (*tokens)->token->type;
+	while ((*tokens)->token->type != WORD && (*tokens)->token->type != VAR \
+		&& (*tokens)->token->type != SQUOTE && (*tokens)->token->type != DQUOTE)
+		*tokens = (*tokens)->next;
+	if ((*tokens)->token->type == VAR && type != HEREDOC)
+	{
+		file = ft_strtrim(ft_getenv(shell, (*tokens)->token->content + 1), \
+				" \t\r\v\f");
+		if (!file || ft_strlen(file) == 0)
+			return (console(1, (*tokens)->token->content, "ambiguous redirect"),
+				free_rd(rd), throw_err(-3, shell));
+	}
+	else if (is_quote(*tokens))
+		file = parse_quotes(tokens, shell);
+	else
+		file = ft_strdup((*tokens)->token->content);
+	rd_addfront(rd, new_rd(file, type));
+}
 
 t_rd	*new_rd(char *file, t_token_type type)
 {
@@ -43,31 +67,6 @@ void	free_rd(t_rd **rd)
 		tmp = tmp->next;
 	}
 	free(*rd);
-}
-
-void	handle_redir(t_rd **rd, t_dll **tokens, t_shell **shell)
-{
-	t_token_type	type;
-	char			*file;
-
-	type = (*tokens)->token->type;
-	while ((*tokens)->token->type != WORD && (*tokens)->token->type != VAR \
-		&& (*tokens)->token->type != SQUOTE && (*tokens)->token->type != DQUOTE)
-		*tokens = (*tokens)->next;
-	if ((*tokens)->token->type == VAR && type != HEREDOC)
-	{
-		file = ft_strtrim(ft_getenv(shell, (*tokens)->token->content + 1), " \t\r\v\f");
-		if (!file || ft_strlen(file) == 0)
-			return (console(1, (*tokens)->token->content, "ambiguous redirect"), 
-				free_rd(rd), throw_err(-3, shell));
-	}
-	else if (is_quote(tokens))
-		file = parse_quotes(tokens, shell);
-	else
-		file = ft_strdup((*tokens)->token->content);
-	// if (type == HEREDOC)
-	// 	return (parse_heredoc(rd, file, shell));
-	rd_addfront(rd, new_rd(file, type));
 }
 
 void	print_rd(char *file, t_token_type type)

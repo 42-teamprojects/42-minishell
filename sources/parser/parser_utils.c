@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 13:03:26 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/08 17:41:42 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/17 17:32:08 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ char	**init_args(char **command)
 	return (args);
 }
 
-int	args_len(t_dll *tokens)
+int	args_len(t_lexer *tokens)
 {
 	int				i;
-	t_dll			*tmp;
+	t_lexer			*tmp;
 	t_token_type	type;
 
 	i = 0;
@@ -57,10 +57,10 @@ int	args_len(t_dll *tokens)
 	return (i);
 }
 
-int	cmds_len(t_dll *tokens)
+int	cmds_len(t_lexer *tokens)
 {
 	int		i;
-	t_dll	*tmp;
+	t_lexer	*tmp;
 
 	i = 1;
 	tmp = tokens;

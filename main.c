@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/17 00:31:56 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/17 18:11:12 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	init_shell(t_shell **shell, char **env)
 {
 	(*shell) = (t_shell *) malloc(sizeof(t_shell));
-	(*shell)->exit_status = 0;
+	(*shell)->exit = 0;
 	(*shell)->env = env;
 	(*shell)->exp = NULL;
 	(*shell)->path = NULL;
@@ -36,8 +36,8 @@ void	read_input(t_shell **shell)
 		return (free(input), throw_err(-3, shell));
 	add_history(ft_strdup(input));
 	(*shell)->lexer = lexer(input);
-	input = NULL;
 	print_lexer((*shell)->lexer);
+	input = NULL;
 	if (valid_syntax((*shell)->lexer))
 	{
 		commands = parse(shell);
@@ -45,7 +45,7 @@ void	read_input(t_shell **shell)
 			return (throw_err(-3, shell));
 		print_redir(commands[0]->redir);
 		if (!is_cmd_exist(commands, shell))
-			(*shell)->exit_status = -1;
+			(*shell)->exit = -1;
 		else if ((*shell)->path == NULL)
 			(*shell)->cmds = commands;
 	}
@@ -62,12 +62,12 @@ int	main(int ac, char **av, char **env)
 	(void) ac;
 	(void) av;
 	init_shell(&shell, env);
-	while (shell->exit_status != 1)
+	while (shell->exit != 1)
 	{
-		shell->exit_status = 0;
+		shell->exit = 0;
 		shell->prompt = init_prompt();
 		read_input(&shell);
-		if (shell->exit_status != 0)
+		if (shell->exit != 0)
 			continue ;
 		if (shell->path != NULL)
 		{
