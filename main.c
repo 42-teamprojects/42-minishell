@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/17 18:11:12 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/17 22:22:20 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,8 @@ void	read_input(t_shell **shell)
 		else if ((*shell)->path == NULL)
 			(*shell)->cmds = commands;
 	}
-	else {
+	else
 		throw_err(-3, shell);
-	}
 	free_lexer((*shell)->lexer);
 }
 
