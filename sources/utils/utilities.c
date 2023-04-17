@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utilities.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 11:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/10 20:34:46 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/04/17 00:03:24 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "global.h"
+#include "minishell.h"
 
 int	args_count(char **args)
 {
@@ -40,7 +40,15 @@ char	**dup_list(char **list)
 	return (args);
 }
 
-void	delete_content(void *data)
+char	*redir_type(t_token_type type)
 {
-	free(data);
+	if (type == RD_OUT)
+		return (">");
+	if (type == RD_AOUT)
+		return (">>");
+	if (type == RD_IN)
+		return ("<");
+	if (type == HEREDOC)
+		return ("<<");
+	return (NULL);
 }

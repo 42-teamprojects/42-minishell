@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/16 22:26:53 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/17 00:31:56 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	init_shell(t_shell **shell, char **env)
 {
 	(*shell) = (t_shell *) malloc(sizeof(t_shell));
-	(*shell)->exit_status = 1;
+	(*shell)->exit_status = 0;
 	(*shell)->env = env;
 	(*shell)->exp = NULL;
 	(*shell)->path = NULL;
@@ -31,22 +31,26 @@ void	read_input(t_shell **shell)
 
 	input = ft_strtrim(readline((*shell)->prompt), "\t ");
 	if (!input || !ft_strcmp(input, "exit"))
-		return (free(input), throw_err(0, shell));
+		return (free(input), throw_err(1, shell));
 	if (!ft_strlen(input))
 		return (free(input), throw_err(-3, shell));
 	add_history(ft_strdup(input));
 	(*shell)->lexer = lexer(input);
 	input = NULL;
 	print_lexer((*shell)->lexer);
-	// return (throw_err(-3, shell));
 	if (valid_syntax((*shell)->lexer))
 	{
 		commands = parse(shell);
+		if (!commands || !commands[0])
+			return (throw_err(-3, shell));
 		print_redir(commands[0]->redir);
 		if (!is_cmd_exist(commands, shell))
 			(*shell)->exit_status = -1;
 		else if ((*shell)->path == NULL)
 			(*shell)->cmds = commands;
+	}
+	else {
+		throw_err(-3, shell);
 	}
 	free_lexer((*shell)->lexer);
 }
@@ -58,12 +62,12 @@ int	main(int ac, char **av, char **env)
 	(void) ac;
 	(void) av;
 	init_shell(&shell, env);
-	while (shell->exit_status)
+	while (shell->exit_status != 1)
 	{
-		shell->exit_status = 1;
+		shell->exit_status = 0;
 		shell->prompt = init_prompt();
 		read_input(&shell);
-		if (shell->exit_status != 1)
+		if (shell->exit_status != 0)
 			continue ;
 		if (shell->path != NULL)
 		{

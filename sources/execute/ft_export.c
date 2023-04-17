@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 23:26:06 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/16 13:24:55 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/16 23:56:01 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	check_var(t_shell **shell, char *var)
 		|| (!ft_isalpha(var[0]) && var[0] != '_'))
 	{
 		var = ft_concat(2, "export: ", var);
-		console(0, var, "not a valid identifier");
+		console(1, var, "not a valid identifier");
 		free(var);
 		return (0);
 	}
@@ -31,7 +31,7 @@ int	check_var(t_shell **shell, char *var)
 		if (!ft_isalnum(var[i]) && var[i] != '_')
 		{
 			var = ft_concat(2, "export: ", var);
-			console(0, var, "not a valid identifier");
+			console(1, var, "not a valid identifier");
 			free(var);
 			return (0);
 		}

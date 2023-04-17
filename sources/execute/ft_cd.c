@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 23:25:30 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/09 15:50:22 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/16 23:56:01 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_cd(t_shell **shell)
 		!ft_strcmp((*shell)->cmds[0]->args[0], "-"))
 	{
 		if (ft_getenv(shell, "OLDPWD") == NULL)
-			return (console(0, "cd", "OLDPWD not set"), 0);
+			return (console(1, "cd", "OLDPWD not set"), 0);
 		return (chdir(ft_getenv(shell, "OLDPWD")), \
 			console(1, "cd", ft_getenv(shell, "OLDPWD")), \
 			ft_setenv("OLDPWD", s, shell), 0);
@@ -32,6 +32,6 @@ int	ft_cd(t_shell **shell)
 			chdir(ft_strjoin("/Users/", getenv("USER"))), 0);
 	ft_setenv("OLDPWD", s, shell);
 	if (chdir((*shell)->cmds[0]->args[0]) != 0)
-		return (console(0, (*shell)->cmds[0]->args[0], strerror(errno)), 1);
+		return (console(1, (*shell)->cmds[0]->args[0], strerror(errno)), 1);
 	return (ft_setenv("PWD", getcwd(s, sizeof(s)), shell), 0);
 }

@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/16 22:23:16 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/17 00:03:22 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ void			rd_addfront(t_rd **rd, t_rd *new);
 void			free_rd(t_rd **rd);
 void			handle_redir(t_rd **rd, t_dll **tokens, t_shell **shell);
 void			print_redir(t_rd *rd);
+
 /* Execution */
 
 int				is_cmd_exist(t_command **command, t_shell **shell);
@@ -174,7 +175,7 @@ void			free_shell(t_shell **shell);
 
 int				args_count(char **args);
 char			**dup_list(char **list);
-void			delete_content(void *data);
+char			*redir_type(int type);
 
 /* Errors */
 

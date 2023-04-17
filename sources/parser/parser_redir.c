@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:26:32 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/16 22:53:38 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/17 00:27:35 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,10 @@ void	handle_redir(t_rd **rd, t_dll **tokens, t_shell **shell)
 		*tokens = (*tokens)->next;
 	if ((*tokens)->token->type == VAR && type != HEREDOC)
 	{
-		file = ft_getenv(shell, (*tokens)->token->content + 1);
-		if (!file)
-		{
-			console(0, (*tokens)->token->content, "ambiguous redirect");
-			return ;
-		}
+		file = ft_strtrim(ft_getenv(shell, (*tokens)->token->content + 1), " \t\r\v\f");
+		if (!file || ft_strlen(file) == 0)
+			return (console(1, (*tokens)->token->content, "ambiguous redirect"), 
+				free_rd(rd), throw_err(-3, shell));
 	}
 	else if (is_quote(tokens))
 		file = parse_quotes(tokens, shell);

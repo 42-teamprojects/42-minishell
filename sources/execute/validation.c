@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 21:50:33 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/11 20:27:08 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/16 23:56:01 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	check_cmd(t_command *command, t_shell **shell)
 	{
 		if (check_command(shell, path, cmd))
 			return (1);
-		return (console(0, cmd[0], "No such file or directory"), 0);
+		return (console(1, cmd[0], "No such file or directory"), 0);
 	}
 	while ((*shell)->path_list[++i])
 	{
