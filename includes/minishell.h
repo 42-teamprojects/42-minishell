@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
 /*   Updated: 2023/04/17 18:12:38 by yelaissa         ###   ########.fr       */
@@ -157,6 +157,9 @@ char			*ft_getenv(t_shell **shell, const char *name);
 void			export_env(t_shell **shell);
 void			ft_setexport(t_list **export, char *name);
 int				ft_is_var_exist(char **env, char *key);
+int				rediterct_output(t_shell **shell);
+int				redirect_input(t_shell **shell);
+int				check_file(char *filename);
 
 /* Helpers */
 

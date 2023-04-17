@@ -22,6 +22,7 @@ SRCS = main.c \
 	sources/execute/ft_export.c \
 	sources/execute/ft_unset.c \
 	sources/execute/utils.c \
+	source/execute/rd.c \
 	sources/parser/utils.c \
 	sources/parser/parser.c \
 	sources/parser/parser_utils.c \
