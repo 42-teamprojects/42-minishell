@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 09:57:19 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/10 13:17:17 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/04/17 16:18:45 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 
 void	throw_err(int err_code, t_shell **shell)
 {
-	if (err_code == 0)
+	if (err_code == 1)
 	{
-		(*shell)->exit_status = 0;
+		(*shell)->exit = 1;
 		printf("\n");
 	}
 	if (err_code)
-		(*shell)->exit_status = err_code;
+		(*shell)->exit = err_code;
 }
 
 void	console(int status, char *cmd, char *err)
 {
-	if (status == 1)
+	if (status == 0)
 		printf(BGREEN"→  "CX "minishell: %s: %s\n"CX, cmd, err);
 	else
 		printf(BRED"→  "CX "minishell: %s: %s\n"CX, cmd, err);
@@ -35,34 +35,4 @@ void	not_found(char *cmd)
 {
 	printf(BRED"→  "CX "minishell: command not found: " BRED"%s\n"CX, \
 		cmd);
-}
-
-t_dll	*check_quotes(t_dll **tokens, t_token_type type)
-{
-	while (*tokens)
-	{
-		*tokens = (*tokens)->next;
-		if (!*tokens || (*tokens)->token->type == type)
-			break ;
-	}
-	if (!*tokens)
-		printf(BRED"→  "CX "minishell: syntax error\n");
-	return (*tokens);
-}
-
-int	valid_syntax(t_lexer *lexer)
-{
-	t_dll	*tmp;
-
-	tmp = lexer->head;
-	while (tmp)
-	{
-		if (tmp->token->type == DQUOTE || tmp->token->type == SQUOTE)
-		{
-			if (!check_quotes(&tmp, tmp->token->type))
-				return (0);
-		}
-		tmp = tmp->next;
-	}
-	return (1);
 }

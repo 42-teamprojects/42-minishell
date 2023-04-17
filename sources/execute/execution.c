@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/11 16:51:44 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/16 23:56:01 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_exec(t_shell **shell)
 	pid = fork();
 	if (pid == -1)
 	{
-		console(0, "", strerror(errno));
+		console(1, "", strerror(errno));
 		return (-1);
 	}
 	else if (pid == 0)
@@ -28,8 +28,8 @@ int	ft_exec(t_shell **shell)
 		if (execve((*shell)->path, (*shell)->full_cmd, \
 			(*shell)->env) == -1)
 		{
-			console(0, (*shell)->path, strerror(errno));
-			throw_err(0, shell);
+			console(1, (*shell)->path, strerror(errno));
+			throw_err(1, shell);
 		}
 	}
 	else

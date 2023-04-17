@@ -6,18 +6,18 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 11:25:39 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/13 22:05:16 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/17 18:10:19 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	tokenize(char *input, t_lexer *lexer, int i, t_state *state)
+int	tokenize(char *input, t_lexer **lexer, int i, t_state *state)
 {
 	if (is_token(input[i]))
 	{
 		if (input[i] == '\'' || input[i] == '\"' || input[i] == '\\')
-			change_state(lexer, input[i], state);
+			change_state(input[i], state);
 		if (input[i] == '$')
 		{
 			if (is_token(input[i + 1]) || input[i + 1] == '=')
@@ -40,17 +40,15 @@ t_lexer	*lexer(char *input)
 {
 	int			i;
 	t_state		state;
-	t_lexer		*lex;
+	t_lexer		*lexer;
 
 	i = 0;
 	state = DEFAULT;
-	lex = init_lexer();
-	if (!lex)
-		return (NULL);
+	lexer = NULL;
 	while (input[i])
 	{
-		i = tokenize(input, lex, i, &state);
+		i = tokenize(input, &lexer, i, &state);
 	}
 	free(input);
-	return (lex);
+	return (lexer);
 }

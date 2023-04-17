@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 23:26:06 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/14 21:36:34 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/04/17 22:22:54 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	check_var(t_shell **shell, char *var)
 		|| (!ft_isalpha(var[0]) && var[0] != '_'))
 	{
 		var = ft_concat(2, "export: ", var);
-		console(0, var, "not a valid identifier");
+		console(1, var, "not a valid identifier");
 		free(var);
 		return (0);
 	}
@@ -31,7 +31,7 @@ int	check_var(t_shell **shell, char *var)
 		if (!ft_isalnum(var[i]) && var[i] != '_')
 		{
 			var = ft_concat(2, "export: ", var);
-			console(0, var, "not a valid identifier");
+			console(1, var, "not a valid identifier");
 			free(var);
 			return (0);
 		}
@@ -60,7 +60,7 @@ void	export_env(t_shell **shell)
 	exp = (*shell)->exp;
 	while (exp)
 	{
-		printf("declare -x %s\n", exp->content);
+		printf("declare -x %s\n", (char *)exp->content);
 		free_split(var);
 		exp = exp->next;
 	}
@@ -113,7 +113,6 @@ int	ft_setenv(char *name, char *value, t_shell **shell)
 
 int	ft_export(t_shell **shell)
 {
-	int		result;
 	char	**var;
 	char	*value;
 	int		i;
@@ -142,7 +141,7 @@ int	ft_export(t_shell **shell)
 		if (check_var(shell, var[0]) && value)
 		{
 			remove_node(&(*shell)->exp, var[0], free);
-			result = ft_setenv(var[0], value, shell);
+			ft_setenv(var[0], value, shell);
 		}
 		free_split(var);
 	}

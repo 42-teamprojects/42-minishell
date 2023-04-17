@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 12:21:51 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/08 23:58:46 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/17 17:38:34 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	get_token_length(char *str)
 	return (1);
 }
 
-int	get_token(char *input, t_lexer *lexer, int i, t_state state)
+int	get_token(char *input, t_lexer **lexer, int i, t_state state)
 {
 	int	len;
 

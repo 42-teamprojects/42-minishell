@@ -6,26 +6,13 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:27:23 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/13 21:13:35 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/17 17:32:08 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_word(t_dll **tokens)
-{
-	return (((*tokens)->token->type == WORD || \
-		(*tokens)->token->type == VAR) \
-		&& (*tokens)->token->state == DEFAULT);
-}
-
-int	is_quote(t_dll **tokens)
-{
-	return ((*tokens)->token->type == DQUOTE \
-		|| (*tokens)->token->type == SQUOTE);
-}
-
-void	handle_word(char **command, int *i, t_dll **tokens, t_shell **shell)
+void	handle_word(char **command, int *i, t_lexer **tokens, t_shell **shell)
 {
 	char	*expanded;
 
@@ -43,7 +30,7 @@ void	handle_word(char **command, int *i, t_dll **tokens, t_shell **shell)
 		command[(*i)++] = ft_strdup(expanded);
 }
 
-void	handle_quote(char **command, int *i, t_dll **tokens, \
+void	handle_quote(char **command, int *i, t_lexer **tokens, \
 	t_shell **shell)
 {
 	if ((*tokens)->prev && (*tokens)->prev->token->type != WSPACE)
@@ -53,7 +40,7 @@ void	handle_quote(char **command, int *i, t_dll **tokens, \
 		command[(*i)++] = parse_quotes(tokens, shell);
 }
 
-char	*parse_quotes(t_dll **tokens, t_shell **shell)
+char	*parse_quotes(t_lexer **tokens, t_shell **shell)
 {
 	t_token_type	type;
 	char			*str_in_quotes;
