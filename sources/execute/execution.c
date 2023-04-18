@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/16 23:56:01 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/18 14:47:35 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_exec(t_shell **shell)
 			(*shell)->env) == -1)
 		{
 			console(1, (*shell)->path, strerror(errno));
-			throw_err(1, shell);
+			stop(1, shell);
 		}
 	}
 	else

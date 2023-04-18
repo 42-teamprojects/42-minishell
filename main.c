@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/17 22:22:20 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/18 14:47:35 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ void	read_input(t_shell **shell)
 
 	input = ft_strtrim(readline((*shell)->prompt), "\t ");
 	if (!input || !ft_strcmp(input, "exit"))
-		return (free(input), throw_err(1, shell));
+		return (free(input), stop(1, shell));
 	if (!ft_strlen(input))
-		return (free(input), throw_err(-3, shell));
+		return (free(input), stop(-3, shell));
 	add_history(ft_strdup(input));
 	(*shell)->lexer = lexer(input);
 	print_lexer((*shell)->lexer);
@@ -45,7 +45,7 @@ void	read_input(t_shell **shell)
 	{
 		commands = parse(shell);
 		if (!commands || !commands[0])
-			return (throw_err(-3, shell));
+			return (stop(-3, shell));
 		print_redir(commands[0]->redir);
 		if (!is_cmd_exist(commands, shell))
 			(*shell)->exit = -1;
@@ -53,7 +53,7 @@ void	read_input(t_shell **shell)
 			(*shell)->cmds = commands;
 	}
 	else
-		throw_err(-3, shell);
+		stop(-3, shell);
 	free_lexer((*shell)->lexer);
 }
 

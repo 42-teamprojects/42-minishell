@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:26:32 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/18 14:28:04 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/18 16:01:40 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*open_heredoc(char *delimiter)
 		return NULL;
 	while (1)
 	{
-		ft_putstr_fd("heredoc> ", fd);
+		ft_putstr_fd("heredoc> ", 0);
 		line = get_next_line(0);
 		if (!line)
 			break ;
@@ -53,7 +53,7 @@ void	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
 				" \t\r\v\f");
 		if (!file || ft_strlen(file) == 0)
 			return (console(1, (*tokens)->token->content, "ambiguous redirect"),
-				free_rd(rd), throw_err(-3, shell));
+				free_rd(rd), stop(-3, shell));
 	}
 	else if (is_quote(*tokens))
 		file = parse_quotes(tokens, shell);

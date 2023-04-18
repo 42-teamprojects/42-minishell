@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/17 17:40:36 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/18 14:59:59 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ char	**parse_cmds(t_lexer **tokens, t_shell **shell, t_rd **rd)
 		(*tokens) = (*tokens)->next;
 	}
 	command[i] = NULL;
+	if (command[0] == NULL)
+	{
+		printf("%s\n", (*rd)->file);
+		exit(0);
+	}
 	return (command);
 }
 

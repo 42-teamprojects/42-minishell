@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/17 18:12:38 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/18 14:47:35 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,6 @@ char			*redir_type(int type);
 /* Errors */
 
 void			not_found(char *cmd);
-void			throw_err(int err_code, t_shell **shell);
+void			stop(int err_code, t_shell **shell);
 void			console(int status, char *cmd, char *err);
 #endif

@@ -6,13 +6,13 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 09:57:19 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/18 14:29:01 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/18 14:47:35 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	throw_err(int err_code, t_shell **shell)
+void	stop(int err_code, t_shell **shell)
 {
 	if (err_code == 1)
 	{
