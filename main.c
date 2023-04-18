@@ -73,8 +73,14 @@ int	main(int ac, char **av, char **env)
 			continue ;
 		if (shell->path != NULL)
 		{
-			// if (shell->cmds[0]->redir->output)
-			// 	rediterct_output(&shell);
+			if (shell->cmds[0]->redir != NULL)
+			{
+				if (handle_redirection(shell->cmds[0]->redir))
+				{
+					console(1, "Failed to redirect output/input", NULL);
+					continue ;
+				}
+			}
 			ft_exec(&shell);
 			free_exec(&shell);
 		}
