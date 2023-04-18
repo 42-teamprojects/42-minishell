@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/18 14:47:35 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/18 18:58:02 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ int	ft_exec(t_shell **shell)
 	}
 	else if (pid == 0)
 	{
-		if (execve((*shell)->path, (*shell)->full_cmd, \
+		if (execve((*shell)->cmds[0]->path, (*shell)->cmds[0]->full_cmd, \
 			(*shell)->env) == -1)
 		{
-			console(1, (*shell)->path, strerror(errno));
+			console(1, (*shell)->cmds[0]->path, strerror(errno));
 			stop(1, shell);
 		}
 	}
@@ -45,7 +45,7 @@ void	ft_exec_builtin(t_shell **shell)
 {
 	char	*cmd_name;
 
-	cmd_name = (*shell)->cmds[0]->name;
+	cmd_name = remove_slashes((*shell)->cmds[0]->name);
 	if (!ft_strcmp(ft_tolowercase(cmd_name), "echo") || \
 		!ft_strcmp(ft_tolowercase(cmd_name), "/bin/echo"))
 		ft_echo(shell);

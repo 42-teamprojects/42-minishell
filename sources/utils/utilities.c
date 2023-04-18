@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilities.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 11:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/17 16:17:32 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/18 18:57:11 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,33 @@ char	*redir_type(t_token_type type)
 	if (type == HEREDOC)
 		return ("<<");
 	return (NULL);
+}
+
+char	*remove_slashes(char *path)
+{
+	char	**parts;
+	char	*joined;
+	int		i;
+
+	parts = ft_split(path, '/');
+	if (!parts)
+		return (NULL);
+	joined = ft_strdup("");
+	if (!joined)
+	{
+		free_split(parts);
+		return (NULL);
+	}
+	i = 0;
+	while (parts[i])
+	{
+		if (ft_strlen(parts[i]) > 0)
+		{
+			joined = ft_strjoin_gnl(joined, "/");
+			joined = ft_strjoin_gnl(joined, parts[i]);
+		}
+		i++;
+	}
+	free_split(parts);
+	return (joined);
 }

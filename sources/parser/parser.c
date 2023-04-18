@@ -6,11 +6,17 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/18 14:59:59 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/18 18:38:13 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+typedef struct s_vars
+{
+	int		i;
+	char	*path;
+}	t_vars;
 
 void	parse_logic(char ***command, int *i, t_lexer **tokens, t_shell **shell)
 {
@@ -24,12 +30,14 @@ char	**parse_cmds(t_lexer **tokens, t_shell **shell, t_rd **rd)
 {
 	char	**command;
 	int		i;
+	int		flag;
 
 	i = 0;
+	flag = 0;
 	command = (char **)malloc(sizeof(char *) * (args_len(*tokens) + 1));
 	if (!command)
 		return (NULL);
-	while ((*tokens) && (*shell)->exit == 0)
+	while ((*tokens) && (*shell)->exit == 0 && !flag)
 	{
 		if ((*tokens)->token->type == WSPACE)
 			(*tokens) = (*tokens)->next;
@@ -41,20 +49,17 @@ char	**parse_cmds(t_lexer **tokens, t_shell **shell, t_rd **rd)
 			(*tokens) = (*tokens)->next;
 			break ;
 		}
+		if ((*tokens)->next && (*tokens)->next->token->type == PIPE)
+			flag = 1;
 		(*tokens) = (*tokens)->next;
 	}
 	command[i] = NULL;
-	if (command[0] == NULL)
-	{
-		printf("%s\n", (*rd)->file);
-		exit(0);
-	}
 	return (command);
 }
 
 t_command	**parse(t_shell **shell)
 {
-	int			i;
+	t_vars		vars;
 	char		**cmd;
 	t_lexer		*tokens;
 	t_command	**commands;
@@ -65,16 +70,17 @@ t_command	**parse(t_shell **shell)
 		* ((*shell)->cmds_count + 1));
 	if (!commands)
 		return (NULL);
-	i = -1;
+	vars.i = -1;
 	tokens = (*shell)->lexer;
-	while (++i < (*shell)->cmds_count)
+	while (++vars.i < (*shell)->cmds_count)
 	{
 		rd = NULL;
 		cmd = parse_cmds(&tokens, shell, &rd);
 		if (!cmd || (*shell)->exit != 0)
 			break ;
-		commands[i] = init_cmd(cmd, rd);
+		vars.path = check_cmd(cmd, (*shell)->path_list);
+		commands[vars.i] = init_cmd(cmd, vars.path, rd);
 	}
-	commands[i] = NULL;
+	commands[vars.i] = NULL;
 	return (commands);
 }

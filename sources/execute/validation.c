@@ -6,30 +6,11 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 21:50:33 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/16 23:56:01 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/18 18:45:09 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	**make_cmd_list(t_command *command)
-{
-	char	**cmd;
-	int		i;
-	int		j;
-
-	cmd = malloc(sizeof(char *) * (command->argc + 2));
-	cmd[0] = command->name;
-	i = 1;
-	j = -1;
-	while (++j < command->argc)
-	{
-		cmd[i] = command->args[j];
-		i++;
-	}
-	cmd[i] = NULL;
-	return (cmd);
-}
 
 int	is_valid_cmd(char *str)
 {
@@ -49,55 +30,29 @@ int	is_valid_cmd(char *str)
 	return (0);
 }
 
-int	check_command(t_shell **shell, char *path, char **command)
-{
-	if (access(path, F_OK) == 0 && !is_valid_cmd(command[0]))
-	{
-		(*shell)->path = ft_strdup(path);
-		(*shell)->full_cmd = dup_list(command);
-		free(path);
-		return (1);
-	}
-	return (0);
-}
-
-int	check_cmd(t_command *command, t_shell **shell)
+char	*check_cmd(char **cmd, char **path_list)
 {
 	char	*path;
-	char	**cmd;
 	int		i;
 
-	cmd = make_cmd_list(command);
 	if (!cmd[0] || !*cmd[0] || !args_count(cmd))
-		return (not_found(cmd[0]), 0);
-	i = -1;
-	path = cmd[0];
+		return (not_found(cmd[0]), NULL);
 	if (is_valid_cmd(cmd[0]))
-		return (1);
+		return (ft_strdup("builtin"));
+	path = ft_strdup(cmd[0]);
 	if (ft_strchr(cmd[0], '/') != NULL)
 	{
-		if (check_command(shell, path, cmd))
-			return (1);
-		return (console(1, cmd[0], "No such file or directory"), 0);
+		if (access(path, F_OK) == 0 && !is_valid_cmd(path))
+			return (path);
+		return (console(1, path, "No such file or directory"), NULL);
 	}
-	while ((*shell)->path_list[++i])
-	{
-		path = ft_concat(3, (*shell)->path_list[i], "/", cmd[0]);
-		if (check_command(shell, path, cmd))
-			return (1);
-	}
-	return (not_found(cmd[0]), 0);
-}
-
-int	is_cmd_exist(t_command **commands, t_shell **shell)
-{
-	int	i;
-
 	i = -1;
-	while (++i < (*shell)->cmds_count)
+	while (path_list[++i])
 	{
-		if (!check_cmd(commands[i], shell))
-			return (0);
+		path = ft_concat(3, path_list[i], "/", cmd[0]);
+		if (access(path, F_OK) == 0 && !is_valid_cmd(path))
+			return (path);
 	}
-	return (1);
+	free(path);
+	return (not_found(cmd[0]), NULL);
 }

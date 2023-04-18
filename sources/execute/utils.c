@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 12:29:45 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/17 00:03:10 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/18 18:18:03 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	free_exec(t_shell **shell)
 {
-	free((*shell)->path);
-	(*shell)->path = NULL;
-	free_split((*shell)->full_cmd);
-	(*shell)->full_cmd = NULL;
+	free((*shell)->cmds[0]->path);
+	(*shell)->cmds[0]->path = NULL;
+	free_split((*shell)->cmds[0]->full_cmd);
+	(*shell)->cmds[0]->full_cmd = NULL;
 }
 
 char	*ft_getenv(t_shell **shell, const char *name)

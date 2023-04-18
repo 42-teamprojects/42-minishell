@@ -54,6 +54,7 @@ OBJS = $(UTILSDIR)/helpers.o \
 	$(EXECUTEDIR)/ft_pwd.o \
 	$(EXECUTEDIR)/ft_export.o \
 	$(EXECUTEDIR)/ft_unset.o \
+	$(EXECUTEDIR)/rd.o \
 	$(EXECUTEDIR)/utils.o \
 	$(PARSERDIR)/utils.o \
 	$(PARSERDIR)/parser.o \

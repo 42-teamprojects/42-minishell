@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/18 14:47:35 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/18 18:53:46 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,9 @@ typedef enum e_token_type
 	PIPE = '|',
 	RD_IN = '<',
 	RD_OUT = '>',
-	F_IN,
-	F_OUT,
-	F_APPEND,
-	F_HEREDOC,
-	WORD = -1,
-	HEREDOC = -2,
-	RD_AOUT = -3,
+	HEREDOC,
+	RD_AOUT,
+	WORD,
 	NEW_LINE = '\n',
 	WSPACE = ' ',
 	UNKNOWN,
@@ -97,6 +93,7 @@ typedef struct s_command
 	char	**args;
 	int		argc;
 	t_rd	*redir;
+	char	*path;
 	char	**full_cmd;
 }	t_command;
 
@@ -105,10 +102,8 @@ typedef struct s_shell
 	t_lexer		*lexer;
 	t_command	**cmds;
 	char		**files;
-	int			cmds_count;
-	char		**full_cmd;
 	char		*prompt;
-	char		*path;
+	int			cmds_count;
 	char		**env;
 	t_list		*exp;
 	char		**path_list;
@@ -128,7 +123,7 @@ void			handle_word(char **command, int *i, t_lexer **tokens, \
 	t_shell **shell);
 void			handle_quote(char **command, int *i, t_lexer **tokens, \
 	t_shell **shell);
-t_command		*init_cmd(char **command, t_rd *rd);
+t_command *init_cmd(char **command, char *path, t_rd *rd);
 char			**parse_cmds(t_lexer **tokens, t_shell **shell, t_rd **rd);
 t_rd			*new_rd(char *file, t_token_type type);
 void			rd_addfront(t_rd **rd, t_rd *new);
@@ -141,7 +136,7 @@ int				is_redir(t_lexer *tokens);
 
 /* Execution */
 
-int				is_cmd_exist(t_command **command, t_shell **shell);
+char			*check_cmd(char **cmd, char **path_list);
 int				ft_exec(t_shell **shell);
 void			ft_exec_builtin(t_shell **shell);
 void			free_exec(t_shell **shell);
@@ -157,11 +152,11 @@ char			*ft_getenv(t_shell **shell, const char *name);
 void			export_env(t_shell **shell);
 void			ft_setexport(t_list **export, char *name);
 int				ft_is_var_exist(char **env, char *key);
-int				redirect_output(t_shell **shell);
-int				redirect_input(t_shell **shell);
-int				check_file(char *filename);
 int				handle_redirection(t_rd *rd);
-int				apend(t_rd *rd);
+int				redirect_output(char *file);
+int				redirect_input(char *file);
+int				check_file(char *file);
+int				append(char *file);
 
 /* Helpers */
 
@@ -172,11 +167,13 @@ void			free_shell(t_shell **shell);
 
 int				args_count(char **args);
 char			**dup_list(char **list);
-char			*redir_type(int type);
+char			*redir_type(t_token_type type);
+char			*remove_slashes(char *path);
 
 /* Errors */
 
 void			not_found(char *cmd);
 void			stop(int err_code, t_shell **shell);
 void			console(int status, char *cmd, char *err);
+
 #endif

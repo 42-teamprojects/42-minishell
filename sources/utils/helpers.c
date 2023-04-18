@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 09:28:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/08 17:28:12 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/18 18:27:42 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,8 @@ char	*init_prompt(void)
 	getcwd(cwd, PATH_MAX);
 	str = ft_strrchr(cwd, '/') + 1;
 	if (str == 0)
-		exit (1);
-	line = ft_strjoin_gnl(user, " " BRED);
-	line = ft_strjoin_gnl(line, str);
-	line = ft_strjoin_gnl(line, YELLOW " $ " CX);
+		str = ft_strdup("minishell");
+	line = ft_concat(4, user, " " BRED, str, YELLOW " $ " CX);
 	return (line);
 }
 
@@ -65,7 +63,5 @@ void	free_split(char **array)
 
 void	free_shell(t_shell **shell)
 {
-	if ((*shell)->path != NULL)
-		free((*shell)->path);
 	free_split((*shell)->path_list);
 }

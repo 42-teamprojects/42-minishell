@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_syntax.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:18:39 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/17 18:36:10 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/18 18:30:57 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	check_pipe(t_lexer *tokens)
 		before_pipe = before_pipe->prev;
 	if ((!before_pipe || !after_pipe) || (before_pipe->token->type != WORD
 			&& after_pipe->token->type != WORD && !is_redir(after_pipe)))
-		return (console(0, "syntax error near unexpected token", \
+		return (console(1, "syntax error near unexpected token", \
 			"|"), 1);
 	return (0);
 }

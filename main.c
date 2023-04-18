@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/18 14:47:35 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/18 18:31:19 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,7 @@ void	init_shell(t_shell **shell, char **env)
 	(*shell)->exit = 0;
 	(*shell)->env = env;
 	(*shell)->exp = NULL;
-	(*shell)->path = NULL;
 	(*shell)->path_list = ft_split(getenv("PATH"), ':');
-	// (*shell)->files[0] = "test.txt";
-	// (*shell)->files[1] = "test1.txt";
-	// (*shell)->files[2] = "\0";
 	signal(SIGINT, &sig_handler);
 	signal(SIGQUIT, &sig_handler);
 }
@@ -44,13 +40,10 @@ void	read_input(t_shell **shell)
 	if (valid_syntax((*shell)->lexer))
 	{
 		commands = parse(shell);
+		print_redir(commands[0]->redir);
 		if (!commands || !commands[0])
 			return (stop(-3, shell));
-		print_redir(commands[0]->redir);
-		if (!is_cmd_exist(commands, shell))
-			(*shell)->exit = -1;
-		else if ((*shell)->path == NULL)
-			(*shell)->cmds = commands;
+		(*shell)->cmds = commands;
 	}
 	else
 		stop(-3, shell);
@@ -69,9 +62,9 @@ int	main(int ac, char **av, char **env)
 		shell->exit = 0;
 		shell->prompt = init_prompt();
 		read_input(&shell);
-		if (shell->exit != 0)
+		if (shell->exit != 0 || shell->cmds[0]->path == NULL)
 			continue ;
-		if (shell->path != NULL)
+		if (ft_strcmp(shell->cmds[0]->path, "builtin"))
 		{
 			if (shell->cmds[0]->redir != NULL)
 			{
@@ -84,8 +77,16 @@ int	main(int ac, char **av, char **env)
 			ft_exec(&shell);
 			free_exec(&shell);
 		}
-		else if (shell->cmds[0]->name != NULL)
+		else if (!ft_strcmp(shell->cmds[0]->path, "builtin"))
 		{
+			if (shell->cmds[0]->redir != NULL)
+			{
+				if (handle_redirection(shell->cmds[0]->redir))
+				{
+					console(1, "Failed to redirect output/input", NULL);
+					continue ;
+				}
+			}
 			ft_exec_builtin(&shell);
 			free(shell->cmds[0]->name);
 			shell->cmds[0]->name = NULL;
