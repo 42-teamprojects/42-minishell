@@ -12,17 +12,14 @@
 
 #include "minishell.h"
 
-int	rediterct_output(t_shell **shell)
+int	redirect_output(t_rd *rd)
 {
 	int	fd;
-	int	i;
 
-	i = 0;
-	fd = open((*shell)->cmds[0]->redir->output,
-			O_CREAT | O_TRUNC | O_WRONLY, 0644);
+	fd = open(rd->file, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	if (fd < 0)
 	{
-		check_file((*shell)->cmds[0]->redir->output);
+		check_file(rd);
 		return (-1);
 	}
 	dup2(fd, STDOUT_FILENO);
@@ -30,14 +27,14 @@ int	rediterct_output(t_shell **shell)
 	return (0);
 }
 
-int	redirect_input(t_shell **shell)
+int	redirect_input(t_rd *rd)
 {
 	int	fd;
 
-	fd = open((*shell)->cmds[0]->redir->input, O_RDONLY);
+	fd = open(rd->file, O_RDONLY);
 	if (fd < 0)
 	{
-		check_file((*shell)->cmds[0]->redir->input);
+		check_file(rd);
 		return (-1);
 	}
 	dup2(fd, STDIN_FILENO);
@@ -45,22 +42,61 @@ int	redirect_input(t_shell **shell)
 	return (0);
 }
 
-int	check_file(char *filename)
+int	check_file(t_rd *rd)
 {
-	if (access(filename, F_OK) == -1)
+	if (access(rd->file, F_OK) == -1)
 	{
-		console(1, filename, ": No such file or directory");
+		console(1, rd->file, ": No such file or directory");
 		return (1);
 	}
-	else if (access(filename, R_OK) == -1)
+	else if (access(rd->file, R_OK) == -1)
 	{
-		console(1, filename, ": Permission denied");
+		console(1, rd->file, ": Permission denied");
 		return (1);
 	}
-	else if (access(filename, X_OK) == 0)
+	else if (access(rd->file, X_OK) == 0)
 	{
-		console(1, filename, ": Is a directory");
+		console(1, rd->file, ": Is a directory");
 		return (1);
+	}
+	return (0);
+}
+
+int	append(t_rd *rd)
+{
+	int fd;
+
+	fd = open(rd->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	if (fd < 0)
+	{
+		check_file(rd);
+		return (-1);
+	}
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
+	return (0);
+}
+
+int	handle_redirection(t_rd *rd)
+{
+	while (rd)
+	{
+		if (rd->type == RD_OUT)
+		{
+			if (redirect_output(rd))
+				return (1);
+		}
+		else if (rd->type == RD_IN)
+		{
+			if (redirect_input(rd))
+				return (1);
+		}
+		else if (rd->type == RD_AOUT)
+		{
+			if (append(rd))
+				return (1);
+		}
+		rd = rd->next;
 	}
 	return (0);
 }

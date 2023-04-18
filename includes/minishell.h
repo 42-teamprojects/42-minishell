@@ -157,9 +157,11 @@ char			*ft_getenv(t_shell **shell, const char *name);
 void			export_env(t_shell **shell);
 void			ft_setexport(t_list **export, char *name);
 int				ft_is_var_exist(char **env, char *key);
-int				rediterct_output(t_shell **shell);
+int				redirect_output(t_shell **shell);
 int				redirect_input(t_shell **shell);
 int				check_file(char *filename);
+int				handle_redirection(t_rd *rd);
+int				apend(t_rd *rd);
 
 /* Helpers */
 
