@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 10:52:04 by yelaissa          #+#    #+#             */
-/*   Updated: 2022/10/19 10:16:08 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/18 14:27:09 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,27 +60,30 @@ int	ft_printf(const char *s, ...)
 	return (printed);
 }
 
-/* int main(void)
+int	ft_printf_fd(int fd, const char *s, ...)
 {
-	int a = 0;
-	int b = 0;
-	a += printf("%c \n", 'a');
-	a += printf("%s \n", "abc");
-	a += printf("%p \n", &a);
-	a += printf("%d %i \n", 42, 42);
-	a += printf("%u \n", 42);
-	a += printf("%x %X \n", 42, 42);
-	a += printf("%% \n");
-	ft_printf("######################dyalom^\n");
-	b += ft_printf("%c \n", 'a');
-	b += ft_printf("%s \n", "abc");
-	b += ft_printf("%p \n", &a);
-	b += ft_printf("%d %i \n", 42, 42);
-	b += ft_printf("%u \n", 42);
-	b += ft_printf("%x %X \n", 42, 42);
-	b += ft_printf("%% \n");
+	size_t	printed;
+	va_list	ap;
+	int		i;
 
-	ft_printf("\nLength : \n%d\n%d\n", a, b);
-
-	return 0;
-} */
+	i = 0;
+	printed = 0;
+	va_start(ap, s);
+	while (s[i])
+	{
+		if (s[i] == '%')
+		{
+			i++;
+			if (!s[i])
+				break ;
+			if (s[i] == '%' && s[i])
+				printed += write(fd, "%", 1);
+			printed += formatspecs(ap, s[i]);
+		}
+		else
+			printed += write(fd, &s[i], 1);
+		i++;
+	}
+	va_end(ap);
+	return (printed);
+}

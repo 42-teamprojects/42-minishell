@@ -3,14 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:26:32 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/17 17:32:08 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/18 14:28:04 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*open_heredoc(char *delimiter)
+{
+	int		fd;
+	char	*line;
+
+	fd = open("/tmp/.ms_heredoc", O_CREAT | O_TRUNC | O_WRONLY, 0644);
+	if (fd < 0)
+		return NULL;
+	while (1)
+	{
+		ft_putstr_fd("heredoc> ", fd);
+		line = get_next_line(0);
+		if (!line)
+			break ;
+		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
+		{
+			free(line);
+			break ;
+		}
+		write(fd, line, ft_strlen(line));
+		free(line);
+	}
+	close(fd);
+	return (ft_strdup("/tmp/.ms_heredoc"));
+}
 
 void	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
 {
@@ -33,6 +59,8 @@ void	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
 		file = parse_quotes(tokens, shell);
 	else
 		file = ft_strdup((*tokens)->token->content);
+	if (type == HEREDOC)
+		file = open_heredoc(file);
 	rd_addfront(rd, new_rd(file, type));
 }
 
