@@ -18,6 +18,8 @@ void	init_shell(t_shell **shell, char **env)
 	(*shell)->exit = 0;
 	(*shell)->env = env;
 	(*shell)->exp = NULL;
+	(*shell)->old_out = -1;
+	(*shell)->old_in = -1;
 	(*shell)->path_list = ft_split(getenv("PATH"), ':');
 	signal(SIGINT, &sig_handler);
 	signal(SIGQUIT, &sig_handler);
@@ -68,7 +70,7 @@ int	main(int ac, char **av, char **env)
 		{
 			if (shell->cmds[0]->redir != NULL)
 			{
-				if (handle_redirection(shell->cmds[0]->redir))
+				if (handle_redirection(shell->cmds[0]->redir, &shell))
 				{
 					console(1, "Failed to redirect output/input", NULL);
 					continue ;
@@ -76,12 +78,22 @@ int	main(int ac, char **av, char **env)
 			}
 			ft_exec(&shell);
 			free_exec(&shell);
+			if ((shell)->old_in >= 0)
+			{
+				dup2((shell)->old_in, STDIN_FILENO);  // restore the old stdin
+        		(shell)->old_in = -1;
+    		}
+    		if ((shell)->old_out >= 0)
+    		{
+        		dup2((shell)->old_out, STDOUT_FILENO);  // restore the old stdout
+        		(shell)->old_out = -1;
+    		}
 		}
 		else if (!ft_strcmp(shell->cmds[0]->path, "builtin"))
 		{
 			if (shell->cmds[0]->redir != NULL)
 			{
-				if (handle_redirection(shell->cmds[0]->redir))
+				if (handle_redirection(shell->cmds[0]->redir, &shell))
 				{
 					console(1, "Failed to redirect output/input", NULL);
 					continue ;
@@ -90,6 +102,16 @@ int	main(int ac, char **av, char **env)
 			ft_exec_builtin(&shell);
 			free(shell->cmds[0]->name);
 			shell->cmds[0]->name = NULL;
+			if ((shell)->old_in >= 0)
+			{
+				dup2((shell)->old_in, STDIN_FILENO);  // restore the old stdin
+        		(shell)->old_in = -1;
+    		}
+    		if ((shell)->old_out >= 0)
+    		{
+        		dup2((shell)->old_out, STDOUT_FILENO);  // restore the old stdout
+        		(shell)->old_out = -1;
+    		}
 		}
 		free(shell->prompt);
 	}

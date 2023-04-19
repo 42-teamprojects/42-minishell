@@ -106,9 +106,14 @@ typedef struct s_shell
 	char		**env;
 	t_list		*exp;
 	char		**path_list;
+	int			old_out;
+	int			old_in;
+	int			fd[2];
+	int			red_fd[2];
 	int			exit;
 	int			status_code;
 }	t_shell;
+
 
 /* Parser */
 
@@ -150,9 +155,9 @@ char			*ft_getenv(t_shell **shell, const char *name);
 void			export_env(t_shell **shell);
 void			ft_setexport(t_list **export, char *name);
 int				ft_is_var_exist(char **env, char *key);
-int				handle_redirection(t_rd *rd);
-int				redirect_output(char *file);
-int				redirect_input(char *file);
+int				handle_redirection(t_rd *rd, t_shell **shell);
+int				redirect_output(char *file, t_shell **shell);
+int				redirect_input(char *file, t_shell **shell);
 int				check_file(char *file);
 int				append(char *file);
 
