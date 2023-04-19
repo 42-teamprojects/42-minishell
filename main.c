@@ -6,11 +6,11 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/18 18:31:19 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/19 00:33:39 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minishell.h"
+#include "minishell.h"
 
 void	init_shell(t_shell **shell, char **env)
 {
@@ -35,15 +35,15 @@ void	read_input(t_shell **shell)
 		return (free(input), stop(-3, shell));
 	add_history(ft_strdup(input));
 	(*shell)->lexer = lexer(input);
-	print_lexer((*shell)->lexer);
 	input = NULL;
 	if (valid_syntax((*shell)->lexer))
 	{
 		commands = parse(shell);
-		print_redir(commands[0]->redir);
 		if (!commands || !commands[0])
 			return (stop(-3, shell));
 		(*shell)->cmds = commands;
+		print_lexer((*shell)->lexer);
+		print_commands(commands);
 	}
 	else
 		stop(-3, shell);

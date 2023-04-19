@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/18 18:58:02 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/19 00:07:57 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@ void	ft_exec_builtin(t_shell **shell)
 {
 	char	*cmd_name;
 
-	cmd_name = remove_slashes((*shell)->cmds[0]->name);
+	cmd_name = (*shell)->cmds[0]->name;
+	if (ft_strchr((*shell)->cmds[0]->name, '/') != NULL)
+		cmd_name = remove_slashes((*shell)->cmds[0]->name);
 	if (!ft_strcmp(ft_tolowercase(cmd_name), "echo") || \
 		!ft_strcmp(ft_tolowercase(cmd_name), "/bin/echo"))
 		ft_echo(shell);

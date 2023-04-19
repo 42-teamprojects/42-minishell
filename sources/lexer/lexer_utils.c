@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 09:49:08 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/17 17:40:36 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/19 00:23:32 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,47 +80,4 @@ void	change_state(char c, t_state *state)
 		else if (*state == ESCAPED)
 			*state = DEFAULT;
 	}
-}
-
-void	print_node(t_token *node)
-{
-	printf("| %-10s | %-10d | %-10s | %-10s |\n", node->content, node->len, 
-			node->state == IN_DQUOTE ? "IN_DQOUTE" :
-			node->state == IN_SQUOTE ? "IN_SQUOTE" :
-			node->state == ESCAPED ? "ESCAPED" :
-			node->state == DEFAULT ? "DEFAULT" :
-	       "UNKNOWN",
-	       node->type == SQUOTE ? "SQUOTE" :
-	       node->type == DQUOTE ? "DQUOTE" :
-	       node->type == ESCAPE ? "ESCAPE" :
-	       node->type == VAR ? "VAR" :
-	       node->type == PIPE ? "PIPE" :
-	       node->type == RD_IN ? "RD_IN" :
-	       node->type == RD_OUT ? "RD_OUT" :
-	       node->type == WORD ? "WORD" :
-	       node->type == HEREDOC ? "HEREDOC" :
-	       node->type == RD_AOUT ? "RD_AOUT" :
-	       node->type == NEW_LINE ? "NEW_LINE" :
-	       node->type == WSPACE ? "WSPACE" :
-	       node->type == F_IN ? "FILE_IN" :
-	       node->type == F_OUT ? "FILE_OUT" :
-	       node->type == F_APPEND ? "FILE_APPEND" :
-	       node->type == F_HEREDOC ? "FILE_HEREDOC" :
-	       "UNKNOWN");
-}
-
-void	print_lexer(t_lexer *lexer)
-{
-	t_lexer	*node;
-
-	printf("+------------+------------+------------+------------+\n");
-	printf("| CONTENT    | LENGTH     | STATE      | TYPE       |\n");
-	printf("+------------+------------+------------+------------+\n");
-	node = lexer;
-	while (node)
-	{
-		print_node(node->token);
-		node = node->next;
-	}
-	printf("+------------+------------+------------+------------+\n");
 }

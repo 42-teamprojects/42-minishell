@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:26:32 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/18 16:01:40 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/19 00:23:49 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,30 +95,4 @@ void	free_rd(t_rd **rd)
 		tmp = tmp->next;
 	}
 	free(*rd);
-}
-
-void	print_rd(char *file, t_token_type type)
-{
-	printf("| %-10s | %-10s |\n", file,
-	       type == RD_IN ? "RD_IN" :
-	       type == RD_OUT ? "RD_OUT" :
-	       type == HEREDOC ? "HEREDOC" :
-	       type == RD_AOUT ? "RD_AOUT" :
-	       "UNKNOWN");
-}
-
-void	print_redir(t_rd *rd)
-{
-	t_rd	*node;
-
-	printf("+------------+------------+\n");
-	printf("| FILE       | TYPE       |\n");
-	printf("+------------+------------+\n");
-	node = rd;
-	while (node)
-	{
-		print_rd(node->file, node->type);
-		node = node->next;
-	}
-	printf("+------------+------------+\n");
 }
