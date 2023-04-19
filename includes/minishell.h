@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/18 18:53:46 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/19 00:24:57 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,11 @@ void			free_lexer(t_lexer *lexer);
 int				is_space(char c);
 int				is_token(char c);
 t_token_type	get_token_type(char *str);
-int				is_redirection(char *str);
+t_token_type	is_redirection(char *str);
 int				get_token_length(char *str);
 int				get_token(char *input, t_lexer **lexer, int i, t_state state);
 int				get_var(t_lexer **lexer, char *input, t_state state);
 int				get_word(t_lexer **lexer, char *input, t_state state);
-void			print_lexer(t_lexer *lexer);
 void			change_state(char c, t_state *state);
 int				valid_syntax(t_lexer *lexer);
 t_lexer			*get_last_node(t_lexer *tokens);
@@ -129,7 +128,6 @@ t_rd			*new_rd(char *file, t_token_type type);
 void			rd_addfront(t_rd **rd, t_rd *new);
 void			free_rd(t_rd **rd);
 void			handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell);
-void			print_redir(t_rd *rd);
 int				is_word(t_lexer *tokens);
 int				is_quote(t_lexer *tokens);
 int				is_redir(t_lexer *tokens);
@@ -176,4 +174,9 @@ void			not_found(char *cmd);
 void			stop(int err_code, t_shell **shell);
 void			console(int status, char *cmd, char *err);
 
+
+// to be deleted
+void			print_commands(t_command **cmds);
+void			print_redir(t_rd *rd);
+void			print_lexer(t_lexer *lexer);
 #endif
