@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:26:32 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/19 00:23:49 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/19 16:59:36 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*open_heredoc(char *delimiter)
 
 	fd = open("/tmp/.ms_heredoc", O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	if (fd < 0)
-		return NULL;
+		return (NULL);
 	while (1)
 	{
 		ft_putstr_fd("heredoc> ", 0);
@@ -53,7 +53,7 @@ void	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
 				" \t\r\v\f");
 		if (!file || ft_strlen(file) == 0)
 			return (console(1, (*tokens)->token->content, "ambiguous redirect"),
-				free_rd(rd), stop(-3, shell));
+				free_rd(*rd), stop(-3, shell));
 	}
 	else if (is_quote(*tokens))
 		file = parse_quotes(tokens, shell);
@@ -81,18 +81,4 @@ void	rd_addfront(t_rd **rd, t_rd *new)
 {
 	new->next = *rd;
 	*rd = new;
-}
-
-void	free_rd(t_rd **rd)
-{
-	t_rd	*tmp;
-
-	tmp = *rd;
-	while (tmp)
-	{
-		free(tmp->file);
-		free(tmp);
-		tmp = tmp->next;
-	}
-	free(*rd);
 }

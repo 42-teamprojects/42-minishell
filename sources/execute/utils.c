@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 12:29:45 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/18 18:18:03 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/19 16:45:47 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	free_exec(t_shell **shell)
 {
 	free((*shell)->cmds[0]->path);
 	(*shell)->cmds[0]->path = NULL;
-	free_split((*shell)->cmds[0]->full_cmd);
+	free_array((*shell)->cmds[0]->full_cmd);
 	(*shell)->cmds[0]->full_cmd = NULL;
 }
 
@@ -38,7 +38,7 @@ char	*ft_getenv(t_shell **shell, const char *name)
 		{
 			values = ft_split((*shell)->env[i], '=');
 			value = ft_strdup(values[1]);
-			free_split(values);
+			free_array(values);
 			break ;
 		}
 		i++;
@@ -70,7 +70,7 @@ int	ft_is_var_exist(char **env, char *key)
 			return (1);
 		if (!ft_strcmp(key, var[0]))
 			return (1);
-		free_split(var);
+		free_array(var);
 	}
 	return (0);
 }

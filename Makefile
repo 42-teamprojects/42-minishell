@@ -2,7 +2,7 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -I includes/ -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -I includes/ 
 
 HEADERS = includes/global.h includes/minishell.h
 
@@ -12,6 +12,7 @@ SRCS = main.c \
 	sources/utils/helpers.c \
 	sources/utils/errors.c \
 	sources/utils/utilities.c \
+	sources/utils/free.c \
 	sources/utils/check_syntax.c \
 	sources/execute/validation.c \
 	sources/execute/execution.c \
@@ -42,9 +43,11 @@ LEXERDIR = $(OBJDIR)/sources/lexer
 $(shell mkdir -p $(UTILSDIR) $(EXECUTEDIR) $(PARSERDIR) $(LEXERDIR))
 
 # compile source files
-OBJS = $(UTILSDIR)/helpers.o \
+OBJS = main.o \
+	$(UTILSDIR)/helpers.o \
 	$(UTILSDIR)/errors.o \
 	$(UTILSDIR)/utilities.o \
+	$(UTILSDIR)/free.o \
 	$(UTILSDIR)/check_syntax.o \
 	$(EXECUTEDIR)/validation.o \
 	$(EXECUTEDIR)/execution.o \
@@ -68,8 +71,8 @@ OBJS = $(UTILSDIR)/helpers.o \
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJS) main.o $(HEADERS)
-	$(CC) $(CFLAGS) $(OBJS) main.o -lreadline -o $@ $(LIBFT)
+$(NAME): $(LIBFT) $(OBJS) $(HEADERS)
+	$(CC) $(CFLAGS) $(OBJS) -lreadline -o $@ $(LIBFT)
 
 $(LIBFT):
 	make all -C libft

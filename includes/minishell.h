@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/19 00:24:57 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/19 19:43:58 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ t_lexer			*lexer(char *input);
 t_token			*new_token(char *content, int len, \
 		t_token_type type, t_state state);
 int				add_token(t_lexer **lexer, t_token *token);
-void			free_lexer(t_lexer *lexer);
 int				is_space(char c);
 int				is_token(char c);
 t_token_type	get_token_type(char *str);
@@ -100,8 +99,6 @@ typedef struct s_shell
 {
 	t_lexer		*lexer;
 	t_command	**cmds;
-	char		**files;
-	char		*prompt;
 	int			cmds_count;
 	char		**env;
 	t_list		*exp;
@@ -122,11 +119,10 @@ void			handle_word(char **command, int *i, t_lexer **tokens, \
 	t_shell **shell);
 void			handle_quote(char **command, int *i, t_lexer **tokens, \
 	t_shell **shell);
-t_command *init_cmd(char **command, char *path, t_rd *rd);
+t_command		*init_cmd(char **command, char *path, t_rd *rd);
 char			**parse_cmds(t_lexer **tokens, t_shell **shell, t_rd **rd);
 t_rd			*new_rd(char *file, t_token_type type);
 void			rd_addfront(t_rd **rd, t_rd *new);
-void			free_rd(t_rd **rd);
 void			handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell);
 int				is_word(t_lexer *tokens);
 int				is_quote(t_lexer *tokens);
@@ -158,11 +154,7 @@ int				append(char *file);
 
 /* Helpers */
 
-char			*init_prompt(void);
 void			sig_handler(int sig);
-void			free_split(char **array);
-void			free_shell(t_shell **shell);
-
 int				args_count(char **args);
 char			**dup_list(char **list);
 char			*redir_type(t_token_type type);
@@ -170,10 +162,16 @@ char			*remove_slashes(char *path);
 
 /* Errors */
 
-void			not_found(char *cmd);
 void			stop(int err_code, t_shell **shell);
 void			console(int status, char *cmd, char *err);
 
+/* Free */
+
+void			free_array(char **array);
+void			free_lexer(t_lexer *lexer);
+void			free_rd(t_rd *rd);
+void			free_command(t_command *cmd);
+void			free_shell(t_shell *shell, int free_all);
 
 // to be deleted
 void			print_commands(t_command **cmds);

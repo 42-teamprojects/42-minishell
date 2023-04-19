@@ -1,0 +1,11 @@
+Makefile
+README.md
+file
+includes
+libft
+main.c
+main.o
+minishell
+obj
+sources
+minishell $> ^Dexit

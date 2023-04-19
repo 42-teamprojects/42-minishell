@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 21:35:29 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/18 18:43:39 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/19 16:34:39 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	check_file(char *file)
 
 int	append(char *file)
 {
-	int fd;
+	int	fd;
 
 	fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (fd < 0)
