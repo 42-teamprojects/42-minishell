@@ -61,7 +61,7 @@ void	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
 		file = ft_strdup((*tokens)->token->content);
 	if (type == HEREDOC)
 		file = open_heredoc(file);
-	rd_addfront(rd, new_rd(file, type));
+	rd_addback(rd, new_rd(file, type));
 }
 
 t_rd	*new_rd(char *file, t_token_type type)
@@ -77,10 +77,28 @@ t_rd	*new_rd(char *file, t_token_type type)
 	return (new_rd);
 }
 
-void	rd_addfront(t_rd **rd, t_rd *new)
+// void	rd_addfront(t_rd **rd, t_rd *new)
+// {
+// 	new->next = *rd;
+// 	*rd = new;
+// }
+
+void rd_addback(t_rd **rd, t_rd *new)
 {
-	new->next = *rd;
-	*rd = new;
+    if (*rd == NULL) {
+        // If the list is empty, set the new node as the head
+        *rd = new;
+        return;
+    }
+
+    // Traverse the list to find the last node
+    t_rd *current = *rd;
+    while (current->next != NULL) {
+        current = current->next;
+    }
+
+    // Add the new node to the end
+    current->next = new;
 }
 
 void	free_rd(t_rd **rd)

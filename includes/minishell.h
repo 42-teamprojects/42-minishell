@@ -108,6 +108,7 @@ typedef struct s_shell
 	char		**path_list;
 	int			old_out;
 	int			old_in;
+	int			orig_stdout;
 	int			fd[2];
 	int			red_fd[2];
 	int			exit;
@@ -130,7 +131,7 @@ void			handle_quote(char **command, int *i, t_lexer **tokens, \
 t_command *init_cmd(char **command, char *path, t_rd *rd);
 char			**parse_cmds(t_lexer **tokens, t_shell **shell, t_rd **rd);
 t_rd			*new_rd(char *file, t_token_type type);
-void			rd_addfront(t_rd **rd, t_rd *new);
+// void			rd_addfront(t_rd **rd, t_rd *new);
 void			free_rd(t_rd **rd);
 void			handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell);
 int				is_word(t_lexer *tokens);
@@ -159,7 +160,7 @@ int				handle_redirection(t_rd *rd, t_shell **shell);
 int				redirect_output(char *file, t_shell **shell);
 int				redirect_input(char *file, t_shell **shell);
 int				check_file(char *file);
-int				append(char *file);
+int				append(char *file);void rd_addback(t_rd **rd, t_rd *new);
 
 /* Helpers */
 

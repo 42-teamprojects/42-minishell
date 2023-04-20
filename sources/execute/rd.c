@@ -82,6 +82,8 @@ int	check_file(char *file)
 
 int handle_redirection(t_rd *rd, t_shell **shell)
 {
+    (*shell)->orig_stdout = dup(STDOUT_FILENO); // store the original stdout
+
     while (rd)
     {
         if (rd->type == RD_OUT)
@@ -89,14 +91,18 @@ int handle_redirection(t_rd *rd, t_shell **shell)
             if (redirect_output(rd->file, shell))
             {
                 console(1, "Failed to redirect output", NULL);
+                dup2((*shell)->orig_stdout, STDOUT_FILENO); // restore the original stdout
+                close((*shell)->orig_stdout); // close the original stdout file descriptor
                 return (1);
             }
         }
-        else if (rd->type == RD_IN)
+        else if (rd->type == RD_IN || rd->type == HEREDOC)
         {
             if (redirect_input(rd->file, shell))
             {
                 console(1, "Failed to redirect input", NULL);
+                dup2((*shell)->orig_stdout, STDOUT_FILENO); // restore the original stdout
+                close((*shell)->orig_stdout); // close the original stdout file descriptor
                 return (1);
             }
         }
@@ -105,6 +111,8 @@ int handle_redirection(t_rd *rd, t_shell **shell)
             if (append(rd->file))
             {
                 console(1, "Failed to append to file", NULL);
+                dup2((*shell)->orig_stdout, STDOUT_FILENO); // restore the original stdout
+                close((*shell)->orig_stdout); // close the original stdout file descriptor
                 return (1);
             }
         }

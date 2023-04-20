@@ -38,7 +38,6 @@ int	ft_exec(t_shell **shell)
 		(*shell)->status_code = (int)(state >> 8);
 		return (0);
 	}
-	dup2((*shell)->old_out, STDOUT_FILENO);
 	return (0);
 }
 

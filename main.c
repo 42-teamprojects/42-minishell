@@ -88,6 +88,11 @@ int	main(int ac, char **av, char **env)
         		dup2((shell)->old_out, STDOUT_FILENO);  // restore the old stdout
         		(shell)->old_out = -1;
     		}
+			if (shell->orig_stdout >= 0)
+			{
+				dup2((shell)->orig_stdout, STDOUT_FILENO); // restore the original stdout
+    			close((shell)->orig_stdout); // close the original stdout file descriptor
+			}
 		}
 		else if (!ft_strcmp(shell->cmds[0]->path, "builtin"))
 		{
@@ -112,6 +117,11 @@ int	main(int ac, char **av, char **env)
         		dup2((shell)->old_out, STDOUT_FILENO);  // restore the old stdout
         		(shell)->old_out = -1;
     		}
+			if (shell->orig_stdout >= 0)
+			{
+				dup2((shell)->orig_stdout, STDOUT_FILENO); // restore the original stdout
+    			close((shell)->orig_stdout); // close the original stdout file descriptor
+			}
 		}
 		free(shell->prompt);
 	}
