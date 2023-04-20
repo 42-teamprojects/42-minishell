@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 23:26:06 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/19 16:45:47 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/20 22:40:47 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ int	ft_export(t_shell **shell)
 			if (check_var(shell, (*shell)->cmds[0]->args[i]) && \
 				!ft_is_var_exist((*shell)->env, (*shell)->cmds[0]->args[i]))
 			{
-				ft_setexport(&(*shell)->exp, (*shell)->cmds[0]->args[i]);
+				ft_setexport(&(*shell)->exp, ft_strdup((*shell)->cmds[0]->args[i]));
 				continue ;
 			}
 			continue ;
