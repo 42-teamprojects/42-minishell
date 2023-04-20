@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 09:57:19 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/19 00:50:36 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/19 17:04:01 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	stop(int err_code, t_shell **shell)
 	if (err_code == 1)
 	{
 		(*shell)->exit = 1;
-		printf("\n");
+		printf("exit\n");
 	}
 	if (err_code)
 		(*shell)->exit = err_code;
@@ -30,13 +30,6 @@ void	console(int status, char *cmd, char *err)
 	else
 		ft_printf_fd(1, BGREEN"→  "CX "minishell: %s: %s\n"CX, cmd, err);
 }
-
-void	not_found(char *cmd)
-{
-	ft_printf_fd(2, BRED"→  "CX "minishell: command not found: " BRED"%s\n"CX, \
-		cmd);
-}
-
 
 // to be deleted
 

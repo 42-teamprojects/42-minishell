@@ -32,7 +32,6 @@ SRCS = ft_isalpha.c \
       ft_strnstr.c \
       ft_itoa.c    \
       ft_split.c \
-      ft_split_cmd.c \
       ft_memmove.c \
       ft_memchr.c \
       ft_memcmp.c \

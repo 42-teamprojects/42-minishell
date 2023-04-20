@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilities.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 11:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/18 18:57:11 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/19 16:45:47 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char	*remove_slashes(char *path)
 	joined = ft_strdup("");
 	if (!joined)
 	{
-		free_split(parts);
+		free_array(parts);
 		return (NULL);
 	}
 	i = 0;
@@ -78,6 +78,6 @@ char	*remove_slashes(char *path)
 		}
 		i++;
 	}
-	free_split(parts);
+	free_array(parts);
 	return (joined);
 }

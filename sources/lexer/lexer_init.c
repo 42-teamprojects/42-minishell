@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 16:49:37 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/17 18:12:33 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/19 17:00:20 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,22 +52,6 @@ int	add_token(t_lexer **lexer, t_token *token)
 	last_node->next = new_node;
 	new_node->prev = last_node;
 	return (1);
-}
-
-// Function to free the lexer
-void	free_lexer(t_lexer *lexer)
-{
-	t_lexer	*node;
-	t_lexer	*temp;
-
-	node = lexer;
-	while (node != NULL)
-	{
-		temp = node;
-		node = node->next;
-		free(temp->token->content);
-	}
-	free(lexer);
 }
 
 t_lexer	*get_last_node(t_lexer *tokens)

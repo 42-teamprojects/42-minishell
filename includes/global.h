@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   global.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:49 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/25 14:55:27 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/20 16:44:41 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,86 @@
 # include <errno.h>
 # include <fcntl.h>
 # include <limits.h>
+
+/* enums */
+
+typedef enum e_state
+{
+	IN_DQUOTE,
+	IN_SQUOTE,
+	ESCAPED,
+	DEFAULT,
+	S_UNKNOWN,
+}	t_state;
+
+typedef enum e_token_type
+{
+	SQUOTE = '\'',
+	DQUOTE = '\"',
+	ESCAPE = '\\',
+	VAR = '$',
+	PIPE = '|',
+	RD_IN = '<',
+	RD_OUT = '>',
+	HEREDOC,
+	RD_AOUT,
+	WORD,
+	NEW_LINE = '\n',
+	WSPACE = ' ',
+	UNKNOWN,
+}	t_token_type;
+
+/* Lexer */
+
+typedef struct s_token
+{
+	int				len;
+	char			*content;
+	t_token_type	type;
+	t_state			state;
+}	t_token;
+
+typedef struct s_lexer
+{
+	struct s_lexer		*prev;
+	t_token				*token;
+	struct s_lexer		*next;
+}	t_lexer;
+
+/* Minishell */
+
+typedef struct s_rd
+{
+	char				*file;
+	t_token_type		type;
+	struct s_rd			*next;
+}	t_rd;
+
+typedef struct s_command
+{
+	char	*name;
+	char	**args;
+	int		argc;
+	t_rd	*redir;
+	char	*path;
+	char	**full_cmd;
+}	t_command;
+
+typedef struct s_shell
+{
+	t_lexer		*lexer;
+	t_command	**cmds;
+	t_list		*exp;
+	char		**env;
+	char		**path_list;
+	int			cmds_count;
+	int			old_out;
+	int			old_in;
+	int			orig_stdout;
+	int			fd[2];
+	int			red_fd[2];
+	int			exit;
+	int			status_code;
+}	t_shell;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 21:50:33 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/18 18:45:09 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/20 15:50:52 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,23 +36,25 @@ char	*check_cmd(char **cmd, char **path_list)
 	int		i;
 
 	if (!cmd[0] || !*cmd[0] || !args_count(cmd))
-		return (not_found(cmd[0]), NULL);
+		return (console(2, cmd[0], "command not found"), NULL);
 	if (is_valid_cmd(cmd[0]))
 		return (ft_strdup("builtin"));
-	path = ft_strdup(cmd[0]);
+	path = cmd[0];
 	if (ft_strchr(cmd[0], '/') != NULL)
 	{
-		if (access(path, F_OK) == 0 && !is_valid_cmd(path))
+		if (access(path, F_OK) == 0)
 			return (path);
+		free(path);
 		return (console(1, path, "No such file or directory"), NULL);
 	}
 	i = -1;
 	while (path_list[++i])
 	{
 		path = ft_concat(3, path_list[i], "/", cmd[0]);
-		if (access(path, F_OK) == 0 && !is_valid_cmd(path))
+		if (access(path, F_OK) == 0)
 			return (path);
+		free(path);
+		path = NULL;
 	}
-	free(path);
-	return (not_found(cmd[0]), NULL);
+	return (console(1, cmd[0], "command not found"), NULL);
 }

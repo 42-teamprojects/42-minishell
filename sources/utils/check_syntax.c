@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_syntax.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:18:39 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/18 18:30:57 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/19 15:57:13 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ int	check_redir(t_lexer *tokens)
 	type = tokens->token->type;
 	while (after_rd && after_rd->token->type == WSPACE)
 		after_rd = after_rd->next;
-	if (!after_rd || (after_rd->token->type != WORD && after_rd->token->type != VAR && \
+	if (!after_rd || (after_rd->token->type != WORD \
+		&& after_rd->token->type != VAR && \
 		after_rd->token->type != SQUOTE && after_rd->token->type != DQUOTE))
 		return (console(1, "syntax error near unexpected token", \
 						redir_type(type)), 1);
