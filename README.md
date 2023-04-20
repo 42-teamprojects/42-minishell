@@ -5,5 +5,5 @@
 	Youssef El Aissaoui <yelaissa>
 ```
 ```
-	Hamza Talhaouia  <htlhaou>
+	Hamza Talhaouia  <htalhaou>
 ```
