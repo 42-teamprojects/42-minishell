@@ -59,6 +59,11 @@ void	rollback_fd(t_shell **shell)
 		dup2((*shell)->orig_stdout, STDOUT_FILENO);
 		close((*shell)->orig_stdout);
 	}
+	if ((*shell)->orig_stdin >= 0)
+	{
+		dup2((*shell)->orig_stdin, STDIN_FILENO);
+		close((*shell)->orig_stdin);
+	}
 }
 
 void	redirect(t_shell **shell)

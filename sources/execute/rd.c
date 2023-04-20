@@ -83,6 +83,7 @@ int	check_file(char *file)
 int handle_redirection(t_rd *rd, t_shell **shell)
 {
     (*shell)->orig_stdout = dup(STDOUT_FILENO); // store the original stdout
+    (*shell)->orig_stdin = dup(STDIN_FILENO); // store the original stdin
 
     while (rd)
     {
@@ -101,8 +102,8 @@ int handle_redirection(t_rd *rd, t_shell **shell)
             if (redirect_input(rd->file, shell))
             {
                 console(1, "Failed to redirect input", NULL);
-                dup2((*shell)->orig_stdout, STDOUT_FILENO); // restore the original stdout
-                close((*shell)->orig_stdout); // close the original stdout file descriptor
+                dup2((*shell)->orig_stdin, STDIN_FILENO); // restore the original stdout
+                close((*shell)->orig_stdin); // close the original stdout file descriptor
                 return (1);
             }
         }

@@ -115,8 +115,7 @@ typedef struct s_shell
 	int			old_out;
 	int			old_in;
 	int			orig_stdout;
-	int			fd[2];
-	int			red_fd[2];
+	int			orig_stdin;
 	int			exit;
 	int			status_code;
 }	t_shell;
