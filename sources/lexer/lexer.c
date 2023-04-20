@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 11:25:39 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/17 18:10:19 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/20 22:17:49 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,5 @@ t_lexer	*lexer(char *input)
 	{
 		i = tokenize(input, &lexer, i, &state);
 	}
-	free(input);
 	return (lexer);
 }
