@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:05:59 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/20 16:12:30 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/20 16:50:32 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	is_word(t_lexer *tokens)
 {
-	return ((tokens->token->type == WORD ||
-			 tokens->token->type == VAR) &&
-			tokens->token->state == DEFAULT);
+	return ((tokens->token->type == WORD \
+			|| tokens->token->type == VAR) \
+			&& tokens->token->state == DEFAULT);
 }
 
 int	is_quote(t_lexer *tokens)

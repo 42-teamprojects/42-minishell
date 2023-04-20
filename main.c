@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/20 16:23:47 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/20 16:44:04 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,8 @@
 void	read_input(t_shell **shell)
 {
 	char		*input;
-	t_command	**commands;
 
-	input = ft_strtrim(readline(BRED"minishell $> "CX), "\t ");
+	input = ft_strtrim(readline(BGREEN"minishell $> "CX), "\t ");
 	if (!input || !ft_strcmp(input, "exit"))
 		return (free(input), stop(1, shell));
 	if (!ft_strlen(input))

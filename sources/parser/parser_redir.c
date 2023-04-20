@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:26:32 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/20 15:22:18 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/20 16:49:29 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,16 +77,17 @@ t_rd	*new_rd(char *file, t_token_type type)
 	return (new_rd);
 }
 
-void rd_addback(t_rd **rd, t_rd *new)
+void	rd_addback(t_rd **rd, t_rd *new)
 {
-    t_rd *current;
-    if (*rd == NULL)
+	t_rd	*current;
+
+	if (*rd == NULL)
 	{
-        *rd = new;
-        return ;
-    }
+		*rd = new;
+		return ;
+	}
 	current = *rd;
-    while (current->next != NULL)
-        current = current->next;
-    current->next = new;
+	while (current->next != NULL)
+		current = current->next;
+	current->next = new;
 }

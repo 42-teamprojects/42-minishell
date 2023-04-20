@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/20 16:13:51 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/20 16:50:45 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,18 @@ char	**parse_cmds(t_lexer **tokens, t_shell **shell, t_rd **rd)
 	return (command);
 }
 
+t_command	**init_commands(t_shell **shell)
+{
+	t_command	**commands;
+
+	(*shell)->cmds_count = cmds_len((*shell)->lexer);
+	commands = (t_command **)malloc(sizeof(t_command *) \
+		* ((*shell)->cmds_count + 1));
+	if (!commands)
+		return (NULL);
+	return (commands);
+}
+
 t_command	**parse(t_shell **shell)
 {
 	t_vars		vars;
@@ -61,9 +73,7 @@ t_command	**parse(t_shell **shell)
 	t_command	**commands;
 	t_rd		*rd;
 
-	(*shell)->cmds_count = cmds_len((*shell)->lexer);
-	commands = (t_command **)malloc(sizeof(t_command *) \
-		* ((*shell)->cmds_count + 1));
+	commands = init_commands(shell);
 	if (!commands)
 		return (NULL);
 	vars.i = -1;
