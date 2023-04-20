@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/20 16:42:42 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/20 21:58:13 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void			free_array(char **array);
 void			free_lexer(t_lexer *lexer);
 void			free_rd(t_rd *rd);
 void			free_command(t_command *cmd);
-void			free_shell(t_shell *shell, int free_all);
+void			free_shell(t_shell *shell, int option);
 
 // TO BE DELETED
 void			print_commands(t_command **cmds);

@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:49 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/20 16:44:41 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/20 22:00:39 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,10 @@
 # include <errno.h>
 # include <fcntl.h>
 # include <limits.h>
+
+# define BASIC 0
+# define CMD 1
+# define FULL 2
 
 /* enums */
 

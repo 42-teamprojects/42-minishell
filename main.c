@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/20 21:32:33 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/20 22:06:34 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,20 @@ int	main(int ac, char **av, char **env)
 	{
 		shell->exit = 0;
 		read_input(&shell);
-		if (shell->exit != 0 || shell->cmds[0]->path == NULL)
+		if (shell->exit != 0)
 			continue ;
-		if (shell->cmds[0]->redir != NULL)
-			redirect(&shell);
-		if (!ft_strcmp(shell->cmds[0]->path, "builtin"))
-			ft_exec_builtin(&shell);
-		else if (ft_strcmp(shell->cmds[0]->path, "redir") != 0)
-			ft_exec(&shell);
-		if (shell->cmds[0]->redir != NULL)
-			rollback_fd(&shell);
-		free_shell(shell, 0);
+		if (shell->cmds[0]->path != NULL)
+		{
+			if (shell->cmds[0]->redir != NULL)
+				redirect(&shell);
+			if (!ft_strcmp(shell->cmds[0]->path, "builtin"))
+				ft_exec_builtin(&shell);
+			else if (ft_strcmp(shell->cmds[0]->path, "redir") != 0)
+				ft_exec(&shell);
+			if (shell->cmds[0]->redir != NULL)
+				rollback_fd(&shell);
+		}
+		free_shell(shell, BASIC);
 	}
-	free_shell(shell, 1);
+	free_shell(shell, FULL);
 }
