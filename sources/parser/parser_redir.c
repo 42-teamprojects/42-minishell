@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:26:32 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/19 16:59:36 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/20 15:22:18 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
 		file = ft_strdup((*tokens)->token->content);
 	if (type == HEREDOC)
 		file = open_heredoc(file);
-	rd_addfront(rd, new_rd(file, type));
+	rd_addback(rd, new_rd(file, type));
 }
 
 t_rd	*new_rd(char *file, t_token_type type)
@@ -77,8 +77,16 @@ t_rd	*new_rd(char *file, t_token_type type)
 	return (new_rd);
 }
 
-void	rd_addfront(t_rd **rd, t_rd *new)
+void rd_addback(t_rd **rd, t_rd *new)
 {
-	new->next = *rd;
-	*rd = new;
+    t_rd *current;
+    if (*rd == NULL)
+	{
+        *rd = new;
+        return ;
+    }
+	current = *rd;
+    while (current->next != NULL)
+        current = current->next;
+    current->next = new;
 }

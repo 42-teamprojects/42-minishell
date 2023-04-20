@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/19 19:59:50 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/20 16:13:51 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,10 @@ t_command	**parse(t_shell **shell)
 		cmd = parse_cmds(&tokens, shell, &rd);
 		if (!cmd || (*shell)->exit != 0)
 			break ;
-		vars.path = check_cmd(cmd, (*shell)->path_list);
+		if (cmd[0] == NULL && rd != NULL)
+			vars.path = ft_strdup("redir");
+		else
+			vars.path = check_cmd(cmd, (*shell)->path_list);
 		commands[vars.i] = init_cmd(cmd, vars.path, rd);
 	}
 	commands[vars.i] = NULL;
