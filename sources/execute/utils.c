@@ -3,22 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 12:29:45 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/19 16:45:47 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/20 21:28:19 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	free_exec(t_shell **shell)
-{
-	free((*shell)->cmds[0]->path);
-	(*shell)->cmds[0]->path = NULL;
-	free_array((*shell)->cmds[0]->full_cmd);
-	(*shell)->cmds[0]->full_cmd = NULL;
-}
 
 char	*ft_getenv(t_shell **shell, const char *name)
 {
@@ -69,7 +61,10 @@ int	ft_is_var_exist(char **env, char *key)
 		if (!var)
 			return (1);
 		if (!ft_strcmp(key, var[0]))
+		{
+			free_array(var);
 			return (1);
+		}
 		free_array(var);
 	}
 	return (0);
