@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 23:26:06 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/21 00:50:54 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/21 02:14:10 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	check_var(t_shell **shell, char *var)
 	if (var == NULL || ft_strchr(var, '$') != NULL \
 		|| (!ft_isalpha(var[0]) && var[0] != '_'))
 	{
-		var = ft_concat(2, "export", var);
+		var = ft_concat(2, "export: ", var);
 		console(1, var, "not a valid identifier");
 		free(var);
 		return (0);
@@ -51,7 +51,7 @@ void	export_env(t_shell **shell)
 	{
 		value = ft_strchr((*shell)->env[i], '=') + 1;
 		if (!value)
-			exit (0);
+			exit(0);
 		var = ft_split((*shell)->env[i], '=');
 		printf("declare -x %s=\"%s\"\n", var[0], value);
 		free_array(var);
@@ -122,7 +122,8 @@ int	ft_export(t_shell **shell)
 	i = -1;
 	while ((*shell)->cmds[0]->args[++i])
 	{
-		if (ft_strchr((*shell)->cmds[0]->args[i], '=') == NULL)
+		if (ft_strchr((*shell)->cmds[0]->args[i], '=') == NULL || \
+			(*shell)->cmds[0]->args[i][0] == '=')
 		{
 			if (check_var(shell, (*shell)->cmds[0]->args[i]) && \
 				!ft_is_var_exist((*shell)->env, (*shell)->cmds[0]->args[i]))
