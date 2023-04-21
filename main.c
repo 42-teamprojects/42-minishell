@@ -38,15 +38,28 @@ void	read_input(t_shell **shell)
 
 void	execute(t_shell **shell)
 {
-	if ((*shell)->cmds[0]->redir != NULL)
-		redirect(shell);
+	int ret;
+    t_rd *rd;
+
+	rd = (*shell)->cmds[0]->redir;
+	if (rd)
+	{
+		ret = handle_redirection(rd, shell);
+		if (ret)
+			return ;
+	}
 	if (!ft_strcmp((*shell)->cmds[0]->path, "builtin"))
 		ft_exec_builtin(shell);
 	else if (ft_strcmp((*shell)->cmds[0]->path, "redir") != 0)
+	{
 		ft_exec(shell);
-	if ((*shell)->cmds[0]->redir != NULL)
+	}
+	if (rd)
+	{
 		rollback_fd(shell);
+	}
 }
+
 
 int	main(int ac, char **av, char **env)
 {

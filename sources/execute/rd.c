@@ -71,7 +71,7 @@ int	handle_redirection(t_rd *rd, t_shell **shell)
 
 	(*shell)->orig_stdout = dup(STDOUT_FILENO);
     (*shell)->orig_stdin = dup(STDIN_FILENO);
-	ret = 0 ;
+	ret= 0;
     while (rd)
     {
         if (rd->type == RD_OUT || rd->type == RD_AOUT)
@@ -79,21 +79,26 @@ int	handle_redirection(t_rd *rd, t_shell **shell)
             if (redirect_output(rd->file, shell, rd->type))
             {
                 ret = 1;
-                break ;
+                break;
             }
         }
         else if (rd->type == RD_IN || rd->type == HEREDOC)
         {
             if (redirect_input(rd->file, shell))
             {
-                ret = 1 ;
-                break ;
+                ret = 1;
+                break;
             }
         }
         rd = rd->next;
     }
     if (ret)
-        exit (0);
+    {
+        dup2((*shell)->orig_stdout, STDOUT_FILENO);
+        dup2((*shell)->orig_stdin, STDIN_FILENO);
+        return (1);
+    }
     return (0);
 }
+
 
