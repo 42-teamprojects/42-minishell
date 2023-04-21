@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/21 03:03:09 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/21 19:42:45 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ char			*redir_type(t_token_type type);
 char			*remove_slashes(char *path);
 void			init_shell(t_shell **shell, char **env);
 void			rollback_fd(t_shell **shell);
-void			redirect(t_shell **shell);
 
 /* ERRORS */
 

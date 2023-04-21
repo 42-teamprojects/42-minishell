@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/21 01:56:44 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/21 19:43:42 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,9 @@ void	execute(t_shell **shell)
 	if (!ft_strcmp((*shell)->cmds[0]->path, "builtin"))
 		ft_exec_builtin(shell);
 	else if (ft_strcmp((*shell)->cmds[0]->path, "redir") != 0)
-	{
 		ft_exec(shell);
-	}
 	if (rd)
-	{
 		rollback_fd(shell);
-	}
 }
 
 
@@ -79,5 +75,4 @@ int	main(int ac, char **av, char **env)
 		free_shell(shell, BASIC);
 	}
 	free_shell(shell, FULL);
-	exit(shell->status_code);
 }

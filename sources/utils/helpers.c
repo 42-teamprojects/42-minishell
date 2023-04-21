@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 09:28:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/21 03:09:26 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/21 19:42:36 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,4 @@ void	rollback_fd(t_shell **shell)
 		dup2((*shell)->orig_stdin, STDIN_FILENO);
 		close((*shell)->orig_stdin);
 	}
-}
-
-void	redirect(t_shell **shell)
-{
-	if (handle_redirection((*shell)->cmds[0]->redir, shell))
-		return ;
 }
