@@ -70,5 +70,5 @@ void	rollback_fd(t_shell **shell)
 void	redirect(t_shell **shell)
 {
 	if (handle_redirection((*shell)->cmds[0]->redir, shell))
-		console(1, "Failed to redirect output/input", NULL);
+		return ;
 }
