@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 23:25:30 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/16 23:56:01 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/21 03:52:53 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_cd(t_shell **shell)
 	if ((*shell)->cmds[0]->args[0] == NULL || \
 		*((*shell)->cmds[0]->args[0]) == '~')
 		return (ft_setenv("OLDPWD", s, shell), \
-			chdir(ft_strjoin("/Users/", getenv("USER"))), 0);
+			chdir(ft_strjoin("/Users/", ft_getenv(shell, "USER"))), 0);
 	ft_setenv("OLDPWD", s, shell);
 	if (chdir((*shell)->cmds[0]->args[0]) != 0)
 		return (console(1, (*shell)->cmds[0]->args[0], strerror(errno)), 1);

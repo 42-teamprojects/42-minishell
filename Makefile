@@ -21,6 +21,7 @@ SRCS = main.c \
 	sources/execute/ft_echo.c \
 	sources/execute/ft_pwd.c \
 	sources/execute/ft_export.c \
+	sources/execute/ft_export_utils.c \
 	sources/execute/ft_unset.c \
 	sources/execute/utils.c \
 	source/execute/rd.c \
@@ -56,6 +57,7 @@ OBJS = main.o \
 	$(EXECUTEDIR)/ft_echo.o \
 	$(EXECUTEDIR)/ft_pwd.o \
 	$(EXECUTEDIR)/ft_export.o \
+	$(EXECUTEDIR)/ft_export_utils.o \
 	$(EXECUTEDIR)/ft_unset.o \
 	$(EXECUTEDIR)/rd.o \
 	$(EXECUTEDIR)/utils.o \

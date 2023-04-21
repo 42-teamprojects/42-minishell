@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/20 21:58:13 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/21 03:03:09 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,10 @@ void			export_env(t_shell **shell);
 void			ft_setexport(t_list **export, char *name);
 int				ft_is_var_exist(char **env, char *key);
 int				handle_redirection(t_rd *rd, t_shell **shell);
-int				redirect_output(char *file, t_shell **shell);
+int				redirect_output(char *file, t_shell **shell, t_token_type type);
 int				redirect_input(char *file, t_shell **shell);
 int				check_file(char *file);
-int				append(char *file);
+int				append(char *file, t_shell **shell);
 
 /* HELPERS */
 

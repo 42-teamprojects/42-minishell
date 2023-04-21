@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 23:26:06 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/21 02:14:10 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/21 02:26:31 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,48 +66,17 @@ void	export_env(t_shell **shell)
 	}
 }
 
-int	ft_setenv_help(char *name, char *value, t_shell **shell, int i)
+int	validate_export(t_shell **shell, int i)
 {
-	char	*input;
-	char	**new_environ;
-
-	new_environ = malloc((i + 2) * sizeof(char *));
-	if (new_environ == NULL)
-		return (-1);
-	ft_memcpy(new_environ, (*shell)->env, i * sizeof(char *));
-	input = ft_concat(3, name, "=", value);
-	new_environ[i] = input;
-	new_environ[i + 1] = NULL;
-	(*shell)->env = new_environ;
-	return (0);
-}
-
-int	ft_setenv(char *name, char *value, t_shell **shell)
-{
-	int		i;
-	char	*input;
-	int		overwrite;
-
-	i = -1;
-	if (name == NULL || value == NULL)
-		return (-1);
-	overwrite = 0;
-	while ((*shell)->env[++i])
+	if (ft_strchr((*shell)->cmds[0]->args[i], '=') == NULL || \
+			(*shell)->cmds[0]->args[i][0] == '=')
 	{
-		if (ft_strncmp((*shell)->env[i], name, ft_strlen(name)) == 0
-			&& (*shell)->env[i][ft_strlen(name)] == '=')
-		{
-			overwrite = 1;
-			break ;
-		}
+		if (check_var(shell, (*shell)->cmds[0]->args[i]) && \
+			!ft_is_var_exist((*shell)->env, (*shell)->cmds[0]->args[i]))
+			ft_setexport(&(*shell)->exp, \
+			ft_strdup((*shell)->cmds[0]->args[i]));
+		return (1);
 	}
-	if (overwrite == 1)
-	{
-		input = ft_concat(3, name, "=", value);
-		(*shell)->env[i] = input;
-	}
-	else
-		ft_setenv_help(name, value, shell, i);
 	return (0);
 }
 
@@ -122,14 +91,8 @@ int	ft_export(t_shell **shell)
 	i = -1;
 	while ((*shell)->cmds[0]->args[++i])
 	{
-		if (ft_strchr((*shell)->cmds[0]->args[i], '=') == NULL || \
-			(*shell)->cmds[0]->args[i][0] == '=')
-		{
-			if (check_var(shell, (*shell)->cmds[0]->args[i]) && \
-				!ft_is_var_exist((*shell)->env, (*shell)->cmds[0]->args[i]))
-				ft_setexport(&(*shell)->exp, ft_strdup((*shell)->cmds[0]->args[i]));
+		if (validate_export(shell, i))
 			continue ;
-		}
 		value = ft_strchr((*shell)->cmds[0]->args[i], '=') + 1;
 		if (!value)
 			return (1);
