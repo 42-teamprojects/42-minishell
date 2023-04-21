@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/02 16:49:37 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/19 17:00:20 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/21 00:51:49 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Function to create a new token
 t_token	*new_token(char *content, int len, t_token_type type, t_state state)
 {
 	t_token	*new;
@@ -27,7 +26,6 @@ t_token	*new_token(char *content, int len, t_token_type type, t_state state)
 	return (new);
 }
 
-// Function to add a new token to the end of the lexer
 int	add_token(t_lexer **lexer, t_token *token)
 {
 	t_lexer		*new_node;

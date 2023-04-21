@@ -76,7 +76,6 @@ $(NAME): $(LIBFT) $(OBJS) $(HEADERS)
 
 $(LIBFT):
 	make all -C libft
-	make bonus -C libft
 
 $(UTILSDIR)/%.o: sources/utils/%.c
 	$(CC) $(CFLAGS) -c $< -o $@

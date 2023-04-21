@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/20 21:33:56 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/21 01:32:20 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_exec(t_shell **shell)
 	else
 	{
 		waitpid(pid, &state, 0);
-		(*shell)->status_code = (int)(state >> 8);
+		(*shell)->status_code = WEXITSTATUS(state);
 		return (0);
 	}
 	return (0);

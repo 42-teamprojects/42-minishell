@@ -45,8 +45,7 @@ SRCS = ft_isalpha.c \
       ft_printf/ft_printf_utils/ft_putnbr_base.c \
       ft_printf/ft_printf_utils/ft_puthexa.c \
       ft_printf/ft_printf_utils/ft_strlen.c \
-
-SRCS_BONUS = ft_lstnew_bonus.c \
+      ft_lstnew_bonus.c \
       ft_lstadd_front_bonus.c \
       ft_lstsize_bonus.c \
       ft_lstlast_bonus.c \
@@ -57,33 +56,30 @@ SRCS_BONUS = ft_lstnew_bonus.c \
       ft_lstmap_bonus.c \
 
 OBJS		= $(SRCS:.c=.o)
-OBJS_BONUS	= $(SRCS_BONUS:.c=.o)
 
 NAME		= libft.a
 
-CC			= gcc
+CC			= cc
 
 CFLAGS		= -Wall -Wextra -Werror
 
 RM			= rm -f
 
 %.o : %.c
-			$(CC) $(CFLAGS) -c $< -o $@
-
-$(NAME):	$(OBJS)
-			ar rcs $@ $^
+		$(CC) $(CFLAGS) -c $< -o $@
 
 all:		$(NAME)
 
-bonus: 		$(NAME) $(OBJS_BONUS)
-			ar rcs $< $(OBJS_BONUS)
+$(NAME):	$(OBJS)
+		ar rcs $@ $^
+
 
 clean:
-			$(RM) $(OBJS) $(OBJS_BONUS)
+		$(RM) $(OBJS) $(OBJS_BONUS)
 
 fclean:		clean
-			$(RM) $(NAME)
+		$(RM) $(NAME)
 
-re:			fclean all
+re:		fclean all
 
-.PHONY:		re fclean clean bonus all
+.PHONY:	re fclean clean bonus all

@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/20 22:38:54 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/21 01:56:44 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,18 @@ void	read_input(t_shell **shell)
 	free_lexer((*shell)->lexer);
 	stop(-3, shell);
 }
-// print_commands((*shell)->cmds);
-// print_lexer((*shell)->lexer);
+
+void	execute(t_shell **shell)
+{
+	if ((*shell)->cmds[0]->redir != NULL)
+		redirect(shell);
+	if (!ft_strcmp((*shell)->cmds[0]->path, "builtin"))
+		ft_exec_builtin(shell);
+	else if (ft_strcmp((*shell)->cmds[0]->path, "redir") != 0)
+		ft_exec(shell);
+	if ((*shell)->cmds[0]->redir != NULL)
+		rollback_fd(shell);
+}
 
 int	main(int ac, char **av, char **env)
 {
@@ -52,16 +62,7 @@ int	main(int ac, char **av, char **env)
 		if (shell->exit != 0)
 			continue ;
 		if (shell->cmds[0]->path != NULL)
-		{
-			if (shell->cmds[0]->redir != NULL)
-				redirect(&shell);
-			if (!ft_strcmp(shell->cmds[0]->path, "builtin"))
-				ft_exec_builtin(&shell);
-			else if (ft_strcmp(shell->cmds[0]->path, "redir") != 0)
-				ft_exec(&shell);
-			if (shell->cmds[0]->redir != NULL)
-				rollback_fd(&shell);
-		}
+			execute(&shell);
 		free_shell(shell, BASIC);
 	}
 	free_shell(shell, FULL);

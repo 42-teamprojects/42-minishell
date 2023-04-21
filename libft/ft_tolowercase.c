@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tolowercase.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 16:33:10 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/10 16:36:00 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/04/21 00:51:07 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,6 @@ char	*ft_tolowercase(char *str)
 		lower[i] = ft_tolower(str[i]);
 		i++;
 	}
-	lower[i] = '\0';
+	lower[i] = '\0'; 
 	return (lower);
 }
