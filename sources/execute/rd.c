@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 02:59:32 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/21 03:06:45 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/21 17:38:52 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,13 @@
 int check_file(char *file)
 {
     if (access(file, F_OK) == -1)
-    {
-        perror(file);
-        return 1;
-    }
-
+        return (console(1, file, "No such file or directory"), 1);
     if (access(file, R_OK) == -1)
-    {
-        console(1, file, "Permission denied");
-        return 1;
-    }
-
+        return (console(1, file, "Permission denied"), 1);
     if (access(file, X_OK) == 0)
-    {
-        console(1, file, "Is a directory");
-        return 1;
-    }
-
-    return 0;
+        return (console(1, file, "Is a directory"), 1);
+    return (0);
 }
-
 
 int	redirect_input(char *file, t_shell **shell)
 {

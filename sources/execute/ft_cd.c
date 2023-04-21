@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 23:25:30 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/21 03:52:53 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/21 17:52:36 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,26 @@
 int	ft_cd(t_shell **shell)
 {
 	char	s[PATH_MAX];
+	char	*oldpwd;
+	char	*user;
+	char	*path;
 
 	getcwd(s, sizeof(s));
+	user = ft_getenv(shell, "USER");
+	path = ft_strjoin("/Users/", user);
 	if ((*shell)->cmds[0]->args[0] && \
 		!ft_strcmp((*shell)->cmds[0]->args[0], "-"))
 	{
-		if (ft_getenv(shell, "OLDPWD") == NULL)
+		oldpwd = ft_getenv(shell, "OLDPWD"); 
+		if (oldpwd == NULL)
 			return (console(1, "cd", "OLDPWD not set"), 0);
-		return (chdir(ft_getenv(shell, "OLDPWD")), \
-			console(1, "cd", ft_getenv(shell, "OLDPWD")), \
+		return (free(oldpwd), chdir(oldpwd), console(1, "cd", oldpwd), \
 			ft_setenv("OLDPWD", s, shell), 0);
 	}
 	if ((*shell)->cmds[0]->args[0] == NULL || \
 		*((*shell)->cmds[0]->args[0]) == '~')
 		return (ft_setenv("OLDPWD", s, shell), \
-			chdir(ft_strjoin("/Users/", ft_getenv(shell, "USER"))), 0);
+			chdir(path), free(user), free(path), 0);
 	ft_setenv("OLDPWD", s, shell);
 	if (chdir((*shell)->cmds[0]->args[0]) != 0)
 		return (console(1, (*shell)->cmds[0]->args[0], strerror(errno)), 1);
