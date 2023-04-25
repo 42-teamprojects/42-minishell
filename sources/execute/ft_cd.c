@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 23:25:30 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/21 17:52:36 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/25 08:08:31 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_cd(t_shell **shell)
 	if ((*shell)->cmds[0]->args[0] && \
 		!ft_strcmp((*shell)->cmds[0]->args[0], "-"))
 	{
-		oldpwd = ft_getenv(shell, "OLDPWD"); 
+		oldpwd = ft_getenv(shell, "OLDPWD");
 		if (oldpwd == NULL)
 			return (console(1, "cd", "OLDPWD not set"), 0);
 		return (free(oldpwd), chdir(oldpwd), console(1, "cd", oldpwd), \

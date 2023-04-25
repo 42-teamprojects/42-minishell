@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/21 19:43:42 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/25 08:06:46 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,12 @@ void	read_input(t_shell **shell)
 
 void	execute(t_shell **shell)
 {
-	int ret;
-    t_rd *rd;
+	t_rd	*rd;
 
 	rd = (*shell)->cmds[0]->redir;
 	if (rd)
 	{
-		ret = handle_redirection(rd, shell);
-		if (ret)
+		if (handle_redirection(rd, shell))
 			return ;
 	}
 	if (!ft_strcmp((*shell)->cmds[0]->path, "builtin"))
@@ -55,7 +53,6 @@ void	execute(t_shell **shell)
 	if (rd)
 		rollback_fd(shell);
 }
-
 
 int	main(int ac, char **av, char **env)
 {
