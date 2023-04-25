@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   global.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:49 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/20 22:00:39 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/25 15:03:16 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,14 @@ typedef struct s_rd
 	struct s_rd			*next;
 }	t_rd;
 
+typedef struct s_fd
+{
+	int	old_out;
+	int	old_in;
+	int	orig_stdout;
+	int	orig_stdin;
+}	t_fd;
+
 typedef struct s_command
 {
 	char	*name;
@@ -113,13 +121,10 @@ typedef struct s_shell
 	t_lexer		*lexer;
 	t_command	**cmds;
 	t_list		*exp;
+	t_fd		fd;
 	char		**env;
 	char		**path_list;
 	int			cmds_count;
-	int			old_out;
-	int			old_in;
-	int			orig_stdout;
-	int			orig_stdin;
 	int			exit;
 	int			status_code;
 }	t_shell;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:26:32 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/20 16:49:29 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/25 15:19:32 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,19 @@ void	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
 	rd_addback(rd, new_rd(file, type));
 }
 
+void	open_file(char *file, t_token_type type)
+{
+	int	fd;
+
+	if (type == RD_OUT)
+		fd = open(file, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+	else if (type == RD_IN)
+		fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	else
+		fd = open(file, O_RDONLY);
+	close(fd);
+}
+
 t_rd	*new_rd(char *file, t_token_type type)
 {
 	t_rd	*new_rd;
@@ -71,6 +84,7 @@ t_rd	*new_rd(char *file, t_token_type type)
 	new_rd = malloc(sizeof(t_rd));
 	if (!new_rd)
 		return (NULL);
+	open_file(file, type);
 	new_rd->file = file;
 	new_rd->type = type;
 	new_rd->next = NULL;

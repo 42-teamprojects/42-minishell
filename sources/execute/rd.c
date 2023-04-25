@@ -29,8 +29,8 @@ int	redirect_input(char *file, t_shell **shell)
 
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
-		return (check_file(file));
-	(*shell)->old_in = dup(STDIN_FILENO);
+		return (1);
+	(*shell)->fd.old_in = dup(STDIN_FILENO);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	return (0);
@@ -45,8 +45,8 @@ int	redirect_output(char *file, t_shell **shell, t_token_type type)
 	else
 		fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (fd < 0)
-		return (check_file(file));
-	(*shell)->old_out = dup(STDOUT_FILENO);
+		return (1);
+	(*shell)->fd.old_out = dup(STDOUT_FILENO);
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
 	return (0);
@@ -54,16 +54,18 @@ int	redirect_output(char *file, t_shell **shell, t_token_type type)
 
 void	dupping(t_shell **shell)
 {
-	dup2((*shell)->orig_stdout, STDOUT_FILENO);
-	dup2((*shell)->orig_stdin, STDIN_FILENO);
+	dup2((*shell)->fd.orig_stdout, STDOUT_FILENO);
+	dup2((*shell)->fd.orig_stdin, STDIN_FILENO);
 }
 
 int	handle_redirection(t_rd *rd, t_shell **shell)
 {
-	(*shell)->orig_stdout = dup(STDOUT_FILENO);
-	(*shell)->orig_stdin = dup(STDIN_FILENO);
+	(*shell)->fd.orig_stdout = dup(STDOUT_FILENO);
+	(*shell)->fd.orig_stdin = dup(STDIN_FILENO);
 	while (rd)
 	{
+		if (check_file(rd->file))
+			return (1);
 		if (rd->type == RD_OUT || rd->type == RD_AOUT)
 		{
 			if (redirect_output(rd->file, shell, rd->type))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 09:28:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/21 19:42:36 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/25 15:05:46 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void	init_shell(t_shell **shell, char **env)
 	(*shell)->status_code = 0;
 	(*shell)->env = dup_list(env);
 	(*shell)->exp = NULL;
-	(*shell)->old_out = -1;
-	(*shell)->old_in = -1;
+	(*shell)->fd.old_out = -1;
+	(*shell)->fd.old_in = -1;
 	(*shell)->path_list = ft_split(getenv("PATH"), ':');
 	signal(SIGINT, &sig_handler);
 	signal(SIGQUIT, &sig_handler);
@@ -45,24 +45,24 @@ void	init_shell(t_shell **shell, char **env)
 
 void	rollback_fd(t_shell **shell)
 {
-	if ((*shell)->old_in >= 0)
+	if ((*shell)->fd.old_in >= 0)
 	{
-		dup2((*shell)->old_in, STDIN_FILENO);
-		(*shell)->old_in = -1;
+		dup2((*shell)->fd.old_in, STDIN_FILENO);
+		(*shell)->fd.old_in = -1;
 	}
-	if ((*shell)->old_out >= 0)
+	if ((*shell)->fd.old_out >= 0)
 	{
-		dup2((*shell)->old_out, STDOUT_FILENO);
-		(*shell)->old_out = -1;
+		dup2((*shell)->fd.old_out, STDOUT_FILENO);
+		(*shell)->fd.old_out = -1;
 	}
-	if ((*shell)->orig_stdout >= 0)
+	if ((*shell)->fd.orig_stdout >= 0)
 	{
-		dup2((*shell)->orig_stdout, STDOUT_FILENO);
-		close((*shell)->orig_stdout);
+		dup2((*shell)->fd.orig_stdout, STDOUT_FILENO);
+		close((*shell)->fd.orig_stdout);
 	}
-	if ((*shell)->orig_stdin >= 0)
+	if ((*shell)->fd.orig_stdin >= 0)
 	{
-		dup2((*shell)->orig_stdin, STDIN_FILENO);
-		close((*shell)->orig_stdin);
+		dup2((*shell)->fd.orig_stdin, STDIN_FILENO);
+		close((*shell)->fd.orig_stdin);
 	}
 }
