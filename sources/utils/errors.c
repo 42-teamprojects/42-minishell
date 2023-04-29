@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 09:57:19 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/19 17:04:01 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/29 13:44:30 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	stop(int err_code, t_shell **shell)
 		(*shell)->exit = err_code;
 }
 
+// Print errors in stderror status : 1
 void	console(int status, char *cmd, char *err)
 {
 	if (status == 1)

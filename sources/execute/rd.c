@@ -12,24 +12,13 @@
 
 #include "minishell.h"
 
-int	check_file(char *file)
-{
-	if (access(file, F_OK) == -1)
-		return (console(1, file, "No such file or directory"), 1);
-	if (access(file, R_OK) == -1)
-		return (console(1, file, "Permission denied"), 1);
-	if (access(file, X_OK) == 0)
-		return (console(1, file, "Is a directory"), 1);
-	return (0);
-}
-
 int	redirect_input(char *file, t_shell **shell)
 {
 	int	fd;
 
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
-		return (1);
+		return (console(1, file, strerror(errno)), 1);
 	(*shell)->fd.old_in = dup(STDIN_FILENO);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
@@ -45,7 +34,7 @@ int	redirect_output(char *file, t_shell **shell, t_token_type type)
 	else
 		fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (fd < 0)
-		return (1);
+		return (console(1, file, strerror(errno)), 1);
 	(*shell)->fd.old_out = dup(STDOUT_FILENO);
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
@@ -64,8 +53,6 @@ int	handle_redirection(t_rd *rd, t_shell **shell)
 	(*shell)->fd.orig_stdin = dup(STDIN_FILENO);
 	while (rd)
 	{
-		if (check_file(rd->file))
-			return (1);
 		if (rd->type == RD_OUT || rd->type == RD_AOUT)
 		{
 			if (redirect_output(rd->file, shell, rd->type))

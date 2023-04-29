@@ -6,17 +6,19 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:26:32 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/25 15:19:32 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/27 19:23:34 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*open_heredoc(char *delimiter)
+char	*open_heredoc(t_shell **shell, char *delimiter, int flag)
 {
 	int		fd;
 	char	*line;
 
+	(void)flag;
+	(void)shell;
 	fd = open("/tmp/.ms_heredoc", O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	if (fd < 0)
 		return (NULL);
@@ -24,6 +26,8 @@ char	*open_heredoc(char *delimiter)
 	{
 		ft_putstr_fd("heredoc> ", 0);
 		line = get_next_line(0);
+		if (*line == '$' && !flag)
+			printf("%s\n", ft_getenv(shell, line + 1));
 		if (!line)
 			break ;
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
@@ -42,7 +46,9 @@ void	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
 {
 	t_token_type	type;
 	char			*file;
+	int				quote_flag;
 
+	quote_flag = 0;
 	type = (*tokens)->token->type;
 	while ((*tokens)->token->type != WORD && (*tokens)->token->type != VAR \
 		&& (*tokens)->token->type != SQUOTE && (*tokens)->token->type != DQUOTE)
@@ -56,11 +62,14 @@ void	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
 				free_rd(*rd), stop(-3, shell));
 	}
 	else if (is_quote(*tokens))
+	{
+		quote_flag = 1;
 		file = parse_quotes(tokens, shell);
+	}
 	else
 		file = ft_strdup((*tokens)->token->content);
 	if (type == HEREDOC)
-		file = open_heredoc(file);
+		file = open_heredoc(shell, file, quote_flag);
 	rd_addback(rd, new_rd(file, type));
 }
 
@@ -70,7 +79,7 @@ void	open_file(char *file, t_token_type type)
 
 	if (type == RD_OUT)
 		fd = open(file, O_CREAT | O_TRUNC | O_WRONLY, 0644);
-	else if (type == RD_IN)
+	else if (type == RD_AOUT)
 		fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	else
 		fd = open(file, O_RDONLY);
