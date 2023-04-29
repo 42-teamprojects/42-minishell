@@ -77,7 +77,7 @@ int				redirect_output(char *file, t_shell **shell, t_token_type type);
 int				redirect_input(char *file, t_shell **shell);
 int				check_file(char *file);
 int				append(char *file, t_shell **shell);
-
+int				create_pipe(t_command *cmd, int i, int cmds_count);
 /* HELPERS */
 
 void			sig_handler(int sig);
