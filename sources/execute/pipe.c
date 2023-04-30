@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 23:25:05 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/08 23:25:20 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/04/30 12:35:16 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int create_pipe(t_command *cmd, int i, int cmds_count)
+int	create_pipe(t_command *cmd, int i, int cmds_count)
 {
-    cmd->fd = (t_fd *)malloc(sizeof(t_fd) * cmds_count);
-    if (!cmd->fd)
-        return (-1);
-    if (pipe(&cmd->fd[i].old_in) < 0)
-        return (-1);
-    if (pipe(&cmd->fd[i].old_out) < 0)
-        return (-1);
-    cmd->fd[i].orig_stdin = dup(STDIN_FILENO);
-    cmd->fd[i].orig_stdout = dup(STDOUT_FILENO);
-    return (0);
+	cmd->fd = (t_fd *)malloc(sizeof(t_fd) * cmds_count);
+	if (!cmd->fd)
+		return (-1);
+	if (pipe(&cmd->fd[i].old_in) < 0)
+		return (-1);
+	if (pipe(&cmd->fd[i].old_out) < 0)
+		return (-1);
+	cmd->fd[i].orig_stdin = dup(STDIN_FILENO);
+	cmd->fd[i].orig_stdout = dup(STDOUT_FILENO);
+	return (0);
 }
 
 // int execute_pipeline(t_command *cmds, int cmd_count)
@@ -31,7 +31,6 @@ int create_pipe(t_command *cmd, int i, int cmds_count)
 // 	int		i;
 //     int     j;
 // 	pid_t	pid;
-    
 // 	i = 0;
 // 	while (i < cmd_count)
 // 	{
@@ -98,4 +97,3 @@ int create_pipe(t_command *cmd, int i, int cmds_count)
 //     }
 //     return (0);
 // }
-
