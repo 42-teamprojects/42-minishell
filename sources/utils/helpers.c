@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 09:28:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/25 15:05:46 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/30 15:18:05 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	init_shell(t_shell **shell, char **env)
 	(*shell)->exp = NULL;
 	(*shell)->fd.old_out = -1;
 	(*shell)->fd.old_in = -1;
-	(*shell)->path_list = ft_split(getenv("PATH"), ':');
+	(*shell)->path_list = ft_split(ft_getenv(shell, "PATH"), ':');
 	signal(SIGINT, &sig_handler);
 	signal(SIGQUIT, &sig_handler);
 }

@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/25 08:24:14 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/30 15:20:36 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	read_input(t_shell **shell)
 	input = NULL;
 	if (valid_syntax((*shell)->lexer))
 	{
+		(*shell)->path_list = ft_split(ft_getenv(shell, "PATH"), ':');
 		(*shell)->cmds = parse(shell);
 		if (!(*shell)->cmds || !(*shell)->cmds[0])
 			return (stop(-3, shell));
@@ -43,11 +44,8 @@ void	execute(t_shell **shell)
 	t_rd	*rd;
 
 	rd = (*shell)->cmds[0]->redir;
-	if (rd)
-	{
-		if (handle_redirection(rd, shell))
-			return ;
-	}
+	if (rd && handle_redirection(rd, shell))
+		return ;
 	if (!ft_strcmp((*shell)->cmds[0]->path, "builtin"))
 		ft_exec_builtin(shell);
 	else if (ft_strcmp((*shell)->cmds[0]->path, "redir") != 0)

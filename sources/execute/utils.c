@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 12:29:45 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/20 21:28:19 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/30 14:36:31 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ char	*ft_getenv(t_shell **shell, const char *name)
 		}
 		i++;
 	}
+	if (!value)
+		value = ft_strdup("");
 	return (value);
 }
 
