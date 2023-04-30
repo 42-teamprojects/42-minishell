@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/30 21:45:07 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/04/30 22:22:44 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int	ft_exec(t_shell **shell)
 			}
 			// exit(1);
 		}
+		waitpid(pid, &state, 0);
+		close((*shell)->cmds[i]->fd[1]);
 		i++;
 	}
 	i = 0;
@@ -66,12 +68,6 @@ int	ft_exec(t_shell **shell)
 	{
 		close((*shell)->cmds[i]->fd[0]);
 		close((*shell)->cmds[i]->fd[1]);
-		i++;
-	}
-	i = 0;
-	while (i < (*shell)->cmds_count)
-	{
-		waitpid(pid, &state, 0);
 		i++;
 	}
 	// (*shell)->status_code = WEXITSTATUS(state);
