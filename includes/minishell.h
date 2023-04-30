@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/29 13:51:23 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/30 12:34:34 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,9 @@ int				ft_is_var_exist(char **env, char *key);
 int				handle_redirection(t_rd *rd, t_shell **shell);
 int				redirect_output(char *file, t_shell **shell, t_token_type type);
 int				redirect_input(char *file, t_shell **shell);
-
+int				check_file(char *file);
+int				append(char *file, t_shell **shell);
+int				create_pipe(t_command *cmd, int i, int cmds_count);
 /* HELPERS */
 
 void			sig_handler(int sig);

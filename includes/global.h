@@ -112,6 +112,7 @@ typedef struct s_command
 	char	**args;
 	int		argc;
 	t_rd	*redir;
+	t_fd	*fd;
 	char	*path;
 	char	**full_cmd;
 }	t_command;

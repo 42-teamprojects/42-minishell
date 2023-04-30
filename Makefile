@@ -25,6 +25,7 @@ SRCS = main.c \
 	sources/execute/ft_unset.c \
 	sources/execute/utils.c \
 	source/execute/rd.c \
+	source/execute/pipe.c \
 	sources/parser/utils.c \
 	sources/parser/parser.c \
 	sources/parser/parser_utils.c \
@@ -60,6 +61,7 @@ OBJS = main.o \
 	$(EXECUTEDIR)/ft_export_utils.o \
 	$(EXECUTEDIR)/ft_unset.o \
 	$(EXECUTEDIR)/rd.o \
+	$(EXECUTEDIR)/pipe.o \
 	$(EXECUTEDIR)/utils.o \
 	$(PARSERDIR)/utils.o \
 	$(PARSERDIR)/parser.o \
