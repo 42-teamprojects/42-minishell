@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/21 01:32:20 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/04/30 22:22:44 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,62 @@
 int	ft_exec(t_shell **shell)
 {
 	pid_t	pid;
+	int		i;
+	int		j;
 	int		state;
 
-	pid = fork();
-	if (pid == -1)
+	i = 0;
+	while (i < (*shell)->cmds_count)
 	{
-		console(1, "", strerror(errno));
-		return (-1);
-	}
-	else if (pid == 0)
-	{
-		if (execve((*shell)->cmds[0]->path, (*shell)->cmds[0]->full_cmd, \
-			(*shell)->env) == -1)
+		if (create_pipe((*shell)->cmds[i]))
 		{
-			console(1, (*shell)->cmds[0]->path, strerror(errno));
-			stop(1, shell);
+			printf("Error");
+			return (-1);
 		}
+		i++;
 	}
-	else
+	i = 0;
+	while (i < (*shell)->cmds_count)
 	{
+		pid = fork();
+		if (pid == -1)
+		{
+			console(1, "", strerror(errno));
+			return (-1);
+		}
+		else if (pid == 0)
+		{
+			if (i > 0)
+				dup2((*shell)->cmds[i - 1]->fd[0], STDIN_FILENO);
+			else if (i < (*shell)->cmds_count - 1)
+				dup2((*shell)->cmds[i]->fd[1], STDOUT_FILENO);
+			j = 0;
+			while (j < (*shell)->cmds_count)
+			{
+				close((*shell)->cmds[j]->fd[0]);
+				close((*shell)->cmds[j]->fd[1]);
+				j++;
+			}
+			if (execve((*shell)->cmds[i]->path, (*shell)->cmds[i]->full_cmd,
+					(*shell)->env) == -1)
+			{
+				console(1, (*shell)->cmds[i]->path, strerror(errno));
+				stop(1, shell);
+			}
+			// exit(1);
+		}
 		waitpid(pid, &state, 0);
-		(*shell)->status_code = WEXITSTATUS(state);
-		return (0);
+		close((*shell)->cmds[i]->fd[1]);
+		i++;
 	}
+	i = 0;
+	while (i < (*shell)->cmds_count)
+	{
+		close((*shell)->cmds[i]->fd[0]);
+		close((*shell)->cmds[i]->fd[1]);
+		i++;
+	}
+	// (*shell)->status_code = WEXITSTATUS(state);
 	return (0);
 }
 

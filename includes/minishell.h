@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/30 15:15:52 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/01 10:19:50 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ int				is_redir(t_lexer *tokens);
 char			*check_cmd(char **cmd, char **path_list);
 int				ft_exec(t_shell **shell);
 void			ft_exec_builtin(t_shell **shell);
-void			free_exec(t_shell **shell);
 void			ft_pwd(t_shell **shell);
 void			ft_echo(t_shell **shell);
 void			ft_env(t_shell **shell);
@@ -75,7 +74,8 @@ int				ft_is_var_exist(char **env, char *key);
 int				handle_redirection(t_rd *rd, t_shell **shell);
 int				redirect_output(char *file, t_shell **shell, t_token_type type);
 int				redirect_input(char *file, t_shell **shell);
-
+int				create_pipe(t_command *cmd);
+int				execute_pipeline(t_command **cmds, int cmd_count);
 /* HELPERS */
 
 void			sig_handler(int sig);

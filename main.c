@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/30 15:20:36 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/01 10:20:19 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	execute(t_shell **shell)
 
 int	main(int ac, char **av, char **env)
 {
-	t_shell	*shell;
+	t_shell		*shell;
 
 	(void) ac;
 	(void) av;
