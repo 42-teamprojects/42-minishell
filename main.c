@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/01 19:58:42 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/01 20:35:26 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,6 @@ void	read_input(t_shell **shell)
 	stop(-3, shell);
 }
 
-void	execute(t_shell **shell)
-{
-	t_rd	*rd;
-
-	rd = (*shell)->cmds[0]->redir;
-	if (rd && handle_redirection(rd, shell))
-		return ;
-	// if (!ft_strcmp((*shell)->cmds[0]->path, "builtin"))
-	// 	ft_exec_builtin(shell);
-		ft_exec(shell);
-	if (rd)
-		rollback_fd(shell);
-}
-
 int	main(int ac, char **av, char **env)
 {
 	t_shell		*shell;
@@ -67,7 +53,7 @@ int	main(int ac, char **av, char **env)
 		if (shell->exit != 0)
 			continue ;
 		if (shell->cmds[0]->path != NULL)
-			execute(&shell);
+			ft_exec(&shell);
 		free_shell(shell, BASIC);
 	}
 	free_shell(shell, FULL);

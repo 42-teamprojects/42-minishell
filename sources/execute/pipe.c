@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 23:25:05 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/01 20:11:18 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/01 20:32:00 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,12 @@ void	close_pipes(t_shell **shell)
 		close((*shell)->cmds[j]->fd[1]);
 		j++;
 	}
+}
+
+void	redirect_pipe(t_shell **shell, int i)
+{
+	if (i > 0)
+		dup2((*shell)->cmds[i - 1]->fd[0], STDIN_FILENO);
+	if (i < (*shell)->cmds_count - 1)
+		dup2((*shell)->cmds[i]->fd[1], STDOUT_FILENO);
 }
