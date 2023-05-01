@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 23:26:06 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/21 02:26:31 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/01 19:28:19 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,37 +66,37 @@ void	export_env(t_shell **shell)
 	}
 }
 
-int	validate_export(t_shell **shell, int i)
+int	validate_export(t_shell **shell, int idx, int i)
 {
-	if (ft_strchr((*shell)->cmds[0]->args[i], '=') == NULL || \
-			(*shell)->cmds[0]->args[i][0] == '=')
+	if (ft_strchr((*shell)->cmds[idx]->args[i], '=') == NULL || \
+			(*shell)->cmds[idx]->args[i][0] == '=')
 	{
-		if (check_var(shell, (*shell)->cmds[0]->args[i]) && \
-			!ft_is_var_exist((*shell)->env, (*shell)->cmds[0]->args[i]))
+		if (check_var(shell, (*shell)->cmds[idx]->args[i]) && \
+			!ft_is_var_exist((*shell)->env, (*shell)->cmds[idx]->args[i]))
 			ft_setexport(&(*shell)->exp, \
-			ft_strdup((*shell)->cmds[0]->args[i]));
+			ft_strdup((*shell)->cmds[idx]->args[i]));
 		return (1);
 	}
 	return (0);
 }
 
-int	ft_export(t_shell **shell)
+int	ft_export(t_shell **shell, int idx)
 {
 	char	**var;
 	char	*value;
 	int		i;
 
-	if ((*shell)->cmds[0]->args[0] == NULL)
+	if ((*shell)->cmds[idx]->args[0] == NULL)
 		return (export_env(shell), 1);
 	i = -1;
-	while ((*shell)->cmds[0]->args[++i])
+	while ((*shell)->cmds[idx]->args[++i])
 	{
-		if (validate_export(shell, i))
+		if (validate_export(shell, idx, i))
 			continue ;
-		value = ft_strchr((*shell)->cmds[0]->args[i], '=') + 1;
+		value = ft_strchr((*shell)->cmds[idx]->args[i], '=') + 1;
 		if (!value)
 			return (1);
-		var = ft_split((*shell)->cmds[0]->args[i], '=');
+		var = ft_split((*shell)->cmds[idx]->args[i], '=');
 		if (!var)
 			return (1);
 		if (check_var(shell, var[0]) && value)

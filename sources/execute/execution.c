@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/01 18:31:39 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/01 20:14:26 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,88 +16,69 @@ int	ft_exec(t_shell **shell)
 {
 	pid_t	pid;
 	int		i;
-	int		j;
 	int		state;
 
-	i = 0;
-	while (i < (*shell)->cmds_count)
-	{
-		if (create_pipe((*shell)->cmds[i]))
-		{
-			printf("Error");
-			return (-1);
-		}
-		i++;
-	}
+	if (create_pipe(shell))
+		console(1, "", "failed creating pipes");
 	i = 0;
 	while (i < (*shell)->cmds_count)
 	{
 		pid = fork();
 		if (pid == -1)
-		{
-			console(1, "", strerror(errno));
-			return (-1);
-		}
+			return (console(1, "", strerror(errno)), 1);
 		else if (pid == 0)
 		{
 			if (i > 0)
 				dup2((*shell)->cmds[i - 1]->fd[0], STDIN_FILENO);
 			if (i < (*shell)->cmds_count - 1)
 				dup2((*shell)->cmds[i]->fd[1], STDOUT_FILENO);
-			j = 0;
-			while (j < (*shell)->cmds_count)
+			// close_pipes(shell);
+			if (!ft_strcmp((*shell)->cmds[i]->path, "builtin"))
 			{
-				close((*shell)->cmds[j]->fd[0]);
-				close((*shell)->cmds[j]->fd[1]);
-				j++;
+				ft_exec_builtin(shell, i);
+				exit(0);
 			}
 			if (execve((*shell)->cmds[i]->path, (*shell)->cmds[i]->full_cmd,
 					(*shell)->env) == -1)
 			{
 				console(1, (*shell)->cmds[i]->path, strerror(errno));
-				stop(1, shell);
+				exit(0);
 			}
-			exit(1);
 		}
 		waitpid(pid, &state, 0);
-		close((*shell)->cmds[i]->fd[1]);
+		(*shell)->status_code = WEXITSTATUS(state);
+		if ((i + 1) < (*shell)->cmds_count)
+			close((*shell)->cmds[i]->fd[1]);
 		i++;
 	}
-	i = 0;
-	while (i < (*shell)->cmds_count)
-	{
-		close((*shell)->cmds[i]->fd[0]);
-		close((*shell)->cmds[i]->fd[1]);
-		i++;
-	}
-	// (*shell)->status_code = WEXITSTATUS(state);
+	close_pipes(shell);
 	return (0);
 }
 
-void	ft_exec_builtin(t_shell **shell)
+void	ft_exec_builtin(t_shell **shell, int i)
 {
 	char	*cmd_name;
 	char	*low;
 
-	cmd_name = (*shell)->cmds[0]->name;
+	cmd_name = (*shell)->cmds[i]->name;
 	low = ft_tolowercase(cmd_name);
 	if (ft_strchr(cmd_name, '/') != NULL)
 		cmd_name = remove_slashes(cmd_name);
 	if (!ft_strcmp(low, "echo") || \
 		!ft_strcmp(low, "/bin/echo"))
-		ft_echo(shell);
+		ft_echo(shell, i);
 	else if (!ft_strcmp(cmd_name, "cd") || \
 		!ft_strcmp(cmd_name, "/usr/bin/cd"))
-		ft_cd(shell);
+		ft_cd(shell, i);
 	else if (!ft_strcmp(low, "pwd") || \
 		!ft_strcmp(low, "/bin/pwd"))
-		ft_pwd(shell);
+		ft_pwd(shell, i);
 	else if (!ft_strcmp(low, "env") || \
 		!ft_strcmp(low, "/usr/bin/env"))
-		ft_env(shell);
+		ft_env(shell, i);
 	else if (!ft_strcmp(cmd_name, "export"))
-		ft_export(shell);
+		ft_export(shell, i);
 	else if (!ft_strcmp(cmd_name, "unset"))
-		ft_unset(shell);
+		ft_unset(shell, i);
 	free(low);
 }

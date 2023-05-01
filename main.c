@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/01 10:20:19 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/01 19:58:42 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,8 @@ void	execute(t_shell **shell)
 	rd = (*shell)->cmds[0]->redir;
 	if (rd && handle_redirection(rd, shell))
 		return ;
-	if (!ft_strcmp((*shell)->cmds[0]->path, "builtin"))
-		ft_exec_builtin(shell);
-	else if (ft_strcmp((*shell)->cmds[0]->path, "redir") != 0)
+	// if (!ft_strcmp((*shell)->cmds[0]->path, "builtin"))
+	// 	ft_exec_builtin(shell);
 		ft_exec(shell);
 	if (rd)
 		rollback_fd(shell);

@@ -2,7 +2,7 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -I includes/
+CFLAGS = -Wall -Wextra -Werror -I includes/ -fsanitize=address
 
 HEADERS = includes/global.h includes/minishell.h
 
