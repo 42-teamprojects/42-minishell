@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 13:03:26 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/20 15:57:07 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/01 17:28:47 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	cmds_len(t_lexer *tokens)
 	tmp = tokens;
 	while (tmp)
 	{
-		if (tmp->token->type == PIPE)
+		if (tmp->token->type == PIPE && (tmp->token->state == DEFAULT))
 			i++;
 		tmp = tmp->next;
 	}
