@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 21:50:33 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/30 15:15:39 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/01 22:41:46 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,11 @@ char	*check_cmd(char **cmd, char **path_list)
 	path = cmd[0];
 	if (ft_strchr(cmd[0], '/') != NULL)
 	{
-		if (access(path, F_OK) == 0)
+		if (access(path, X_OK) == 0)
+			return (console(1, path, "Is a directory"), NULL);
+		else if (access(path, F_OK) == 0)
 			return (path);
-		free(path);
-		return (console(1, path, "No such file or directory"), NULL);
+		return (console(1, path, strerror(errno)), NULL);
 	}
 	i = -1;
 	while (path_list[++i])
@@ -61,7 +62,6 @@ char	*check_cmd(char **cmd, char **path_list)
 		if (access(path, F_OK) == 0)
 			return (path);
 		free(path);
-		path = NULL;
 	}
 	return (console(1, cmd[0], "command not found"), NULL);
 }

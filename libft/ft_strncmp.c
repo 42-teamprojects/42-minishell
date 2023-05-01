@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 09:48:37 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/03/25 15:13:17 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/01 22:31:57 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	ft_strcmp(const char *s1, const char *s2)
 {
 	size_t	i;
 
+	if (!s1 || !s2)
+		return (1);
 	i = 0;
 	while ((s2[i] || s1[i]) && s1[i] == s2[i])
 		i++;

@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 09:57:19 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/01 19:54:49 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/01 22:28:54 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	stop(int err_code, t_shell **shell)
 	if (err_code == 1)
 	{
 		(*shell)->exit = 1;
-		printf("exit\n");
+		printf("\n");
 	}
 	if (err_code)
 		(*shell)->exit = err_code;
