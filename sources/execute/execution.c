@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/30 22:22:44 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/01 18:31:39 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_exec(t_shell **shell)
 		{
 			if (i > 0)
 				dup2((*shell)->cmds[i - 1]->fd[0], STDIN_FILENO);
-			else if (i < (*shell)->cmds_count - 1)
+			if (i < (*shell)->cmds_count - 1)
 				dup2((*shell)->cmds[i]->fd[1], STDOUT_FILENO);
 			j = 0;
 			while (j < (*shell)->cmds_count)
@@ -57,7 +57,7 @@ int	ft_exec(t_shell **shell)
 				console(1, (*shell)->cmds[i]->path, strerror(errno));
 				stop(1, shell);
 			}
-			// exit(1);
+			exit(1);
 		}
 		waitpid(pid, &state, 0);
 		close((*shell)->cmds[i]->fd[1]);
