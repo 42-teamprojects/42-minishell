@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 23:24:42 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/04/13 20:36:14 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/01 19:24:50 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,24 +47,24 @@ int	check_for_option(char **args, int *flag)
 	return (i);
 }
 
-void	ft_echo(t_shell **shell)
+void	ft_echo(t_shell **shell, int idx)
 {
 	int	i;
 	int	flag;
 
 	flag = 0;
-	if (!(*shell)->cmds[0]->args[0])
+	if (!(*shell)->cmds[idx]->args[0])
 	{
 		printf("\n");
 		return ;
 	}
-	i = check_for_option((*shell)->cmds[0]->args, &flag);
-	while (i < (*shell)->cmds[0]->argc)
+	i = check_for_option((*shell)->cmds[idx]->args, &flag);
+	while (i < (*shell)->cmds[idx]->argc)
 	{
-		if (i != (*shell)->cmds[0]->argc - 1)
-			printf("%s ", (*shell)->cmds[0]->args[i]);
+		if (i != (*shell)->cmds[idx]->argc - 1)
+			printf("%s ", (*shell)->cmds[idx]->args[i]);
 		else
-			printf("%s", (*shell)->cmds[0]->args[i]);
+			printf("%s", (*shell)->cmds[idx]->args[i]);
 		i++;
 	}
 	if (!flag)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:58:50 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/20 22:40:20 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/01 19:09:27 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,12 +97,12 @@ void	free_shell(t_shell *shell, int option)
 					free_command(shell->cmds[i]);
 				free(shell->cmds);
 			}
+			free_array(shell->path_list);
 		}
 		if (option == FULL)
 		{
 			free_array(shell->env);
 			ft_lstclear(&shell->exp, free);
-			free_array(shell->path_list);
 			free(shell);
 		}
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/01 16:13:14 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/01 19:51:36 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@ int				is_redir(t_lexer *tokens);
 
 char			*check_cmd(char **cmd, char **path_list);
 int				ft_exec(t_shell **shell);
-void			ft_exec_builtin(t_shell **shell);
-void			ft_pwd(t_shell **shell);
-void			ft_echo(t_shell **shell);
-void			ft_env(t_shell **shell);
-int				ft_cd(t_shell **shell);
-int				ft_unset(t_shell **shell);
-int				ft_export(t_shell **shell);
+void			ft_exec_builtin(t_shell **shell, int idx);
+void			ft_pwd(t_shell **shell, int idx);
+void			ft_echo(t_shell **shell, int idx);
+void			ft_env(t_shell **shell, int idx);
+int				ft_cd(t_shell **shell, int idx);
+int				ft_unset(t_shell **shell, int idx);
+int				ft_export(t_shell **shell, int idx);
 int				ft_setenv(char *name, char *value, t_shell **shell);
 int				ft_setenv_help(char *name, char *value, t_shell **shell, int i);
 char			*ft_getenv(t_shell **shell, const char *name);
@@ -74,9 +74,10 @@ int				ft_is_var_exist(char **env, char *key);
 int				handle_redirection(t_rd *rd, t_shell **shell);
 int				redirect_output(char *file, t_shell **shell, t_token_type type);
 int				redirect_input(char *file, t_shell **shell);
-int				create_pipe(t_command *cmd);
-int				execute_pipeline(t_command **cmds, int cmd_count);
+int				create_pipe(t_shell **shell);
 void			execute(t_shell **shell);
+void			close_pipes(t_shell **shell);
+
 /* HELPERS */
 
 void			sig_handler(int sig);
