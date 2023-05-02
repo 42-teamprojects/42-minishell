@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/02 14:41:35 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/02 15:43:08 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ void	start_pipe(t_shell **shell, int i)
 	rd = (*shell)->cmds[i]->redir;
 	if ((*shell)->cmds[i]->path == NULL)
 		exit(0);
-	if (rd && handle_redirection(rd, shell))
-		exit(0);
 	redirect_pipe(shell, i);
 	close_pipes(shell);
+	if (rd && handle_redirection(rd, shell))
+		exit(0);
 	if (ft_strcmp((*shell)->cmds[i]->path, "redir"))
 		execute_cmd(shell, i);
 	if (rd)
@@ -49,13 +49,15 @@ int	ft_exec(t_shell **shell)
 {
 	pid_t	pid;
 	int		i;
+	t_rd	*rd;
 	int		state;
 
+	i = 0;
 	if (create_pipe(shell))
 		console(1, "", "failed creating pipes");
-	i = 0;
 	while (i < (*shell)->cmds_count)
 	{
+		rd = (*shell)->cmds[i]->redir;
 		pid = fork();
 		if (pid == -1)
 			return (console(1, "", strerror(errno)), 1);

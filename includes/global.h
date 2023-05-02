@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:49 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/30 14:54:45 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/02 15:31:59 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef struct s_lexer
 typedef struct s_rd
 {
 	char				*file;
+	int					fd[2];
 	t_token_type		type;
 	struct s_rd			*next;
 }	t_rd;
