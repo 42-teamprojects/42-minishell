@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 12:29:45 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/30 14:36:31 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:35:22 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,17 @@ int	ft_is_var_exist(char **env, char *key)
 		}
 		free_array(var);
 	}
+	return (0);
+}
+
+int	is_cmd_parent(char *cmd)
+{
+	if (!ft_strcmp(cmd, "cd") || \
+		!ft_strcmp(cmd, "/usr/bin/cd"))
+		return (1);
+	else if (!ft_strcmp(cmd, "export"))
+		return (1);
+	else if (!ft_strcmp(cmd, "unset"))
+		return (1);
 	return (0);
 }

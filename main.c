@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/01 22:32:22 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:49:29 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,24 @@ void	read_input(t_shell **shell)
 		(*shell)->cmds = parse(shell);
 		if (!(*shell)->cmds || !(*shell)->cmds[0])
 			return (stop(-3, shell));
-		// print_lexer((*shell)->lexer);
+		print_lexer((*shell)->lexer);
 		// print_commands((*shell)->cmds);
 		return ;
 	}
 	free_lexer((*shell)->lexer);
 	stop(-3, shell);
+}
+
+void	execute_inparent(t_shell **shell)
+{
+	t_rd	*rd;
+
+	rd = (*shell)->cmds[0]->redir;
+	if (rd && handle_redirection(rd, shell))
+		return ;
+	ft_exec_builtin(shell, 0);
+	if (rd)
+		rollback_fd(shell);
 }
 
 int	main(int ac, char **av, char **env)
@@ -53,9 +65,9 @@ int	main(int ac, char **av, char **env)
 		if (shell->exit != 0)
 			continue ;
 		if (shell->cmds_count == 1 && \
-			!ft_strcmp(shell->cmds[0]->path, "builtin"))
-			ft_exec_builtin(&shell, 0);
-		else if (shell->cmds[0]->path != NULL)
+			is_cmd_parent(shell->cmds[0]->name))
+			execute_inparent(&shell);
+		else
 			ft_exec(&shell);
 		free_shell(shell, BASIC);
 	}

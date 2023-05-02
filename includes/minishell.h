@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/01 20:31:39 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:36:36 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ int				handle_redirection(t_rd *rd, t_shell **shell);
 int				redirect_output(char *file, t_shell **shell, t_token_type type);
 int				redirect_input(char *file, t_shell **shell);
 int				create_pipe(t_shell **shell);
-void			execute(t_shell **shell);
 void			close_pipes(t_shell **shell);
 void			redirect_pipe(t_shell **shell, int i);
+int				is_cmd_parent(char *cmd);
 
 /* HELPERS */
 

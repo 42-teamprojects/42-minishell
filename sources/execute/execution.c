@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/01 22:50:56 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:41:35 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	start_pipe(t_shell **shell, int i)
 	t_rd	*rd;
 
 	rd = (*shell)->cmds[i]->redir;
+	if ((*shell)->cmds[i]->path == NULL)
+		exit(0);
 	if (rd && handle_redirection(rd, shell))
 		exit(0);
 	redirect_pipe(shell, i);
