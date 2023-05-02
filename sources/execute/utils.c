@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 12:29:45 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/02 14:35:22 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/02 20:26:53 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,11 @@ char	*ft_getenv(t_shell **shell, const char *name)
 	int		name_len;
 	int		i;
 
-	value = NULL;
+	value = ft_strdup("");
 	values = NULL;
 	name_len = ft_strlen(name);
+	if (name_len == 1 && name[0] == '?')
+		return (ft_itoa((*shell)->status_code));
 	i = 0;
 	while ((*shell)->env[i])
 	{
@@ -35,8 +37,6 @@ char	*ft_getenv(t_shell **shell, const char *name)
 		}
 		i++;
 	}
-	if (!value)
-		value = ft_strdup("");
 	return (value);
 }
 
