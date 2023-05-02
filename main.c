@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/02 14:49:29 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:53:36 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	read_input(t_shell **shell)
 		(*shell)->cmds = parse(shell);
 		if (!(*shell)->cmds || !(*shell)->cmds[0])
 			return (stop(-3, shell));
-		print_lexer((*shell)->lexer);
+		// print_lexer((*shell)->lexer);
 		// print_commands((*shell)->cmds);
 		return ;
 	}
