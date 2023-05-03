@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/02 14:36:36 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/03 19:27:16 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char			**init_args(char **command);
 int				args_len(t_lexer *tokens);
 int				cmds_len(t_lexer *tokens);
 t_command		**parse(t_shell **shell);
-char			*parse_quotes(t_lexer **tokens, t_shell **shell);
+char			*parse_quotes(t_lexer **tokens, t_shell **shell, int expand);
 void			handle_word(char **command, int *i, t_lexer **tokens, \
 	t_shell **shell);
 void			handle_quote(char **command, int *i, t_lexer **tokens, \
@@ -56,7 +56,7 @@ int				is_redir(t_lexer *tokens);
 
 /* EXECUTION */
 
-char			*check_cmd(char **cmd, char **path_list);
+char			*check_cmd(t_shell **shell, char **cmd, char **path_list);
 int				ft_exec(t_shell **shell);
 void			ft_exec_builtin(t_shell **shell, int idx);
 void			ft_pwd(t_shell **shell, int idx);

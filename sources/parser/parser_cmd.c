@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:27:23 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/30 14:37:01 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/03 19:27:54 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ void	handle_quote(char **command, int *i, t_lexer **tokens, \
 	if ((*tokens)->prev && (*tokens)->prev->token->type != WSPACE && \
 			(*tokens)->prev->token->type != PIPE)
 		command[*i - 1] = ft_strjoin_gnl(command[*i - 1], \
-			parse_quotes(tokens, shell));
+			parse_quotes(tokens, shell, 1));
 	else
-		command[(*i)++] = parse_quotes(tokens, shell);
+		command[(*i)++] = parse_quotes(tokens, shell, 1);
 }
 
-char	*parse_quotes(t_lexer **tokens, t_shell **shell)
+char	*parse_quotes(t_lexer **tokens, t_shell **shell, int expand)
 {
 	t_token_type	type;
 	char			*str_in_quotes;
@@ -51,7 +51,7 @@ char	*parse_quotes(t_lexer **tokens, t_shell **shell)
 	{
 		expanded = ft_strdup((*tokens)->token->content);
 		if ((*tokens)->token->type == VAR && (*tokens)->token->len > 1 \
-			&& (*tokens)->token->state == IN_DQUOTE)
+			&& (*tokens)->token->state == IN_DQUOTE && expand)
 			expanded = ft_getenv(shell, (*tokens)->token->content + 1);
 		str_in_quotes = ft_strjoin_gnl(str_in_quotes, \
 			expanded);

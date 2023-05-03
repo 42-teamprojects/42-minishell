@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/02 15:43:08 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/03 19:19:48 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,21 @@ void	start_pipe(t_shell **shell, int i)
 		execute_cmd(shell, i);
 	if (rd)
 		rollback_fd(shell);
-	exit(0);
+	exit((*shell)->status_code);
 }
 
 int	ft_exec(t_shell **shell)
 {
 	pid_t	pid;
+	pid_t	*pids;
 	int		i;
 	t_rd	*rd;
 	int		state;
 
-	i = 0;
+	pids = malloc(sizeof(pid_t) * (*shell)->cmds_count);
 	if (create_pipe(shell))
 		console(1, "", "failed creating pipes");
+	i = 0;
 	while (i < (*shell)->cmds_count)
 	{
 		rd = (*shell)->cmds[i]->redir;
@@ -63,13 +65,15 @@ int	ft_exec(t_shell **shell)
 			return (console(1, "", strerror(errno)), 1);
 		else if (pid == 0)
 			start_pipe(shell, i);
-		waitpid(pid, &state, 0);
-		(*shell)->status_code = WEXITSTATUS(state);
-		if ((i + 1) < (*shell)->cmds_count)
-			close((*shell)->cmds[i]->fd[1]);
+		pids[i] = pid;
 		i++;
 	}
-	return (close_pipes(shell), 0);
+	close_pipes(shell);
+	i = -1;
+	while (++i < (*shell)->cmds_count)
+		waitpid(pids[i], &state, 0);
+	(*shell)->status_code = WEXITSTATUS(state);
+	return (0);
 }
 
 void	ft_exec_builtin(t_shell **shell, int i)

@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:58:50 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/01 19:09:27 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/03 12:02:57 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ void	free_command(t_command *cmd)
 			free(cmd->name);
 		if (cmd->args != NULL)
 			free_array(cmd->args);
-		if (cmd->redir != NULL)
-			free_rd(cmd->redir);
+		// if (cmd->redir != NULL)
+		// 	free_rd(cmd->redir);
 		if (cmd->path != NULL)
 			free(cmd->path);
 		if (cmd->full_cmd != NULL)

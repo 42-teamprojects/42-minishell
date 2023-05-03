@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/30 15:18:25 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/03 17:10:20 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ t_command	**parse(t_shell **shell)
 		if (cmd[0] == NULL && rd != NULL)
 			vars.path = ft_strdup("redir");
 		else
-			vars.path = check_cmd(cmd, (*shell)->path_list);
+			vars.path = check_cmd(shell, cmd, (*shell)->path_list);
 		commands[vars.i] = init_cmd(cmd, vars.path, rd);
 	}
 	commands[vars.i] = NULL;

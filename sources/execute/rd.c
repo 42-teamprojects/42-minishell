@@ -51,6 +51,8 @@ int	handle_redirection(t_rd *rd, t_shell **shell)
 {
 	(*shell)->fd.orig_stdout = dup(STDOUT_FILENO);
 	(*shell)->fd.orig_stdin = dup(STDIN_FILENO);
+	if (!rd)
+		return (1);
 	while (rd)
 	{
 		if (rd->type == RD_OUT || rd->type == RD_AOUT)

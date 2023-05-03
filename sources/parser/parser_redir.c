@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:26:32 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/02 14:46:18 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/03 19:42:27 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,16 @@ char	*open_heredoc(t_shell **shell, char *delimiter, int flag)
 		line = get_next_line(0);
 		if (!line)
 			break ;
-		if (*line == '$' && !flag)
-			line = ft_strjoin(ft_getenv(shell, ft_strtrim(line + 1, "\n")), "\n");
-		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
+		line = ft_strtrim(line, "\n");
+		if (*line == '$' && !flag && ft_strcmp(line, delimiter) != 0)
+			line = ft_getenv(shell, line);
+		if (ft_strcmp(line, delimiter) == 0)
 		{
 			free(line);
 			break ;
 		}
 		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
 		free(line);
 	}
 	close(fd);
@@ -64,7 +66,7 @@ void	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
 	else if (is_quote(*tokens))
 	{
 		quote_flag = 1;
-		file = parse_quotes(tokens, shell);
+		file = parse_quotes(tokens, shell, (*tokens)->next->token->type != VAR);
 	}
 	else
 		file = ft_strdup((*tokens)->token->content);
