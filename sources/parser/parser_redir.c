@@ -6,19 +6,27 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:26:32 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/03 19:42:27 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/04 16:07:29 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*open_heredoc(t_shell **shell, char *delimiter, int flag)
+char	*open_heredoc(t_lexer **tokens, t_shell **shell)
 {
 	int		fd;
+	int		flag;
 	char	*line;
+	char	*delimiter;
 
-	(void)flag;
-	(void)shell;
+	flag = 0;
+	if (is_quote(*tokens))
+	{
+		flag = 1;
+		delimiter = parse_quotes(tokens, shell, 0);
+	}
+	else
+		delimiter = ft_strdup((*tokens)->token->content);
 	fd = open("/tmp/.ms_heredoc", O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	if (fd < 0)
 		return (NULL);
@@ -30,7 +38,7 @@ char	*open_heredoc(t_shell **shell, char *delimiter, int flag)
 			break ;
 		line = ft_strtrim(line, "\n");
 		if (*line == '$' && !flag && ft_strcmp(line, delimiter) != 0)
-			line = ft_getenv(shell, line);
+			line = ft_getenv(shell, line + 1);
 		if (ft_strcmp(line, delimiter) == 0)
 		{
 			free(line);
@@ -60,18 +68,16 @@ void	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
 		file = ft_strtrim(ft_getenv(shell, (*tokens)->token->content + 1), \
 				" \t\r\v\f");
 		if (!file || ft_strlen(file) == 0)
-			return (console(1, (*tokens)->token->content, "ambiguous redirect"),
+			return (((*shell)->status_code = 1), \
+				console(1, (*tokens)->token->content, "ambiguous redirect"),
 				free_rd(*rd), stop(-3, shell));
 	}
-	else if (is_quote(*tokens))
-	{
-		quote_flag = 1;
-		file = parse_quotes(tokens, shell, (*tokens)->next->token->type != VAR);
-	}
-	else
+	else if (is_quote(*tokens) && type != HEREDOC)
+		file = parse_quotes(tokens, shell, 1);
+	else if (type != HEREDOC)
 		file = ft_strdup((*tokens)->token->content);
-	if (type == HEREDOC)
-		file = open_heredoc(shell, file, quote_flag);
+	else
+		file = open_heredoc(tokens, shell);
 	rd_addback(rd, new_rd(file, type));
 }
 

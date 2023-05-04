@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 21:50:33 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/03 17:11:46 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/04 14:36:45 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	is_valid_cmd(char *str)
 	return (0);
 }
 
-char	*check_cmd(t_shell **shell, char **cmd, char **path_list)
+char	*check_cmd(char **cmd, char **path_list)
 {
 	char	*path;
 	int		i;
@@ -63,6 +63,5 @@ char	*check_cmd(t_shell **shell, char **cmd, char **path_list)
 			return (path);
 		free(path);
 	}
-	(*shell)->status_code = 127;
 	return (console(1, cmd[0], "command not found"), NULL);
 }

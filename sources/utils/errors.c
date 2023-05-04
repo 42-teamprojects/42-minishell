@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 09:57:19 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/01 22:28:54 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/04 13:04:56 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void	stop(int err_code, t_shell **shell)
 void	console(int status, char *cmd, char *err)
 {
 	if (status == 1)
-		ft_printf_fd(2, BRED"→  "CX "minishell: %s: %s\n"CX, cmd, err);
+		ft_printf_fd(2, "minishell: %s: %s\n", cmd, err);
 	else
-		ft_printf_fd(1, BGREEN"→  "CX "minishell: %s: %s\n"CX, cmd, err);
+		ft_printf_fd(1, "minishell: %s: %s\n", cmd, err);
 }
 
 // to be deleted

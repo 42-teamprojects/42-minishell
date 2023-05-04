@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/03 17:16:33 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/04 16:23:11 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,22 @@ void	read_input(t_shell **shell)
 
 	input = ft_strtrim(readline(BGREEN"minishell $> "CX), "\t ");
 	if (!input || !ft_strcmp(input, "exit"))
+	{
+		exit((*shell)->status_code);
 		return (free(input), stop(1, shell));
+	}
 	if (!ft_strlen(input))
 		return (free(input), stop(-3, shell));
 	add_history(input);
 	(*shell)->lexer = lexer(input);
 	free(input);
 	input = NULL;
-	if (valid_syntax((*shell)->lexer))
+	if (valid_syntax(shell))
 	{
 		(*shell)->path_list = ft_split(ft_getenv(shell, "PATH"), ':');
 		(*shell)->cmds = parse(shell);
+		if ((*shell)->cmds[0] && !(*shell)->cmds[0]->path)
+			(*shell)->status_code = 127;
 		if (!(*shell)->cmds || !(*shell)->cmds[0])
 			return (stop(-3, shell));
 		// print_lexer((*shell)->lexer);

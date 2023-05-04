@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/03 17:10:20 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/04 15:13:29 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,14 @@ t_command	**parse(t_shell **shell)
 	while (++vars.i < (*shell)->cmds_count)
 	{
 		rd = NULL;
+		vars.path = NULL;
 		cmd = parse_cmds(&tokens, shell, &rd);
 		if (!cmd || (*shell)->exit != 0)
 			break ;
 		if (cmd[0] == NULL && rd != NULL)
 			vars.path = ft_strdup("redir");
-		else
-			vars.path = check_cmd(shell, cmd, (*shell)->path_list);
+		else if (*cmd[0])
+			vars.path = check_cmd(cmd, (*shell)->path_list);
 		commands[vars.i] = init_cmd(cmd, vars.path, rd);
 	}
 	commands[vars.i] = NULL;

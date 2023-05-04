@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/03 19:27:16 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/04 14:36:45 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int				get_token(char *input, t_lexer **lexer, int i, t_state state);
 int				get_var(t_lexer **lexer, char *input, t_state state);
 int				get_word(t_lexer **lexer, char *input, t_state state);
 void			change_state(char c, t_state *state);
-int				valid_syntax(t_lexer *lexer);
+int				valid_syntax(t_shell **shell);
 t_lexer			*get_last_node(t_lexer *tokens);
 
 /* PARSER */
@@ -56,7 +56,7 @@ int				is_redir(t_lexer *tokens);
 
 /* EXECUTION */
 
-char			*check_cmd(t_shell **shell, char **cmd, char **path_list);
+char			*check_cmd(char **cmd, char **path_list);
 int				ft_exec(t_shell **shell);
 void			ft_exec_builtin(t_shell **shell, int idx);
 void			ft_pwd(t_shell **shell, int idx);
