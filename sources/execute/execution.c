@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/03 19:19:48 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/04 12:59:54 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	execute_cmd(t_shell **shell, int i)
 			(*shell)->env) == -1)
 	{
 		console(1, (*shell)->cmds[i]->path, strerror(errno));
-		exit(0);
+		exit(1);
 	}
 }
 
@@ -101,5 +101,7 @@ void	ft_exec_builtin(t_shell **shell, int i)
 		ft_export(shell, i);
 	else if (!ft_strcmp(cmd_name, "unset"))
 		ft_unset(shell, i);
+	else if (!ft_strcmp(cmd_name, "exit"))
+		ft_exit(shell, i);
 	free(low);
 }

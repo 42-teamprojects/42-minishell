@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/03 17:16:33 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/03 22:25:57 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ void	read_input(t_shell **shell)
 		(*shell)->path_list = ft_split(ft_getenv(shell, "PATH"), ':');
 		(*shell)->cmds = parse(shell);
 		if (!(*shell)->cmds || !(*shell)->cmds[0])
+		{
+			(*shell)->status_code = 127;
 			return (stop(-3, shell));
+		}
 		// print_lexer((*shell)->lexer);
 		// print_commands((*shell)->cmds);
 		return ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 12:29:45 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/03 17:26:49 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/04 13:49:23 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ char	*ft_getenv(t_shell **shell, const char *name)
 	value = ft_strdup("");
 	values = NULL;
 	name_len = ft_strlen(name);
+	printf("%d\n", (*shell)->status_code);
 	if (name_len == 1 && name[0] == '?')
 		return (ft_itoa((*shell)->status_code));
 	i = 0;
@@ -80,6 +81,8 @@ int	is_cmd_parent(char *cmd)
 	else if (!ft_strcmp(cmd, "export"))
 		return (1);
 	else if (!ft_strcmp(cmd, "unset"))
+		return (1);
+	else if (!ft_strcmp(cmd, "exit"))
 		return (1);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/03 19:27:16 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/04 14:45:07 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int				create_pipe(t_shell **shell);
 void			close_pipes(t_shell **shell);
 void			redirect_pipe(t_shell **shell, int i);
 int				is_cmd_parent(char *cmd);
+void			ft_exit(t_shell **shell, int idx);
 
 /* HELPERS */
 
