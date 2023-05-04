@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:26:32 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/04 16:07:29 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/04 22:49:03 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*open_heredoc(t_lexer **tokens, t_shell **shell)
 	return (ft_strdup("/tmp/.ms_heredoc"));
 }
 
-void	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
+int	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
 {
 	t_token_type	type;
 	char			*file;
@@ -68,9 +68,8 @@ void	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
 		file = ft_strtrim(ft_getenv(shell, (*tokens)->token->content + 1), \
 				" \t\r\v\f");
 		if (!file || ft_strlen(file) == 0)
-			return (((*shell)->status_code = 1), \
-				console(1, (*tokens)->token->content, "ambiguous redirect"),
-				free_rd(*rd), stop(-3, shell));
+			return (console(1, (*tokens)->token->content, "ambiguous redirect"),
+				free_rd(*rd), stop(-3, shell), 1);
 	}
 	else if (is_quote(*tokens) && type != HEREDOC)
 		file = parse_quotes(tokens, shell, 1);
@@ -79,6 +78,7 @@ void	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
 	else
 		file = open_heredoc(tokens, shell);
 	rd_addback(rd, new_rd(file, type));
+	return (0);
 }
 
 void	open_file(char *file, t_token_type type)

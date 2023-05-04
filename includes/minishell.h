@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/04 16:30:35 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/04 22:48:12 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_command		*init_cmd(char **command, char *path, t_rd *rd);
 char			**parse_cmds(t_lexer **tokens, t_shell **shell, t_rd **rd);
 t_rd			*new_rd(char *file, t_token_type type);
 void			rd_addback(t_rd **rd, t_rd *new);
-void			handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell);
+int			handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell);
 int				is_word(t_lexer *tokens);
 int				is_quote(t_lexer *tokens);
 int				is_redir(t_lexer *tokens);

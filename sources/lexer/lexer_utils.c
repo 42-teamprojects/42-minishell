@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 09:49:08 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/19 00:23:32 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/04 22:34:36 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int	get_var(t_lexer **lexer, char *input, t_state state)
 	char	*var;
 
 	i = 1;
-	if (ft_isdigit(input[i]) || input[i] == '?')
+	if (ft_isdigit(input[i]) || input[i] == '?' || input[i] == '@' \
+		|| input[i] == '*')
 		i++;
 	else
 	{
