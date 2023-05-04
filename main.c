@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/04 16:23:11 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/04 18:05:55 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,14 @@ void	read_input(t_shell **shell)
 		(*shell)->path_list = ft_split(ft_getenv(shell, "PATH"), ':');
 		(*shell)->cmds = parse(shell);
 		if ((*shell)->cmds[0] && !(*shell)->cmds[0]->path)
+		{
 			(*shell)->status_code = 127;
+		}
 		if (!(*shell)->cmds || !(*shell)->cmds[0])
+		{
+			(*shell)->status_code = 127;
 			return (stop(-3, shell));
+		}
 		// print_lexer((*shell)->lexer);
 		// print_commands((*shell)->cmds);
 		return ;

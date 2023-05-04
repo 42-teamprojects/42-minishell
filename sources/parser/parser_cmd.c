@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:27:23 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/04 15:13:16 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/04 18:03:08 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,11 @@ char	*parse_quotes(t_lexer **tokens, t_shell **shell, int expand)
 		expanded = ft_strdup((*tokens)->token->content);
 		if ((*tokens)->token->type == VAR && (*tokens)->token->len > 1 \
 			&& (*tokens)->token->state == IN_DQUOTE && expand)
+		{
 			expanded = ft_getenv(shell, (*tokens)->token->content + 1);
+			if (!expanded)
+				expanded = ft_strdup("");
+		}
 		str_in_quotes = ft_strjoin_gnl(str_in_quotes, \
 			expanded);
 		(*tokens) = (*tokens)->next;

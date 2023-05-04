@@ -2,7 +2,7 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -I includes/ -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -I includes/ #-fsanitize=address -g
 
 HEADERS = includes/global.h includes/minishell.h
 
@@ -21,6 +21,7 @@ SRCS = main.c \
 	sources/execute/ft_echo.c \
 	sources/execute/ft_pwd.c \
 	sources/execute/ft_export.c \
+	sources/execute/ft_exit.c \
 	sources/execute/ft_export_utils.c \
 	sources/execute/ft_unset.c \
 	sources/execute/utils.c \
@@ -62,6 +63,7 @@ OBJS = main.o \
 	$(EXECUTEDIR)/ft_unset.o \
 	$(EXECUTEDIR)/rd.o \
 	$(EXECUTEDIR)/pipe.o \
+	$(EXECUTEDIR)/ft_exit.o \
 	$(EXECUTEDIR)/utils.o \
 	$(PARSERDIR)/utils.o \
 	$(PARSERDIR)/parser.o \

@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 21:50:33 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/04 14:36:45 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/04 16:29:34 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int	is_valid_cmd(char *str)
 		ft_strcmp(s, "/usr/bin/env") == 0 || \
 		ft_strcmp(s, "/bin/echo") == 0 || \
 		ft_strcmp(str, "export") == 0 || \
-		ft_strcmp(str, "unset") == 0)
+		ft_strcmp(str, "unset") == 0 || \
+		ft_strcmp(str, "exit") == 0)
 	{
 		free(s);
 		return (1);

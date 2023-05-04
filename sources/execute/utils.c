@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 12:29:45 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/04 15:12:52 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/04 18:06:57 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_getenv(t_shell **shell, const char *name)
 	int		name_len;
 	int		i;
 
-	value = ft_strdup("");
+	value = NULL;
 	values = NULL;
 	name_len = ft_strlen(name);
 	if (name_len == 1 && name[0] == '?')
@@ -80,6 +80,8 @@ int	is_cmd_parent(char *cmd)
 	else if (!ft_strcmp(cmd, "export"))
 		return (1);
 	else if (!ft_strcmp(cmd, "unset"))
+		return (1);
+	else if (!ft_strcmp(cmd, "exit"))
 		return (1);
 	return (0);
 }
