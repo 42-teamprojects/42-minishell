@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/05 14:50:25 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/05 18:16:41 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,28 +23,23 @@ void	read_input(t_shell **shell)
 		exit((*shell)->status_code);
 	}
 	if (!ft_strlen(input))
-		return (free(input), stop(-3, shell));
+		return (free(input), stop(-1, shell));
 	add_history(input);
 	(*shell)->lexer = lexer(input);
 	free(input);
 	input = NULL;
 	if (valid_syntax(shell))
 	{
-		// print_lexer((*shell)->lexer);
 		(*shell)->path_list = ft_split(ft_getenv(shell, "PATH"), ':');
 		(*shell)->cmds = parse(shell);
-		if ((*shell)->cmds[0] && !(*shell)->cmds[0]->path)
-			(*shell)->status_code = 127;
 		if (!(*shell)->cmds || !(*shell)->cmds[0])
-		{
-			(*shell)->status_code = 127;
-			return (stop(-3, shell));
-		}
-		// print_commands((*shell)->cmds);
+			return (((*shell)->status_code = 1), stop(-1, shell));
 		return ;
+		// print_lexer((*shell)->lexer);
+		// print_commands((*shell)->cmds);
 	}
 	free_lexer((*shell)->lexer);
-	stop(-3, shell);
+	stop(-1, shell);
 }
 
 void	execute_inparent(t_shell **shell)

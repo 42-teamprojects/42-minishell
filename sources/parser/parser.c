@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/04 22:48:46 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/05 18:10:10 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	**parse_cmds(t_lexer **tokens, t_shell **shell, t_rd **rd)
 			(*tokens) = (*tokens)->next;
 		parse_logic(&command, &i, tokens, shell);
 		if (is_redir(*tokens))
-			(*shell)->status_code = handle_redir(rd, tokens, shell);
+			handle_redir(rd, tokens, shell);
 		if ((*tokens)->token->type == PIPE)
 		{
 			(*tokens) = (*tokens)->next;
@@ -83,11 +83,11 @@ t_command	**parse(t_shell **shell)
 		rd = NULL;
 		vars.path = NULL;
 		cmd = parse_cmds(&tokens, shell, &rd);
-		if (!cmd || cmd[0] == NULL || (*shell)->exit != 0)
+		if (!cmd || (*shell)->exit != 0)
 			break ;
 		if (cmd[0] == NULL && rd != NULL)
 			vars.path = ft_strdup("redir");
-		else if (*cmd[0])
+		else
 			vars.path = check_cmd(cmd, (*shell)->path_list);
 		commands[vars.i] = init_cmd(cmd, vars.path, rd);
 	}

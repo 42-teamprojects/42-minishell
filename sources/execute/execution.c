@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/05 15:50:31 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/05 18:14:07 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,14 @@ void	start_pipe(t_shell **shell, int i)
 	t_rd	*rd;
 
 	rd = (*shell)->cmds[i]->redir;
-	if ((*shell)->cmds[i]->path == NULL)
+	if (rd && (*shell)->cmds[i]->path == NULL)
 		exit(0);
+	if (!rd && (*shell)->cmds[i]->path == NULL)
+		exit(127);
 	redirect_pipe(shell, i);
 	close_pipes(shell);
 	if (rd && handle_redirection(rd, shell))
-		exit(0);
+		exit(1);
 	if (ft_strcmp((*shell)->cmds[i]->path, "redir"))
 		execute_cmd(shell, i);
 	if (rd)
@@ -47,7 +49,6 @@ int	ft_exec(t_shell **shell)
 	pid_t	pid;
 	pid_t	*pids;
 	int		i;
-	t_rd	*rd;
 	int		state;
 
 	pids = malloc(sizeof(pid_t) * (*shell)->cmds_count);
@@ -56,7 +57,6 @@ int	ft_exec(t_shell **shell)
 	i = 0;
 	while (i < (*shell)->cmds_count)
 	{
-		rd = (*shell)->cmds[i]->redir;
 		pid = fork();
 		if (pid == -1)
 			return (console(1, "", strerror(errno)), 1);
@@ -82,23 +82,19 @@ int	ft_exec_builtin(t_shell **shell, int i)
 	low = ft_tolowercase(cmd_name);
 	if (ft_strchr(cmd_name, '/') != NULL)
 		cmd_name = remove_slashes(cmd_name);
-	if (!ft_strcmp(low, "echo") || \
-		!ft_strcmp(low, "/bin/echo"))
+	if (!ft_strcmp(low, "echo") || !ft_strcmp(low, "/bin/echo"))
 		return (ft_echo(shell, i));
-	else if (!ft_strcmp(low, "pwd") || \
-		!ft_strcmp(low, "/bin/pwd"))
+	if (!ft_strcmp(low, "pwd") || !ft_strcmp(low, "/bin/pwd"))
 		return (ft_pwd(shell, i));
-	else if (!ft_strcmp(low, "env") || \
-		!ft_strcmp(low, "/usr/bin/env"))
+	if (!ft_strcmp(low, "env") || !ft_strcmp(low, "/usr/bin/env"))
 		return (ft_env(shell, i));
-	else if (!ft_strcmp(cmd_name, "cd") || \
-		!ft_strcmp(cmd_name, "/usr/bin/cd"))
+	if (!ft_strcmp(cmd_name, "cd") || !ft_strcmp(cmd_name, "/usr/bin/cd"))
 		return (ft_cd(shell, i));
-	else if (!ft_strcmp(cmd_name, "export"))
+	if (!ft_strcmp(cmd_name, "export"))
 		return (ft_export(shell, i));
-	else if (!ft_strcmp(cmd_name, "unset"))
+	if (!ft_strcmp(cmd_name, "unset"))
 		return (ft_unset(shell, i));
-	else if (!ft_strcmp(cmd_name, "exit"))
+	if (!ft_strcmp(cmd_name, "exit"))
 		return (ft_exit(shell, i));
 	free(low);
 	return (1);

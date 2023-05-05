@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:18:01 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/05 16:45:22 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/05 18:25:16 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,10 @@ int	ft_exit(t_shell **shell, int idx)
 		exit((*shell)->status_code);
 	if (check_for_int((*shell)->cmds[idx]->args[0]) == -1)
 	{
-		console(1, "exit", "numeric argument required");
-		exit(1 % 256);
+		(*shell)->cmds[idx]->args[0] = ft_concat(2, "exit: ", \
+			(*shell)->cmds[idx]->args[0]);
+		console(1, (*shell)->cmds[idx]->args[0], "numeric argument required");
+		exit(255);
 	}
 	else if ((*shell)->cmds[idx]->argc >= 2)
 	{

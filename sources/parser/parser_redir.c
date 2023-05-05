@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:26:32 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/04 22:49:03 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/05 18:12:40 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
 				" \t\r\v\f");
 		if (!file || ft_strlen(file) == 0)
 			return (console(1, (*tokens)->token->content, "ambiguous redirect"),
-				free_rd(*rd), stop(-3, shell), 1);
+				free_rd(*rd), stop(-1, shell), 1);
 	}
 	else if (is_quote(*tokens) && type != HEREDOC)
 		file = parse_quotes(tokens, shell, 1);
