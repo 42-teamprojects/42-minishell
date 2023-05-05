@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 12:29:45 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/04 18:06:57 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/05 19:47:33 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*ft_getenv(t_shell **shell, const char *name)
 			&& (*shell)->env[i][name_len] == '=')
 		{
 			values = ft_split((*shell)->env[i], '=');
-			value = ft_strdup(values[1]);
+			value = ft_strdup(ft_strtrim(values[1], " \t\r\v"));
 			free_array(values);
 			break ;
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:26:32 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/05 18:12:40 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/05 20:10:34 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,9 @@ int	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
 				free_rd(*rd), stop(-1, shell), 1);
 	}
 	else if (is_quote(*tokens) && type != HEREDOC)
+	{
 		file = parse_quotes(tokens, shell, 1);
+	}
 	else if (type != HEREDOC)
 		file = ft_strdup((*tokens)->token->content);
 	else
