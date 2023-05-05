@@ -6,11 +6,35 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 23:26:06 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/05 15:52:21 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/05 19:35:11 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*escape_special_chars(const char *str)
+{
+	char	*result;
+	int		i;
+	int		j;
+
+	result = (char *)malloc(strlen(str) * 2 + 1);
+	if (!result)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (str[i] == '\"' || str[i] == '$')
+		{
+			result[j++] = '\\';
+		}
+		result[j++] = str[i];
+		i++;
+	}
+	result[j] = '\0';
+	return (result);
+}
 
 int	check_var(t_shell **shell, char *var)
 {
@@ -23,6 +47,7 @@ int	check_var(t_shell **shell, char *var)
 	{
 		var = ft_concat(2, "export: ", var);
 		console(1, var, "not a valid identifier");
+		(*shell)->status_code = 1;
 		free(var);
 		return (0);
 	}
@@ -32,6 +57,7 @@ int	check_var(t_shell **shell, char *var)
 		{
 			var = ft_concat(2, "export", var);
 			console(1, var, "not a valid identifier");
+			(*shell)->status_code = 1;
 			free(var);
 			return (0);
 		}
@@ -44,6 +70,7 @@ void	export_env(t_shell **shell)
 	int		i;
 	char	**var;
 	char	*value;
+	char	*escaped_value;
 	t_list	*exp;
 
 	i = 0;
@@ -53,7 +80,9 @@ void	export_env(t_shell **shell)
 		if (!value)
 			exit(0);
 		var = ft_split((*shell)->env[i], '=');
-		printf("declare -x %s=\"%s\"\n", var[0], value);
+		escaped_value = escape_special_chars(value);
+		printf("declare -x %s=\"%s\"\n", var[0], escaped_value);
+		free(escaped_value);
 		free_array(var);
 		i++;
 	}
@@ -101,9 +130,9 @@ int	ft_export(t_shell **shell, int idx)
 		if (check_var(shell, var[0]) && value)
 		{
 			remove_node(&(*shell)->exp, var[0], free);
-			return (ft_setenv(var[0], value, shell), free_array(var), 0);
+			ft_setenv(var[0], value, shell);
 		}
 		free_array(var);
 	}
-	return (1);
+	return (0);
 }

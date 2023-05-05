@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:18:01 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/05 18:25:16 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/05 18:55:59 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	ft_exit(t_shell **shell, int idx)
 	else if ((*shell)->cmds[idx]->argc >= 2)
 	{
 		console(1, "exit", "too many arguments");
+		(*shell)->status_code = 1;
 		return (1);
 	}
 	else
