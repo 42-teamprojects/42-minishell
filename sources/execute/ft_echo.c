@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 23:24:42 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/01 19:24:50 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/05 15:50:45 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	check_for_option(char **args, int *flag)
 	return (i);
 }
 
-void	ft_echo(t_shell **shell, int idx)
+int	ft_echo(t_shell **shell, int idx)
 {
 	int	i;
 	int	flag;
@@ -56,7 +56,7 @@ void	ft_echo(t_shell **shell, int idx)
 	if (!(*shell)->cmds[idx]->args[0])
 	{
 		printf("\n");
-		return ;
+		return (0);
 	}
 	i = check_for_option((*shell)->cmds[idx]->args, &flag);
 	while (i < (*shell)->cmds[idx]->argc)
@@ -69,4 +69,5 @@ void	ft_echo(t_shell **shell, int idx)
 	}
 	if (!flag)
 		printf("\n");
+	return (0);
 }

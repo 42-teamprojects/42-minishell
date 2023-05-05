@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:18:01 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/05 14:54:52 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/05 15:53:16 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	check_for_int(char *arg)
 	return (1);
 }
 
-void	ft_exit(t_shell **shell, int idx)
+int	ft_exit(t_shell **shell, int idx)
 {
 	int	exit_value;
 
@@ -47,11 +47,12 @@ void	ft_exit(t_shell **shell, int idx)
 	else if ((*shell)->cmds[idx]->argc > 2)
 	{
 		console(1, "exit", "too many arguments");
-		return ;
+		return (1);
 	}
 	else
 	{
 		exit_value = ft_atoi((*shell)->cmds[idx]->args[0]);
 		exit(exit_value % 256);
 	}
+	return (0);
 }

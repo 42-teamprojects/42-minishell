@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 23:26:06 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/03 09:51:53 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/05 15:52:21 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	ft_export(t_shell **shell, int idx)
 		if (check_var(shell, var[0]) && value)
 		{
 			remove_node(&(*shell)->exp, var[0], free);
-			ft_setenv(var[0], value, shell);
+			return (ft_setenv(var[0], value, shell), free_array(var), 0);
 		}
 		free_array(var);
 	}

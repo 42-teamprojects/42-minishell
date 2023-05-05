@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/04 12:59:54 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/05 15:50:31 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,7 @@
 void	execute_cmd(t_shell **shell, int i)
 {
 	if (!ft_strcmp((*shell)->cmds[i]->path, "builtin"))
-	{
-		ft_exec_builtin(shell, i);
-		exit(0);
-	}
+		exit(ft_exec_builtin(shell, i));
 	if (execve((*shell)->cmds[i]->path, (*shell)->cmds[i]->full_cmd,
 			(*shell)->env) == -1)
 	{
@@ -76,7 +73,7 @@ int	ft_exec(t_shell **shell)
 	return (0);
 }
 
-void	ft_exec_builtin(t_shell **shell, int i)
+int	ft_exec_builtin(t_shell **shell, int i)
 {
 	char	*cmd_name;
 	char	*low;
@@ -87,21 +84,22 @@ void	ft_exec_builtin(t_shell **shell, int i)
 		cmd_name = remove_slashes(cmd_name);
 	if (!ft_strcmp(low, "echo") || \
 		!ft_strcmp(low, "/bin/echo"))
-		ft_echo(shell, i);
+		return (ft_echo(shell, i));
 	else if (!ft_strcmp(low, "pwd") || \
 		!ft_strcmp(low, "/bin/pwd"))
-		ft_pwd(shell, i);
+		return (ft_pwd(shell, i));
 	else if (!ft_strcmp(low, "env") || \
 		!ft_strcmp(low, "/usr/bin/env"))
-		ft_env(shell, i);
+		return (ft_env(shell, i));
 	else if (!ft_strcmp(cmd_name, "cd") || \
 		!ft_strcmp(cmd_name, "/usr/bin/cd"))
-		ft_cd(shell, i);
+		return (ft_cd(shell, i));
 	else if (!ft_strcmp(cmd_name, "export"))
-		ft_export(shell, i);
+		return (ft_export(shell, i));
 	else if (!ft_strcmp(cmd_name, "unset"))
-		ft_unset(shell, i);
+		return (ft_unset(shell, i));
 	else if (!ft_strcmp(cmd_name, "exit"))
-		ft_exit(shell, i);
+		return (ft_exit(shell, i));
 	free(low);
+	return (1);
 }
