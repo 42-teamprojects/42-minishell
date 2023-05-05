@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:18:01 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/05 15:53:16 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/05 16:41:10 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	ft_exit(t_shell **shell, int idx)
 {
 	int	exit_value;
 
-	printf("exit\n");
 	if ((*shell)->cmds[idx]->argc == 0)
 		exit((*shell)->status_code);
 	if (check_for_int((*shell)->cmds[idx]->args[0]) == -1)

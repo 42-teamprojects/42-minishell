@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/04 22:48:12 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/05 16:41:02 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,11 @@ int				is_redir(t_lexer *tokens);
 
 char			*check_cmd(char **cmd, char **path_list);
 int				ft_exec(t_shell **shell);
-void			ft_exec_builtin(t_shell **shell, int idx);
-void			ft_pwd(t_shell **shell, int idx);
-void			ft_echo(t_shell **shell, int idx);
-void			ft_env(t_shell **shell, int idx);
+int				ft_exec_builtin(t_shell **shell, int idx);
+int				ft_pwd(t_shell **shell, int idx);
+int				ft_echo(t_shell **shell, int idx);
+int				ft_env(t_shell **shell, int idx);
+int				ft_exit(t_shell **shell, int idx);
 int				ft_cd(t_shell **shell, int idx);
 int				ft_unset(t_shell **shell, int idx);
 int				ft_export(t_shell **shell, int idx);
@@ -78,7 +79,6 @@ int				create_pipe(t_shell **shell);
 void			close_pipes(t_shell **shell);
 void			redirect_pipe(t_shell **shell, int i);
 int				is_cmd_parent(char *cmd);
-void			ft_exit(t_shell **shell, int idx);
 
 /* HELPERS */
 
