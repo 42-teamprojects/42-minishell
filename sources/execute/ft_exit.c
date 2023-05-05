@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:18:01 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/05 16:41:10 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/05 16:45:22 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	ft_exit(t_shell **shell, int idx)
 		console(1, "exit", "numeric argument required");
 		exit(1 % 256);
 	}
-	else if ((*shell)->cmds[idx]->argc > 2)
+	else if ((*shell)->cmds[idx]->argc >= 2)
 	{
 		console(1, "exit", "too many arguments");
 		return (1);
