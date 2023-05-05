@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:18:01 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/04 15:35:15 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/05 14:54:52 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,17 @@ void	ft_exit(t_shell **shell, int idx)
 {
 	int	exit_value;
 
+	printf("exit\n");
+	if ((*shell)->cmds[idx]->argc == 0)
+		exit((*shell)->status_code);
 	if (check_for_int((*shell)->cmds[idx]->args[0]) == -1)
 	{
-		ft_printf("exit\nnumeric argument required\n");
+		console(1, "exit", "numeric argument required");
 		exit(1 % 256);
 	}
 	else if ((*shell)->cmds[idx]->argc > 2)
 	{
-		ft_printf("exit\ntoo many arguments\n");
+		console(1, "exit", "too many arguments");
 		return ;
 	}
 	else

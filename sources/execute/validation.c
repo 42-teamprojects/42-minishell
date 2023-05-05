@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 21:50:33 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/04 16:29:34 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/05 14:46:38 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*check_cmd(char **cmd, char **path_list)
 	int		i;
 
 	if (!cmd[0] || !*cmd[0] || !args_count(cmd))
-		return (console(2, cmd[0], "command not found"), NULL);
+		return (console(1, cmd[0], "command not found"), NULL);
 	if (is_valid_cmd(cmd[0]))
 		return (ft_strdup("builtin"));
 	path = cmd[0];
@@ -57,6 +57,8 @@ char	*check_cmd(char **cmd, char **path_list)
 		return (console(1, path, strerror(errno)), NULL);
 	}
 	i = -1;
+	if (!path_list)
+		return (console(1, cmd[0], "command not found"), NULL);
 	while (path_list[++i])
 	{
 		path = ft_concat(3, path_list[i], "/", cmd[0]);

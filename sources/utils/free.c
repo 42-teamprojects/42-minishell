@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:58:50 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/03 12:02:57 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/05 14:42:58 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	free_array(char **array)
 {
 	int	i;
 
-	if (array[0])
+	if (array && array[0])
 	{
 		i = 0;
 		while (array[i])

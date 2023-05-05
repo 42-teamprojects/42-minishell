@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/04 22:54:43 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/05 14:50:25 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void	read_input(t_shell **shell)
 	char		*input;
 
 	input = ft_strtrim(readline(BGREEN"minishell $> "CX), "\t ");
-	if (!input || !ft_strcmp(input, "exit"))
+	if (!input)
 	{
+		free(input);
 		exit((*shell)->status_code);
-		return (free(input), stop(1, shell));
 	}
 	if (!ft_strlen(input))
 		return (free(input), stop(-3, shell));
