@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:18:01 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/05 14:54:52 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/05 16:29:11 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	ft_exit(t_shell **shell, int idx)
 {
 	int	exit_value;
 
-	printf("exit\n");
 	if ((*shell)->cmds[idx]->argc == 0)
 		exit((*shell)->status_code);
 	if (check_for_int((*shell)->cmds[idx]->args[0]) == -1)
@@ -44,7 +43,7 @@ void	ft_exit(t_shell **shell, int idx)
 		console(1, "exit", "numeric argument required");
 		exit(1 % 256);
 	}
-	else if ((*shell)->cmds[idx]->argc > 2)
+	else if ((*shell)->cmds[idx]->argc >= 2)
 	{
 		console(1, "exit", "too many arguments");
 		return ;
