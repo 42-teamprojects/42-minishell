@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/05 16:41:02 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/05 16:49:26 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_command		*init_cmd(char **command, char *path, t_rd *rd);
 char			**parse_cmds(t_lexer **tokens, t_shell **shell, t_rd **rd);
 t_rd			*new_rd(char *file, t_token_type type);
 void			rd_addback(t_rd **rd, t_rd *new);
-int			handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell);
+int				handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell);
 int				is_word(t_lexer *tokens);
 int				is_quote(t_lexer *tokens);
 int				is_redir(t_lexer *tokens);
