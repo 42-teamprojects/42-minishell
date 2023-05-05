@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 21:50:33 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/05 14:46:38 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/05 18:33:59 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*check_cmd(char **cmd, char **path_list)
 	}
 	i = -1;
 	if (!path_list)
-		return (console(1, cmd[0], "command not found"), NULL);
+		return (console(1, cmd[0], "No such file or directory"), NULL);
 	while (path_list[++i])
 	{
 		path = ft_concat(3, path_list[i], "/", cmd[0]);
