@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:26:32 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/05 20:10:34 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/06 13:26:39 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,7 @@ int	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
 {
 	t_token_type	type;
 	char			*file;
-	int				quote_flag;
 
-	quote_flag = 0;
 	type = (*tokens)->token->type;
 	while ((*tokens)->token->type != WORD && (*tokens)->token->type != VAR \
 		&& (*tokens)->token->type != SQUOTE && (*tokens)->token->type != DQUOTE)
