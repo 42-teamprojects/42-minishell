@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 23:25:30 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/04 17:56:42 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/05 22:24:21 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int	ft_cd(t_shell **shell, int idx)
 	if ((*shell)->cmds[idx]->argc > 0)
 	{
 		if (chdir((*shell)->cmds[idx]->args[0]) != 0)
-			return (console(1, (*shell)->cmds[idx]->args[0], strerror(errno)), 1);
+			return ((((*shell)->status_code = 1)), \
+				console(1, (*shell)->cmds[idx]->args[0], strerror(errno)), 1);
 	}
 	if ((*shell)->cmds[idx]->args[0] == NULL && home != NULL)
 		return (ft_setenv("OLDPWD", s, shell), \

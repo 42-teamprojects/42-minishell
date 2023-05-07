@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 21:50:33 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/05 18:46:14 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/07 12:59:59 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ char	*check_cmd(char **cmd, char **path_list)
 	if (is_valid_cmd(cmd[0]))
 		return (ft_strdup("builtin"));
 	path = cmd[0];
-	if (*cmd[0] == '/')
+	if (*cmd[0] == '/' || (cmd[0][0] == '.' && cmd[0][1] == '/'))
 	{
-		if (access(path, X_OK) == 0)
-			return (console(1, path, "Is a directory"), NULL);
-		else if (access(path, F_OK) == 0)
+		// if (access(path, X_OK) == 0)
+		// 	return (console(1, path, "Is a directory"), NULL);
+		if (access(path, F_OK) == 0)
 			return (path);
 		return (console(1, path, strerror(errno)), NULL);
 	}

@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/05 20:46:31 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/07 13:01:48 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ void	read_input(t_shell **shell)
 		(*shell)->cmds = parse(shell);
 		if (!(*shell)->cmds || !(*shell)->cmds[0])
 			return (((*shell)->status_code = 1), stop(-1, shell));
+		// print_lexer((*shell)->lexer);
 		return ;
 		print_commands((*shell)->cmds);
-		print_lexer((*shell)->lexer);
 	}
 	free_lexer((*shell)->lexer);
 	stop(-1, shell);
@@ -60,6 +60,7 @@ int	main(int ac, char **av, char **env)
 
 	(void) ac;
 	(void) av;
+	g_myenv = env;
 	init_shell(&shell, env);
 	while (shell->exit != 1)
 	{
@@ -73,7 +74,7 @@ int	main(int ac, char **av, char **env)
 			execute_inparent(&shell);
 		else
 			ft_exec(&shell);
-		free_shell(shell, BASIC);
+		// free_shell(shell, BASIC);
 	}
 	free_shell(shell, FULL);
 }

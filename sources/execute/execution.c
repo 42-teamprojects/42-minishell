@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/05 18:14:07 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/07 12:50:50 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	execute_cmd(t_shell **shell, int i)
 	if (!ft_strcmp((*shell)->cmds[i]->path, "builtin"))
 		exit(ft_exec_builtin(shell, i));
 	if (execve((*shell)->cmds[i]->path, (*shell)->cmds[i]->full_cmd,
-			(*shell)->env) == -1)
+			g_myenv) == -1)
 	{
 		console(1, (*shell)->cmds[i]->path, strerror(errno));
 		exit(1);
