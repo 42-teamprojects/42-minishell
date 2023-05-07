@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 21:26:32 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/06 13:26:39 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/07 22:49:11 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,31 +52,73 @@ char	*open_heredoc(t_lexer **tokens, t_shell **shell)
 	return (ft_strdup("/tmp/.ms_heredoc"));
 }
 
+// int	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
+// {
+// 	t_token_type	type;
+// 	char			*file;
+
+// 	type = (*tokens)->token->type;
+// 	while ((*tokens)->token->type != WORD && (*tokens)->token->type != VAR \
+// 		&& (*tokens)->token->type != SQUOTE && (*tokens)->token->type != DQUOTE)
+// 		*tokens = (*tokens)->next;
+// 	if ((*tokens)->token->type == VAR && type != HEREDOC)
+// 	{
+// 		file = ft_strtrim(ft_getenv(shell, (*tokens)->token->content + 1), \
+// 				" \t\r\v\f");
+// 		if (!file || ft_strlen(file) == 0)
+// 			return (console(1, (*tokens)->token->content, "ambiguous redirect"),
+// 				free_rd(*rd), stop(-1, shell), 1);
+// 	}
+// 	else if (is_quote(*tokens) && type != HEREDOC)
+// 	{
+// 		file = parse_quotes(tokens, shell, 1);
+// 	}
+// 	else if (type != HEREDOC)
+// 		file = ft_strdup((*tokens)->token->content);
+// 	else
+// 		file = open_heredoc(tokens, shell);
+// 	rd_addback(rd, new_rd(file, type));
+// 	return (0);
+// }
 int	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
 {
+	char			**args;
+	int				i;
 	t_token_type	type;
 	char			*file;
+	t_lexer			*tmp;
 
 	type = (*tokens)->token->type;
 	while ((*tokens)->token->type != WORD && (*tokens)->token->type != VAR \
 		&& (*tokens)->token->type != SQUOTE && (*tokens)->token->type != DQUOTE)
 		*tokens = (*tokens)->next;
-	if ((*tokens)->token->type == VAR && type != HEREDOC)
-	{
-		file = ft_strtrim(ft_getenv(shell, (*tokens)->token->content + 1), \
-				" \t\r\v\f");
-		if (!file || ft_strlen(file) == 0)
-			return (console(1, (*tokens)->token->content, "ambiguous redirect"),
-				free_rd(*rd), stop(-1, shell), 1);
-	}
-	else if (is_quote(*tokens) && type != HEREDOC)
-	{
-		file = parse_quotes(tokens, shell, 1);
-	}
-	else if (type != HEREDOC)
-		file = ft_strdup((*tokens)->token->content);
-	else
+	if (type == HEREDOC)
 		file = open_heredoc(tokens, shell);
+	else
+	{
+		i = 0;
+		args = (char **)malloc(sizeof(char *) * (args_len(*tokens, shell, WSPACE) + 1));
+		if (!args)
+			return (1);
+		tmp = *tokens;
+		while ((*tokens))
+		{
+			if (is_word(*tokens))
+				handle_word(args, &i, tokens, shell);
+			if (is_quote(*tokens))
+				handle_quote(args, &i, tokens, shell);
+			if ((*tokens)->token->type == WSPACE || !(*tokens)->next)
+				break ;
+			(*tokens) = (*tokens)->next;
+		}
+		args[i] = NULL;
+		if (args_count(args) == 0 || args_count(args) > 1 || !args[0] || !ft_strlen(args[0]) || !ft_strcmp(args[0], ""))
+		{
+			(*shell)->status_code = 1;
+			return (stop(-1, shell), console(1, "", "ambiguous redirect"), 1);
+		}
+		file = ft_strdup(args[0]);
+	}
 	rd_addback(rd, new_rd(file, type));
 	return (0);
 }
