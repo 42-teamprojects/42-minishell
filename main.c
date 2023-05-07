@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/07 14:38:08 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/07 14:44:16 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int	main(int ac, char **av, char **env)
 
 	(void) ac;
 	(void) av;
+	g_myenv = env;
 	init_shell(&shell, env);
 	while (shell->exit != 1)
 	{
