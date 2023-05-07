@@ -3,6 +3,3 @@ l"s" .
 l's' .
 export s=" s"
 l$s .
-export s="s"
-l$s .
-lsX .

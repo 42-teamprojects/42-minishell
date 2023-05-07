@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:27:23 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/07 14:28:23 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/07 18:17:04 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,18 @@ void	handle_word(char **command, int *i, t_lexer **tokens, t_shell **shell)
 		ft_isdigit((*tokens)->token->content[1])) \
 		&& (*tokens)->token->len == 2)
 		expanded = ft_strdup("");
-	else if ((*tokens)->token->type == VAR && \
-		(((*tokens)->next && (*tokens)->prev \
-		&& (*tokens)->next->token->type == WSPACE \
-		&& (*tokens)->prev->token->type == WSPACE) \
-		|| (!(*tokens)->next || !(*tokens)->prev)))
+	else if ((*tokens)->token->type == VAR && (*tokens)->token->state == DEFAULT
+		&& is_var_alone(*tokens))
 	{
-		expanded = ft_strtrim(ft_getenv(shell, \
-			(*tokens)->token->content + 1), " ");
-		if (!expanded || ft_strlen(expanded) == 0)
-			return ;
+		expanded = ft_getenv(shell, (*tokens)->token->content + 1);
+		if (expanded)
+		{
+			char **split = ft_split(expanded, ' ');
+			while (split && *split)
+				command[(*i)++] = *split++;
+			free(expanded);
+		}
+		return ;
 	}
 	else if ((*tokens)->token->type == VAR && (*tokens)->token->len > 1)
 	{
