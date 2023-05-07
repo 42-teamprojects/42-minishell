@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 13:03:26 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/01 17:28:47 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/07 18:06:59 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,14 @@ char	**init_args(char **command)
 	return (args);
 }
 
-int	args_len(t_lexer *tokens)
+int	is_var_alone(t_lexer *tokens)
+{
+	return (tokens->token->type == VAR && \
+		((tokens->next && (tokens->next->token->type == WSPACE)) \
+		|| (tokens->prev && (tokens->prev->token->type == WSPACE))));
+}
+
+int	args_len(t_lexer *tokens, t_shell **shell)
 {
 	int				i;
 	t_lexer			*tmp;
@@ -40,8 +47,23 @@ int	args_len(t_lexer *tokens)
 	tmp = tokens;
 	while (tmp && tmp->token->type != PIPE)
 	{
-		if (tmp->token->type == WORD || tmp->token->type == VAR)
+		if (tmp->token->type == VAR && !tmp->prev)
 			i++;
+		else if (tmp->token->type == WORD && !is_var_alone(tmp))
+			i++;
+		else if (tmp->token->type == VAR && is_var_alone(tmp))
+		{
+			char *expanded = ft_getenv(shell, tmp->token->content + 1);
+			if (expanded)
+			{
+				char **split = ft_split(expanded, ' ');
+				i += args_count(split);
+				free(expanded);
+				free(split);
+			}
+			else
+				i++;
+		}
 		else if (tmp->token->type == DQUOTE || tmp->token->type == SQUOTE)
 		{
 			type = tmp->token->type;
