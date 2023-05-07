@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:27:23 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/06 22:51:31 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/07 14:28:23 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,27 @@ void	handle_word(char **command, int *i, t_lexer **tokens, t_shell **shell)
 	char	*expanded;
 
 	expanded = ft_strdup((*tokens)->token->content);
-	if ((*tokens)->token->type == VAR && (*tokens)->token->len > 1)
+	if (((*tokens)->token->type == VAR && (*tokens)->token->content) \
+		&& ((*tokens)->token->content[1] == '@' \
+		|| (*tokens)->token->content[1] == '*' || \
+		ft_isdigit((*tokens)->token->content[1])) \
+		&& (*tokens)->token->len == 2)
+		expanded = ft_strdup("");
+	else if ((*tokens)->token->type == VAR && \
+		(((*tokens)->next && (*tokens)->prev \
+		&& (*tokens)->next->token->type == WSPACE \
+		&& (*tokens)->prev->token->type == WSPACE) \
+		|| (!(*tokens)->next || !(*tokens)->prev)))
 	{
-		expanded = ft_getenv(shell, (*tokens)->token->content + 1);
+		expanded = ft_strtrim(ft_getenv(shell, \
+			(*tokens)->token->content + 1), " ");
+		if (!expanded || ft_strlen(expanded) == 0)
+			return ;
+	}
+	else if ((*tokens)->token->type == VAR && (*tokens)->token->len > 1)
+	{
+		expanded = ft_strtrim_min(ft_getenv(shell, \
+			(*tokens)->token->content + 1), " ");
 		if (!expanded || ft_strlen(expanded) == 0)
 			return ;
 	}
