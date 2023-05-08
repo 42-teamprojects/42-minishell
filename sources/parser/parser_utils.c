@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 13:03:26 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/07 22:15:00 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/08 20:25:01 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ char	**init_args(char **command)
 
 int	is_var_alone(t_lexer *tokens)
 {
-	return (tokens->token->type == VAR && \
-		((tokens->next && (tokens->next->token->type == WSPACE)) \
-		|| (tokens->prev && (tokens->prev->token->type == WSPACE))));
+	return (tokens->token->type == VAR \
+		&& (tokens->prev && tokens->prev->token->type == WSPACE)
+		&& ((!tokens->next || (tokens->next && tokens->next->token->type == WSPACE))));
 }
 
 int	args_len(t_lexer *tokens, t_shell **shell, t_token_type test_type)
@@ -73,6 +73,24 @@ int	args_len(t_lexer *tokens, t_shell **shell, t_token_type test_type)
 				tmp = tmp->next;
 			if (tmp->next && tmp->next->token->type == WORD)
 				i--;
+		}
+		tmp = tmp->next;
+	}
+	return (i);
+}
+
+int	var_count(t_lexer *tokens, t_token_type test_type)
+{
+	int		i;
+	t_lexer	*tmp;
+
+	i = 0;
+	tmp = tokens;
+	while (tmp && !(tmp->token->type == test_type && tmp->token->state == DEFAULT))
+	{
+		if (tmp->token->type == VAR && tmp->token->state == DEFAULT)
+		{
+			i++;
 		}
 		tmp = tmp->next;
 	}
