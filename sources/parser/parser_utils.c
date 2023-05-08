@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 13:03:26 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/07 18:06:59 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/07 22:15:00 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	is_var_alone(t_lexer *tokens)
 		|| (tokens->prev && (tokens->prev->token->type == WSPACE))));
 }
 
-int	args_len(t_lexer *tokens, t_shell **shell)
+int	args_len(t_lexer *tokens, t_shell **shell, t_token_type test_type)
 {
 	int				i;
 	t_lexer			*tmp;
@@ -45,7 +45,7 @@ int	args_len(t_lexer *tokens, t_shell **shell)
 
 	i = 0;
 	tmp = tokens;
-	while (tmp && tmp->token->type != PIPE)
+	while (tmp && tmp->token->type != test_type)
 	{
 		if (tmp->token->type == VAR && !tmp->prev)
 			i++;
