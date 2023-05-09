@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/09 18:35:02 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/09 19:41:29 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,27 @@ typedef struct s_vars
 	int		i;
 	char	*path;
 }	t_vars;
+
+void	check_files(t_shell **shell, t_rd *rd)
+{
+	t_rd	*tmp;
+	int		fd;
+
+	if (!rd)
+		return ;
+	tmp = rd;
+	while (tmp)
+	{
+		if (tmp->type == RD_IN && tmp->file)
+		{
+			fd = open(tmp->file, O_RDONLY);
+			if (fd < 0)
+				return (stop(-1, shell), console(1, tmp->file, \
+					strerror(errno)));
+		}
+		tmp = tmp->next;
+	}
+}
 
 void	parse_logic(char ***command, int *i, t_lexer **tokens, t_shell **shell)
 {
@@ -49,6 +70,7 @@ char	**parse_cmds(t_lexer **tokens, t_shell **shell, t_rd **rd)
 		}
 		(*tokens) = (*tokens)->next;
 	}
+	check_files(shell, *rd);
 	command[i] = NULL;
 	return (command);
 }

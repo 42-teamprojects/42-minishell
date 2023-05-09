@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 13:03:26 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/09 18:33:50 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/09 19:53:13 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,12 @@ char	**init_args(char **command)
 int	is_var_alone(t_lexer *tokens)
 {
 	return (tokens->token->type == VAR \
-		&& (tokens->prev && tokens->prev->token->type == WSPACE)
-		&& ((!tokens->next || (tokens->next && tokens->next->token->type == WSPACE))));
+		&& (tokens->prev && \
+		(tokens->prev->token->type == WSPACE \
+		|| is_redir(tokens)))
+		&& ((!tokens->next || (tokens->next && \
+		(tokens->next->token->type == WSPACE \
+		|| is_redir(tokens))))));
 }
 
 int	args_len(t_lexer *tokens, t_shell **shell, t_token_type test_type)

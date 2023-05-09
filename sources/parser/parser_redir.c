@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 17:11:51 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/08 20:25:19 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/09 20:13:32 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,7 @@ int	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
 	while ((*tokens)->token->type != WORD && (*tokens)->token->type != VAR &&
 		   (*tokens)->token->type != SQUOTE && (*tokens)->token->type != DQUOTE)
 		*tokens = (*tokens)->next;
-	if (type == HEREDOC)
-		file = open_heredoc(tokens, shell);
-	else
+	if (type != HEREDOC)
 	{
 		i = 0;
 		args = (char **)malloc(sizeof(char *) * (args_len(*tokens, shell, WSPACE) + 1));
@@ -113,12 +111,7 @@ int	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
 				(*shell)->status_code = 1;
 				return (stop(-1, shell), console(1, "", "ambiguous redirect"), 1);
 			}
-		}
-		if (type == RD_IN && args[0] && args_count(args) == 1)
-		{
-			int fd = open(file, O_RDONLY);
-			if (fd < 0)
-				return (stop(-1, shell), console(1, args[0], strerror(errno)), 1);
+			free_array(split);
 		}
 		if (args_count(args) == 0 || args_count(args) > 1 || !args[0] || !ft_strlen(args[0]) || !ft_strcmp(args[0], "") ||
 			validate_file_name(args[0]))
@@ -128,6 +121,8 @@ int	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
 		}
 		file = ft_strdup(args[0]);
 	}
+	else
+		file = open_heredoc(tokens, shell);
 	rd_addback(rd, new_rd(file, type));
 	return (0);
 }

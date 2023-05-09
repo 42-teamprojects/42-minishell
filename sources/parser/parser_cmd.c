@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:27:23 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/09 18:34:33 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/09 20:25:26 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	handle_word(char **command, int *i, t_lexer **tokens, t_shell **shell)
 	if ((*tokens)->prev && (*tokens)->prev->token->type != WSPACE && \
 			(*tokens)->prev->token->type != PIPE)
 		{
-		command[*i - 1] = ft_strjoin_gnl(command[*i - 1], \
+			command[*i - 1] = ft_strjoin_gnl(command[*i - 1], \
 			expanded);
 		}
 	else
