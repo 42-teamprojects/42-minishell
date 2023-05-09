@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 13:03:26 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/08 20:25:01 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/09 18:33:50 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,7 @@ int	args_len(t_lexer *tokens, t_shell **shell, t_token_type test_type)
 	tmp = tokens;
 	while (tmp && tmp->token->type != test_type)
 	{
-		if (tmp->token->type == VAR && !tmp->prev)
-			i++;
-		else if (tmp->token->type == WORD && !is_var_alone(tmp))
+		if (tmp->token->type == WORD && !is_var_alone(tmp))
 			i++;
 		else if (tmp->token->type == VAR && is_var_alone(tmp))
 		{
@@ -64,6 +62,8 @@ int	args_len(t_lexer *tokens, t_shell **shell, t_token_type test_type)
 			else
 				i++;
 		}
+		else if (tmp->token->type == VAR)
+			i++;
 		else if (tmp->token->type == DQUOTE || tmp->token->type == SQUOTE)
 		{
 			type = tmp->token->type;
