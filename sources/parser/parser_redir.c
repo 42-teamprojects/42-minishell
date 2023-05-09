@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 17:11:51 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/09 21:43:06 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/09 22:29:00 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,24 +100,21 @@ int	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
 		args[i] = NULL;
 		if (!args[0])
 		{
-			(*shell)->status_code = 1;
-			return (stop(-1, shell), console(1, "", "ambiguous redirect"), 1);
+			return (1);
 		}
 		if (has_vars > 0)
 		{
 			char **split = ft_split(args[0], ' ');
 			if ((split && split[0] && args_count(split) > 1) || ft_strchr(args[0], ' ') != NULL)
 			{
-				(*shell)->status_code = 1;
-				return (stop(-1, shell), console(1, "", "ambiguous redirect"), 1);
+				return (1);
 			}
 			free_array(split);
 		}
 		if (args_count(args) == 0 || args_count(args) > 1 || !args[0] || !ft_strlen(args[0]) || !ft_strcmp(args[0], "") ||
 			validate_file_name(args[0]))
 		{
-			(*shell)->status_code = 1;
-			return (stop(-1, shell), console(1, "", "ambiguous redirect"), 1);
+			return (1);
 		}
 		file = ft_strdup(args[0]);
 	}	
