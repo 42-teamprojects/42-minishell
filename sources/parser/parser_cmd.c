@@ -3,21 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:27:23 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/09 22:02:55 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/10 15:16:38 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_word(char **command, int *i, t_lexer **tokens, t_shell **shell)
+void	handle_word(char **command, int *i, t_lexer **tokens, t_shell **shell)
 {
 	char	*expanded;
-	int		has_var;
 
-	has_var = 0;
 	expanded = ft_strdup((*tokens)->token->content);
 	if (((*tokens)->token->type == VAR && (*tokens)->token->content) \
 		&& ((*tokens)->token->content[1] == '@' \
@@ -25,13 +23,11 @@ int	handle_word(char **command, int *i, t_lexer **tokens, t_shell **shell)
 		ft_isdigit((*tokens)->token->content[1])) \
 		&& (*tokens)->token->len == 2)
 	{
-		has_var = 1;
 		expanded = ft_strdup("");
 	}
 	else if ((*tokens)->token->type == VAR && (*tokens)->token->state == DEFAULT
 		&& is_var_alone(*tokens))
 	{
-		has_var = 1;
 		expanded = ft_getenv(shell, (*tokens)->token->content + 1);
 		if (expanded)
 		{
@@ -40,15 +36,14 @@ int	handle_word(char **command, int *i, t_lexer **tokens, t_shell **shell)
 				command[(*i)++] = *split++;
 			free(expanded);
 		}
-		return (has_var);
+		return ;
 	}
 	else if ((*tokens)->token->type == VAR && (*tokens)->token->len > 1)
 	{
-		has_var = 1;
 		expanded = ft_strtrim_min(ft_getenv(shell, \
 			(*tokens)->token->content + 1), " ");
 		if (!expanded || ft_strlen(expanded) == 0)
-			return (has_var);
+			return ;
 	}
 	if ((*tokens)->prev && (*tokens)->prev->token->type != WSPACE && \
 			!is_redir((*tokens)->prev) && \
@@ -59,7 +54,6 @@ int	handle_word(char **command, int *i, t_lexer **tokens, t_shell **shell)
 		}
 	else
 		command[(*i)++] = expanded;
-	return (has_var);
 }
 
 void	handle_quote(char **command, int *i, t_lexer **tokens, \
