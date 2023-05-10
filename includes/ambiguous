@@ -1,0 +1,21 @@
+> ""$wl
+> $wl""
+> "x"$wl
+> $wl"x"
+> $sp$wl
+> $wl$sp
+> $sp$wl$sp
+> $var$wl$var
+> $var$wl
+> $wl$var
+
+> ""$sp
+> $sp""
+> "x"$sp
+> $sp"x"
+> $sp$sp
+> $sp$sp
+> $sp$sp$sp
+> $var$sp$var
+> $var$sp
+> $sp$var
