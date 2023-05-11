@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 13:03:26 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/09 19:53:13 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/11 11:54:54 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ int	is_var_alone(t_lexer *tokens)
 	return (tokens->token->type == VAR \
 		&& (tokens->prev && \
 		(tokens->prev->token->type == WSPACE \
-		|| is_redir(tokens)))
+		|| is_redir(tokens) || is_redir(tokens->prev)))
 		&& ((!tokens->next || (tokens->next && \
 		(tokens->next->token->type == WSPACE \
-		|| is_redir(tokens))))));
+		|| is_redir(tokens) || is_redir(tokens->next))))));
 }
 
 int	args_len(t_lexer *tokens, t_shell **shell, t_token_type test_type)

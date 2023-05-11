@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/10 21:21:07 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/11 17:06:40 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ int	check_files(int err, t_shell **shell, t_rd *rd)
 void	parse_logic(char ***command, int *i, t_lexer **tokens, t_shell **shell)
 {
 	if (is_word(*tokens))
-		handle_word(*command, i, tokens, shell);
+		handle_word(*command, i, tokens, shell, 1);
 	if (is_quote(*tokens))
-		handle_quote(*command, i, tokens, shell);
+		handle_quote(*command, i, tokens, shell, 1);
 }
 
 char	**parse_cmds(t_lexer **tokens, t_shell **shell, t_rd **rd)
