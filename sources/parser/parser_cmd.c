@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:27:23 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/10 15:16:38 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/11 01:16:20 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	handle_word(char **command, int *i, t_lexer **tokens, t_shell **shell)
 		expanded = ft_strtrim_min(ft_getenv(shell, \
 			(*tokens)->token->content + 1), " ");
 		if (!expanded || ft_strlen(expanded) == 0)
-			return ;
+			expanded = ft_strdup("");
 	}
 	if ((*tokens)->prev && (*tokens)->prev->token->type != WSPACE && \
 			!is_redir((*tokens)->prev) && \
