@@ -3,28 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   redir_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/10 15:13:56 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/11 11:56:05 by yelaissa         ###   ########.fr       */
+/*   Created: 2023/05/11 16:49:50 by yelaissa          #+#    #+#             */
+/*   Updated: 2023/05/11 17:48:57 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int is_only_whitespace(char *str)
+int	is_only_whitespace(char *str)
 {
-    while (*str)
-    {
-        if (!isspace(*str))
-            return 0;
-        str++;
-    }
-    return 1;
-}
-
-int is_valid_delimiter(t_token *token) {
-    return token && (token->type == WSPACE || token->type == SQUOTE || token->type == DQUOTE || token->type == PIPE);
+	while (*str)
+	{
+		if (!ft_isspace(*str))
+			return (0);
+		str++;
+	}
+	return (1);
 }
 
 int	handle_word_redir(char **command, int *i, t_lexer **tokens, t_shell **shell)
@@ -104,6 +100,7 @@ int	handle_word_redir(char **command, int *i, t_lexer **tokens, t_shell **shell)
 					}
 				}
 			}
+			expanded = ft_strtrim(expanded, " ");
 		}
 	}
 	if ((*tokens)->prev && (*tokens)->prev->token->type != WSPACE && \

@@ -1,5 +1,6 @@
 SRCS = ft_isalpha.c \
       ft_concat.c \
+      ft_isspace.c \
       ft_isdigit.c \
       ft_isalnum.c \
       ft_isascii.c \
