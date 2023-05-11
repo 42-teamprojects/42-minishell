@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:13:56 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/11 11:36:18 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/11 11:56:05 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,12 @@ int	handle_word_redir(char **command, int *i, t_lexer **tokens, t_shell **shell)
 		{
 			expanded = ft_strtrim_min(ft_getenv(shell, \
 				(*tokens)->token->content + 1), " ");
-			if (!expanded && is_var_alone(*tokens))
+			if (!expanded)
 			{
-				return (1);
+				if (is_var_alone(*tokens))
+					return (1);
+				else
+					expanded = ft_strdup("");
 			}
 			else
 			{
