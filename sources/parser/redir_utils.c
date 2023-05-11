@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:49:50 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/11 20:54:52 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/11 22:12:43 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,46 +49,55 @@ int	handle_word_redir(char **command, int *i, t_lexer **tokens, t_shell **shell)
 				else
 					expanded = ft_strdup("");
 			}
+			else if (ft_strlen(expanded) == 0 && !is_var_alone(*tokens))
+			{
+				t_lexer *tmp = (*tokens)->next;
+				while (tmp && is_quote(tmp))
+						tmp = tmp->next;
+				if (!tmp && (*tokens)->next && is_quote((*tokens)->next))
+					expanded = ft_strdup("");
+				t_lexer *tmp2 = (*tokens)->next;
+				while (tmp2 && ((tmp2->token->type == WSPACE || is_redir(tmp2))  && tmp2->token->state == DEFAULT) && is_quote(tmp2))
+						tmp2 = tmp2->prev;
+				if (!tmp2 && (*tokens)->next && is_quote((*tokens)->next))
+					expanded = ft_strdup("");
+			}
 			else
 			{
-				if (ft_strlen(expanded) == 0 && !is_var_alone(*tokens))
-				{
-					t_lexer *tmp = (*tokens)->next;
-					while (tmp && is_quote(tmp))
-							tmp = tmp->next;
-					if (!tmp && (*tokens)->next && is_quote((*tokens)->next))
-						expanded = ft_strdup("");
-					t_lexer *tmp2 = (*tokens)->next;
-					while (tmp2 && ((tmp2->token->type == WSPACE || is_redir(tmp2))  && tmp2->token->state == DEFAULT) && is_quote(tmp2))
-							tmp2 = tmp2->prev;
-					if (!tmp2 && (*tokens)->next && is_quote((*tokens)->next))
-						expanded = ft_strdup("");
-					if ((*tokens)->prev && (*tokens)->prev->token->type != WSPACE && \
-						!is_redir((*tokens)->prev) && \
-							(*tokens)->prev->token->type != PIPE)
-						{
-							if (command[*i - 1])
-								command[*i - 1] = ft_strjoin_gnl(command[*i - 1], \
-									expanded);
-							else
-								command[(*i)++] = expanded;
-						}
-					else
-						command[(*i)++] = expanded;
-					return (0);
-				}
+				// ((tmp->token->type != WSPACE || !is_redir(tmp))  && tmp->token->state == DEFAULT)
+				// || ((tmp->token->type == WSPACE || is_redir(tmp)))
 				if (is_only_whitespace(expanded)) //space
 				{
 					t_lexer *tmp = (*tokens)->next;
 					while (tmp && is_quote(tmp))
 							tmp = tmp->next;
-					if (!tmp && (*tokens)->next && is_quote((*tokens)->next))
+					if ((!tmp) && (*tokens)->next && is_quote((*tokens)->next))
 						return (1);
-					t_lexer *tmp2 = (*tokens)->next;
-					while (tmp2 && ((tmp2->token->type == WSPACE || is_redir(tmp2))  && tmp2->token->state == DEFAULT) && is_quote(tmp2))
+					t_lexer *tmp2 = (*tokens)->prev;
+					while (tmp2 && tmp2->token->type != WSPACE && is_quote(tmp2))
 							tmp2 = tmp2->prev;
-					if (!tmp2 && (*tokens)->next && is_quote((*tokens)->next))
+					if (tmp2 && tmp2->token->type == WSPACE && (*tokens)->prev && is_quote((*tokens)->prev) && !(*tokens)->next)
 						return (1);
+					// Check if the previous token is a quote and the next token is not whitespace or NULL
+					if ((*tokens)->prev && is_quote((*tokens)->prev) && ((*tokens)->next == NULL || ((*tokens)->next->token->type != WSPACE && (*tokens)->next->token->state != DEFAULT)))
+					{
+						return (0);
+					}
+
+					// Check if the next token is a quote and the previous token is not whitespace or NULL
+					if ((*tokens)->next && is_quote((*tokens)->next) && ((*tokens)->prev == NULL || ((*tokens)->prev->token->type != WSPACE && (*tokens)->prev->token->state != DEFAULT)))
+					{
+						
+						return (0);
+					}
+
+					if ((*tokens)->prev && ((*tokens)->prev->token->type == SQUOTE || (*tokens)->prev->token->type == DQUOTE) && ((*tokens)->prev->prev && ((*tokens)->prev->prev->token->type == (*tokens)->prev->token->type)))
+					{
+						return (1);
+					}
+
+					if ((*tokens)->prev && ((*tokens)->next == NULL || ((*tokens)->next->token->type == WSPACE && (*tokens)->next->token->state == DEFAULT)))
+						return (0);
 					if (!(*tokens)->next && !(*tokens)->prev)
 					{
 						return (1);
