@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/07 12:50:41 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/10 15:30:13 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define MINISHELL_H
 
 # include "global.h"
-
-char	**g_myenv;
 
 /* LEXER */
 
@@ -39,14 +37,21 @@ t_lexer			*get_last_node(t_lexer *tokens);
 
 t_command		**parse(t_shell **shell);
 char			**init_args(char **command);
-int				args_len(t_lexer *tokens);
+int				args_len(t_lexer *tokens, t_shell **shell, \
+	t_token_type test_type);
+int				var_count(t_lexer *tokens, t_token_type test_type);
 int				cmds_len(t_lexer *tokens);
 t_command		**parse(t_shell **shell);
 char			*parse_quotes(t_lexer **tokens, t_shell **shell, int expand);
 void			handle_word(char **command, int *i, t_lexer **tokens, \
 	t_shell **shell);
+int				handle_word_redir(char **command, int *i, t_lexer **tokens, \
+	t_shell **shell);
 void			handle_quote(char **command, int *i, t_lexer **tokens, \
 	t_shell **shell);
+void			handle_quote_redir(char **command, int *i, t_lexer **tokens, \
+	t_shell **shell);
+char			*open_heredoc(t_lexer **tokens, t_shell **shell);
 t_command		*init_cmd(char **command, char *path, t_rd *rd);
 char			**parse_cmds(t_lexer **tokens, t_shell **shell, t_rd **rd);
 t_rd			*new_rd(char *file, t_token_type type);
@@ -81,6 +86,7 @@ int				create_pipe(t_shell **shell);
 void			close_pipes(t_shell **shell);
 void			redirect_pipe(t_shell **shell, int i);
 int				is_cmd_parent(char *cmd);
+int				is_var_alone(t_lexer *tokens);
 
 /* HELPERS */
 

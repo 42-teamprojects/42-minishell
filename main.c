@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/07 14:44:16 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/09 19:07:04 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ void	read_input(t_shell **shell)
 		(*shell)->cmds = parse(shell);
 		if (!(*shell)->cmds || !(*shell)->cmds[0])
 			return (((*shell)->status_code = 1), stop(-1, shell));
-		// print_lexer((*shell)->lexer);
 		return ;
+		print_lexer((*shell)->lexer);
 		print_commands((*shell)->cmds);
 	}
 	free_lexer((*shell)->lexer);
@@ -60,13 +60,11 @@ int	main(int ac, char **av, char **env)
 
 	(void) ac;
 	(void) av;
-	g_myenv = env;
 	init_shell(&shell, env);
 	while (shell->exit != 1)
 	{
 		shell->exit = 0;
 		read_input(&shell);
-		// printf("status_code: %d\n", shell->status_code);
 		if (shell->exit != 0)
 			continue ;
 		if (shell->cmds_count == 1 && \

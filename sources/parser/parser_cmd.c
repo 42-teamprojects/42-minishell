@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:27:23 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/07 14:28:23 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/11 01:16:20 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,29 +22,36 @@ void	handle_word(char **command, int *i, t_lexer **tokens, t_shell **shell)
 		|| (*tokens)->token->content[1] == '*' || \
 		ft_isdigit((*tokens)->token->content[1])) \
 		&& (*tokens)->token->len == 2)
-		expanded = ft_strdup("");
-	else if ((*tokens)->token->type == VAR && \
-		(((*tokens)->next && (*tokens)->prev \
-		&& (*tokens)->next->token->type == WSPACE \
-		&& (*tokens)->prev->token->type == WSPACE) \
-		|| (!(*tokens)->next || !(*tokens)->prev)))
 	{
-		expanded = ft_strtrim(ft_getenv(shell, \
-			(*tokens)->token->content + 1), " ");
-		if (!expanded || ft_strlen(expanded) == 0)
-			return ;
+		expanded = ft_strdup("");
+	}
+	else if ((*tokens)->token->type == VAR && (*tokens)->token->state == DEFAULT
+		&& is_var_alone(*tokens))
+	{
+		expanded = ft_getenv(shell, (*tokens)->token->content + 1);
+		if (expanded)
+		{
+			char **split = ft_split(expanded, ' ');
+			while (split && *split)
+				command[(*i)++] = *split++;
+			free(expanded);
+		}
+		return ;
 	}
 	else if ((*tokens)->token->type == VAR && (*tokens)->token->len > 1)
 	{
 		expanded = ft_strtrim_min(ft_getenv(shell, \
 			(*tokens)->token->content + 1), " ");
 		if (!expanded || ft_strlen(expanded) == 0)
-			return ;
+			expanded = ft_strdup("");
 	}
 	if ((*tokens)->prev && (*tokens)->prev->token->type != WSPACE && \
+			!is_redir((*tokens)->prev) && \
 			(*tokens)->prev->token->type != PIPE)
-		command[*i - 1] = ft_strjoin_gnl(command[*i - 1], \
+		{
+			command[*i - 1] = ft_strjoin_gnl(command[*i - 1], \
 			expanded);
+		}
 	else
 		command[(*i)++] = expanded;
 }
@@ -53,9 +60,13 @@ void	handle_quote(char **command, int *i, t_lexer **tokens, \
 	t_shell **shell)
 {
 	if ((*tokens)->prev && (*tokens)->prev->token->type != WSPACE && \
+			!is_redir((*tokens)->prev) && \
 			(*tokens)->prev->token->type != PIPE)
-		command[*i - 1] = ft_strjoin_gnl(command[*i - 1], \
-			parse_quotes(tokens, shell, 1));
+	{
+		char *tmp = parse_quotes(tokens, shell, 1);
+		if (ft_strlen(tmp) > 0)
+			command[*i - 1] = ft_strjoin_gnl(command[*i - 1], tmp);
+	}
 	else
 		command[(*i)++] = parse_quotes(tokens, shell, 1);
 }

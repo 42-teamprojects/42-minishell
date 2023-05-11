@@ -2,7 +2,7 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -I includes/ -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -I includes/ #-fsanitize=address -g
 
 HEADERS = includes/global.h includes/minishell.h
 
@@ -32,6 +32,7 @@ SRCS = main.c \
 	sources/parser/parser_utils.c \
 	sources/parser/parser_cmd.c \
 	sources/parser/parser_redir.c \
+	sources/parser/redir_utils.c \
 	sources/lexer/lexer_init.c \
 	sources/lexer/lexer_utils.c \
 	sources/lexer/tokenizer.c \
@@ -70,6 +71,7 @@ OBJS = main.o \
 	$(PARSERDIR)/parser_utils.o \
 	$(PARSERDIR)/parser_cmd.o \
 	$(PARSERDIR)/parser_redir.o \
+	$(PARSERDIR)/redir_utils.o \
 	$(LEXERDIR)/lexer_init.o \
 	$(LEXERDIR)/lexer_utils.o \
 	$(LEXERDIR)/tokenizer.o \

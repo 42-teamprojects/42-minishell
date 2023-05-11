@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/16 21:26:32 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/06 13:26:39 by yelaissa         ###   ########.fr       */
+/*   Created: 2023/05/08 17:11:51 by yelaissa          #+#    #+#             */
+/*   Updated: 2023/05/10 15:15:43 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,35 +50,6 @@ char	*open_heredoc(t_lexer **tokens, t_shell **shell)
 	}
 	close(fd);
 	return (ft_strdup("/tmp/.ms_heredoc"));
-}
-
-int	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
-{
-	t_token_type	type;
-	char			*file;
-
-	type = (*tokens)->token->type;
-	while ((*tokens)->token->type != WORD && (*tokens)->token->type != VAR \
-		&& (*tokens)->token->type != SQUOTE && (*tokens)->token->type != DQUOTE)
-		*tokens = (*tokens)->next;
-	if ((*tokens)->token->type == VAR && type != HEREDOC)
-	{
-		file = ft_strtrim(ft_getenv(shell, (*tokens)->token->content + 1), \
-				" \t\r\v\f");
-		if (!file || ft_strlen(file) == 0)
-			return (console(1, (*tokens)->token->content, "ambiguous redirect"),
-				free_rd(*rd), stop(-1, shell), 1);
-	}
-	else if (is_quote(*tokens) && type != HEREDOC)
-	{
-		file = parse_quotes(tokens, shell, 1);
-	}
-	else if (type != HEREDOC)
-		file = ft_strdup((*tokens)->token->content);
-	else
-		file = open_heredoc(tokens, shell);
-	rd_addback(rd, new_rd(file, type));
-	return (0);
 }
 
 void	open_file(char *file, t_token_type type)

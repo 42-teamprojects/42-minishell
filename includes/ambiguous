@@ -1,0 +1,37 @@
+// ex: $var = "a"
+
+// white space left cases ex: $wl = " b"
+> ""$wl // should run normal return (0)
+> $wl"" // should run normal return (0)
+> "x"$wl // should get ambiguous err return (1)
+> $wl"x" // should run normal return (0)
+> $sp$wl // should run normal return (0)
+> $wl$sp // should run normal return (0)
+> $sp$wl$sp // should run normal return (0)
+> $var$wl$var // should get ambiguous err return (1)
+> $var$wl // should get ambiguous err return (1)
+> $wl$var // should run normal return (0)
+
+// white space right cases ex: $wr = "b "
+> ""$wr // should run normal return (0)
+> $wr"" // should run normal return (0)
+> "x"$wr // should run normal return (0)
+> $wr"x" // should get ambiguous err return (1)
+> $sp$wr // should run normal return (0)
+> $wr$sp // should run normal return (0)
+> $sp$wr$sp // should run normal return (0)
+> $var$wr$var // should get ambiguous err return (1)
+> $var$wr // should run normal return (0)
+> $wr$var // should get ambiguous err return (1)
+
+// all white space cases ex: $sp = " "
+> ""$sp // should get ambiguous err return (1)
+> $sp"" // should get ambiguous err return (1)
+> "x"$sp // should run normal return (0)
+> $sp"x" // should run normal return (0)
+> $sp$sp // should get ambiguous err return (1)
+> $sp$sp // should get ambiguous err return (1)
+> $sp$sp$sp // should get ambiguous err return (1)
+> $var$sp$var // should get ambiguous err return (1)
+> $var$sp // should run normal return (0)
+> $sp$var // should run normal return (0)
