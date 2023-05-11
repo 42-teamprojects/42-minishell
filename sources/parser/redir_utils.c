@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:13:56 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/11 01:14:16 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/11 10:23:29 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,11 @@ int	handle_word_redir(char **command, int *i, t_lexer **tokens, t_shell **shell)
 				(*tokens)->token->content + 1), " ");
 			if (!expanded && is_var_alone(*tokens))
 			{
-				// printf("here 1\n");
 				return (1);
 			}
 			else
 			{
-				if (ft_strlen(ft_strtrim(expanded, " ")) == 0) //space
+				if (is_only_whitespace(expanded)) //space
 				{
 					if (!(*tokens)->next && !(*tokens)->prev)
 						return (1);
@@ -79,7 +78,7 @@ int	handle_word_redir(char **command, int *i, t_lexer **tokens, t_shell **shell)
 					if ((*tokens)->prev && ((*tokens)->next == NULL || ((*tokens)->next->token->type == WSPACE && (*tokens)->next->token->state == DEFAULT)))
 						return (0);
 				}
-				else if (*expanded == ' ' && (*tokens)->prev) //space left
+				else if (*expanded == ' ' && ((*tokens)->prev && (*tokens)->prev->token->type != WSPACE && !is_redir((*tokens)->prev))) //space left
 				{
 					if ((command[*i - 1] && ft_strlen(command[*i - 1]) > 0 && !is_only_whitespace(command[*i - 1])) && ((*tokens)->prev->token->state == DEFAULT))
 					{
