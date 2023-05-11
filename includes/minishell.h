@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/10 15:30:13 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/11 11:36:41 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,11 @@ int				cmds_len(t_lexer *tokens);
 t_command		**parse(t_shell **shell);
 char			*parse_quotes(t_lexer **tokens, t_shell **shell, int expand);
 void			handle_word(char **command, int *i, t_lexer **tokens, \
-	t_shell **shell);
+	t_shell **shell, int expand);
 int				handle_word_redir(char **command, int *i, t_lexer **tokens, \
 	t_shell **shell);
 void			handle_quote(char **command, int *i, t_lexer **tokens, \
-	t_shell **shell);
-void			handle_quote_redir(char **command, int *i, t_lexer **tokens, \
-	t_shell **shell);
+	t_shell **shell, int expand);
 char			*open_heredoc(t_lexer **tokens, t_shell **shell);
 t_command		*init_cmd(char **command, char *path, t_rd *rd);
 char			**parse_cmds(t_lexer **tokens, t_shell **shell, t_rd **rd);

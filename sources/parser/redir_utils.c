@@ -6,26 +6,11 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 15:13:56 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/11 10:23:29 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/11 11:36:18 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	handle_quote_redir(char **command, int *i, t_lexer **tokens, \
-	t_shell **shell)
-{
-	if ((*tokens)->prev && (*tokens)->prev->token->type != WSPACE && \
-			!is_redir((*tokens)->prev) && \
-			(*tokens)->prev->token->type != PIPE)
-	{
-		char *tmp = parse_quotes(tokens, shell, 1);
-		if (ft_strlen(tmp) > 0)
-			command[*i - 1] = ft_strjoin_gnl(command[*i - 1], tmp);
-	}
-	else
-		command[(*i)++] = parse_quotes(tokens, shell, 1);
-}
 
 int is_only_whitespace(char *str)
 {
@@ -161,7 +146,7 @@ int	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
 			}
 			
 			if (is_quote(*tokens))
-				handle_quote_redir(args, &i, tokens, shell);
+				handle_quote(args, &i, tokens, shell, 1);
 			if ((*tokens)->token->type == WSPACE || !(*tokens)->next)
 				break ;
 			(*tokens) = (*tokens)->next;
