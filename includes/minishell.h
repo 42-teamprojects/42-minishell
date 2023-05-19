@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/11 11:36:41 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/19 19:34:11 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int				is_redir(t_lexer *tokens);
 
 /* EXECUTION */
 
-char			*check_cmd(char **cmd, char **path_list);
+char			*check_cmd(char **cmd, t_shell **shell);
 int				ft_exec(t_shell **shell);
 int				ft_exec_builtin(t_shell **shell, int idx);
 int				ft_pwd(t_shell **shell, int idx);

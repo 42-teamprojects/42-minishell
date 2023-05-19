@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 09:28:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/08 23:50:49 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/19 19:37:16 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	init_shell(t_shell **shell, char **env)
 	(*shell)->exp = NULL;
 	(*shell)->fd.old_out = -1;
 	(*shell)->fd.old_in = -1;
-	(*shell)->path_list = ft_split(ft_getenv(shell, "PATH"), ':');
 	signal(SIGINT, &sig_handler);
 	signal(SIGQUIT, &sig_handler);
 }

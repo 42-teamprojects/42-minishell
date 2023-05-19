@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 21:50:33 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/09 18:06:05 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/19 19:41:48 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,31 +38,36 @@ int	is_valid_cmd(char *str)
 	return (0);
 }
 
-char	*check_cmd(char **cmd, char **path_list)
+char	*check_cmd(char **cmd, t_shell **shell)
 {
 	char	*path;
+	char	*full_path;
+	char	**path_list;
 	int		i;
 
 	if (!cmd[0] || !*cmd[0] || !args_count(cmd))
 		return (console(1, cmd[0], "command not found"), NULL);
 	if (is_valid_cmd(cmd[0]))
 		return (ft_strdup("builtin"));
+	full_path = ft_getenv(shell, "PATH");
+	if (!full_path)
+		return (console(1, cmd[0], "No such file or directory"), NULL);
+	path_list = ft_split(full_path, ':');
+	free(full_path);
 	path = cmd[0];
 	if (*cmd[0] == '/' || (*cmd[0] == '.' && *(cmd[0] + 1) == '/'))
 	{
 		if (access(path, F_OK) == 0)
-			return (path);
-		return (console(1, path, strerror(errno)), NULL);
+			return (free_array(path_list), path);
+		return (free_array(path_list), console(1, path, strerror(errno)), NULL);
 	}
 	i = -1;
-	if (!path_list)
-		return (console(1, cmd[0], "No such file or directory"), NULL);
 	while (path_list[++i])
 	{
 		path = ft_concat(3, path_list[i], "/", cmd[0]);
 		if (access(path, F_OK) == 0)
-			return (path);
+			return (free_array(path_list), path);
 		free(path);
 	}
-	return (console(1, cmd[0], "command not found"), NULL);
+	return (free_array(path_list), console(1, cmd[0], "command not found"), NULL);
 }

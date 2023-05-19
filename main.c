@@ -3,44 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/11 11:59:50 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/19 22:53:40 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+char	*ft_prompt(t_shell **shell)
+{
+	char		*prompt;
+	char		*input;
+
+	prompt = readline(BGREEN"minishell $> "CX);
+	input = ft_strtrim(prompt, " ");
+	if (!prompt)
+	{
+		free(prompt);
+		exit((*shell)->status_code);
+	}
+	free(prompt);
+	return (input);
+}
+
 void	read_input(t_shell **shell)
 {
 	char		*input;
 
-	input = ft_strtrim(readline(BGREEN"minishell $> "CX), "\t ");
-	if (!input)
-	{
-		free(input);
-		exit((*shell)->status_code);
-	}
+	input = ft_prompt(shell);
 	if (!ft_strlen(input))
 		return (free(input), stop(-1, shell));
 	add_history(input);
 	(*shell)->lexer = lexer(input);
 	free(input);
-	input = NULL;
-	if (valid_syntax(shell))
-	{
-		(*shell)->path_list = ft_split(ft_getenv(shell, "PATH"), ':');
-		(*shell)->cmds = parse(shell);
-		free_array((*shell)->path_list);
-		if (!(*shell)->cmds || !(*shell)->cmds[0])
-			return (((*shell)->status_code = 1), stop(-1, shell));
-		return ;
-		print_lexer((*shell)->lexer);
-		print_commands((*shell)->cmds);
-	}
+	if (!valid_syntax(shell))
+		return (free_lexer((*shell)->lexer), stop(-1, shell));
+	(*shell)->cmds = parse(shell);
 	free_lexer((*shell)->lexer);
-	stop(-1, shell);
+	// return (stop(-1, shell));
+	// print_lexer((*shell)->lexer);
+	// print_commands((*shell)->cmds);
 }
 
 void	execute_inparent(t_shell **shell)
@@ -73,7 +77,7 @@ int	main(int ac, char **av, char **env)
 			execute_inparent(&shell);
 		else
 			ft_exec(&shell);
-		// free_shell(shell, BASIC);
+		free_shell(shell, BASIC);
 	}
 	free_shell(shell, FULL);
 }

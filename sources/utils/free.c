@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:58:50 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/05 14:42:58 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/19 22:53:58 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	free_array(char **array)
 			i++;
 		}
 		free(array);
+		array = NULL;
 	}
 }
 
@@ -58,8 +59,12 @@ void	free_rd(t_rd *rd)
 		current = rd;
 		rd = rd->next;
 		if (current->file != NULL)
+		{
 			free(current->file);
+			current->file = NULL;
+		}
 		free(current);
+		current = NULL;
 	}
 }
 
@@ -71,8 +76,8 @@ void	free_command(t_command *cmd)
 			free(cmd->name);
 		if (cmd->args != NULL)
 			free_array(cmd->args);
-		// if (cmd->redir != NULL)
-		// 	free_rd(cmd->redir);
+		if (cmd->redir != NULL)
+			free_rd(cmd->redir);
 		if (cmd->path != NULL)
 			free(cmd->path);
 		if (cmd->full_cmd != NULL)
@@ -89,7 +94,6 @@ void	free_shell(t_shell *shell, int option)
 	{
 		if (option == BASIC)
 		{
-			free_lexer(shell->lexer);
 			if (shell->cmds != NULL)
 			{
 				i = -1;
@@ -97,7 +101,6 @@ void	free_shell(t_shell *shell, int option)
 					free_command(shell->cmds[i]);
 				free(shell->cmds);
 			}
-			free_array(shell->path_list);
 		}
 		if (option == FULL)
 		{
