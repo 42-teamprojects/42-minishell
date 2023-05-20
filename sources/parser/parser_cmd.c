@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:27:23 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/20 19:26:46 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/20 23:22:39 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ char	*handle_var_alone(char **command, int *i, t_lexer **tokens, t_shell **shell
 char	*handle_expanding(char **command, int *i, t_lexer **tokens, t_shell **shell)
 {
 	char	*expanded;
+	char	*var;
 
 	if (((*tokens)->token->type == VAR && (*tokens)->token->content) \
 		&& ((*tokens)->token->content[1] == '@' \
@@ -43,10 +44,11 @@ char	*handle_expanding(char **command, int *i, t_lexer **tokens, t_shell **shell
 		return (handle_var_alone(command, i, tokens, shell));
 	if ((*tokens)->token->type == VAR && (*tokens)->token->len > 1)
 	{
-		expanded = ft_strtrim_min(ft_getenv(shell, \
-			(*tokens)->token->content + 1), " ");
-		if (!expanded || ft_strlen(expanded) == 0)
+		var = ft_getenv(shell, (*tokens)->token->content + 1);
+		if (!var)
 			return (ft_strdup(""));
+		expanded = ft_strtrim_min(var, " ");
+		free(var);
 		return (expanded);
 	}
 	return (ft_strdup(""));
@@ -56,19 +58,20 @@ void	handle_word(char **command, int *i, t_lexer **tokens, t_shell **shell, int 
 {
 	char	*expanded;
 
-	expanded = ft_strdup((*tokens)->token->content);
 	if (expand && (*tokens)->token->type == VAR)
 	{
 		expanded = handle_expanding(command, i, tokens, shell);
 		if (!expanded)
 			return ;
 	}
+	else if (!((*tokens)->token->type == VAR))
+		expanded = ft_strdup((*tokens)->token->content);
 	if ((*tokens)->prev && (*tokens)->prev->token->type != WSPACE && \
 			!is_redir((*tokens)->prev) && \
 			(*tokens)->prev->token->type != PIPE)
 		{
 			command[*i - 1] = ft_strjoin_gnl(command[*i - 1], \
-			expanded);
+				expanded);
 			free(expanded);
 		}
 	else
@@ -100,7 +103,6 @@ char	*parse_quotes(t_lexer **tokens, t_shell **shell, int expand)
 	str_in_quotes = ft_strdup("");
 	while ((*tokens) && (*tokens)->token->type != type)
 	{
-		expanded = ft_strdup((*tokens)->token->content);
 		if ((*tokens)->token->type == VAR && (*tokens)->token->len > 1 \
 			&& (*tokens)->token->state == IN_DQUOTE && expand)
 		{
@@ -108,6 +110,8 @@ char	*parse_quotes(t_lexer **tokens, t_shell **shell, int expand)
 			if (!expanded)
 				expanded = ft_strdup("");
 		}
+		else
+			expanded = ft_strdup((*tokens)->token->content);
 		str_in_quotes = ft_strjoin_gnl(str_in_quotes, \
 			expanded);
 		(*tokens) = (*tokens)->next;
