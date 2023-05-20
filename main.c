@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/20 15:25:57 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/20 22:29:44 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	read_input(t_shell **shell)
 		return (free_lexer((*shell)->lexer), stop(-1, shell));
 	(*shell)->cmds = parse(shell);
 	free_lexer((*shell)->lexer);
+	// system("leaks minishell");
 	// return (free_shell(*shell, BASIC), stop(-1, shell));
 	// return (stop(-1, shell));
 	// print_lexer((*shell)->lexer);
