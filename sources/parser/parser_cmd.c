@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:27:23 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/20 18:40:22 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/20 19:26:46 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,8 @@ void	handle_quote(char **command, int *i, t_lexer **tokens, \
 			!is_redir((*tokens)->prev) && \
 			(*tokens)->prev->token->type != PIPE)
 	{
-		char *tmp = parse_quotes(tokens, shell, expand);
-		if (tmp)
-			command[*i - 1] = ft_strjoin_gnl(command[*i - 1], tmp);
+			command[*i - 1] = ft_strjoin_gnl(command[*i - 1], 
+				parse_quotes(tokens, shell, expand));
 	}
 	else
 		command[(*i)++] = parse_quotes(tokens, shell, expand);
