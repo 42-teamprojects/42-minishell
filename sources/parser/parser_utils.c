@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 13:03:26 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/11 11:54:54 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/20 22:58:45 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	**init_args(char **command)
 	int		i;
 	char	**args;
 
-	args = (char **)malloc(sizeof(char *) * (args_count(command)));
+	args = (char **)malloc(sizeof(char *) * (args_count(command) + 1));
 	if (!args)
 		return (NULL);
 	i = 1;
@@ -61,7 +61,7 @@ int	args_len(t_lexer *tokens, t_shell **shell, t_token_type test_type)
 				char **split = ft_split(expanded, ' ');
 				i += args_count(split);
 				free(expanded);
-				free(split);
+				free_array(split);
 			}
 			else
 				i++;
