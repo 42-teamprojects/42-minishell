@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/20 22:23:21 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/21 21:50:52 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,14 @@ char	**parse_cmds(t_lexer **tokens, t_shell **shell, t_rd **rd)
 {
 	char	**command;
 	int		i;
+	int		err;
 
 	i = 0;
-	command = (char **)malloc(sizeof(char *) * (args_len(*tokens, shell, PIPE) + 1));
+	command = (char **)malloc(sizeof(char *) * \
+		(args_len(*tokens, shell, PIPE) + 1));
 	if (!command)
 		return (NULL);
-	int	err = 0;
+	err = 0;
 	while ((*tokens) && (*shell)->exit == 0)
 	{
 		if ((*tokens)->token->type == WSPACE)

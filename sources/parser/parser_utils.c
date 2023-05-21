@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 13:03:26 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/21 21:16:03 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/21 21:49:32 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,24 +76,6 @@ int	args_len(t_lexer *tokens, t_shell **shell, t_token_type test_type)
 				tmp = tmp->next;
 			if (tmp->next && tmp->next->token->type == WORD)
 				i--;
-		}
-		tmp = tmp->next;
-	}
-	return (i);
-}
-
-int	var_count(t_lexer *tokens, t_token_type test_type)
-{
-	int		i;
-	t_lexer	*tmp;
-
-	i = 0;
-	tmp = tokens;
-	while (tmp && !(tmp->token->type == test_type && tmp->token->state == DEFAULT))
-	{
-		if (tmp->token->type == VAR && tmp->token->state == DEFAULT)
-		{
-			i++;
 		}
 		tmp = tmp->next;
 	}

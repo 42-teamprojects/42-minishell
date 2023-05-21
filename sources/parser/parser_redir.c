@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 17:11:51 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/21 20:36:51 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/21 21:42:56 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,10 @@ char	**get_filename(t_lexer **tokens, t_shell **shell)
 {
 	char			**args;
 	int				i;
+
 	i = 0;
-	args = (char **)malloc(sizeof(char *) * (args_len(*tokens, shell, WSPACE) + 1));
+	args = (char **)malloc(sizeof(char *) * \
+		(args_len(*tokens, shell, WSPACE) + 1));
 	if (!args)
 		return (NULL);
 	while ((*tokens))

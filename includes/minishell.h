@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/21 21:33:25 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/21 21:58:23 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ t_command		**parse(t_shell **shell);
 char			**init_args(char **command);
 int				args_len(t_lexer *tokens, t_shell **shell, \
 	t_token_type test_type);
-int				var_count(t_lexer *tokens, t_token_type test_type);
 int				cmds_len(t_lexer *tokens);
 t_command		**parse(t_shell **shell);
 char			*parse_quotes(t_lexer **tokens, t_shell **shell, int expand);
