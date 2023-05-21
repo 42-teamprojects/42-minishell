@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/21 22:01:51 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/21 22:50:04 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,12 @@
 
 typedef struct s_vars
 {
-	int		i;
-	char	*path;
+	int			i;
+	char		**cmd;
+	char		*path;
+	t_lexer		*tokens;
+	t_command	**commands;
+	t_rd		*rd;
 }	t_vars;
 
 int	check_files(int err, t_shell **shell, t_rd *rd)
@@ -102,30 +106,26 @@ t_command	**init_commands(t_shell **shell)
 
 t_command	**parse(t_shell **shell)
 {
-	t_vars		vars;
-	char		**cmd;
-	t_lexer		*tokens;
-	t_command	**commands;
-	t_rd		*rd;
+	t_vars		v;
 
-	commands = init_commands(shell);
-	if (!commands)
+	v.commands = init_commands(shell);
+	if (!v.commands)
 		return (NULL);
-	vars.i = -1;
-	tokens = (*shell)->lexer;
-	while (++vars.i < (*shell)->cmds_count)
+	v.i = -1;
+	v.tokens = (*shell)->lexer;
+	while (++v.i < (*shell)->cmds_count)
 	{
-		rd = NULL;
-		vars.path = NULL;
-		cmd = parse_cmds(&tokens, shell, &rd);
-		if (!cmd || (*shell)->exit != 0)
+		v.rd = NULL;
+		v.path = NULL;
+		v.cmd = parse_cmds(&v.tokens, shell, &v.rd);
+		if (!v.cmd || (*shell)->exit != 0)
 			break ;
-		if (cmd[0] == NULL && rd != NULL)
-			vars.path = ft_strdup("redir");
+		if (v.cmd[0] == NULL && v.rd != NULL)
+			v.path = ft_strdup("redir");
 		else
-			vars.path = check_cmd(cmd, shell);
-		commands[vars.i] = init_cmd(cmd, vars.path, rd);
+			v.path = check_cmd(v.cmd, shell);
+		v.commands[v.i] = init_cmd(v.cmd, v.path, v.rd);
 	}
-	commands[vars.i] = NULL;
-	return (commands);
+	v.commands[v.i] = NULL;
+	return (v.commands);
 }
