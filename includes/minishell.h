@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/21 16:11:43 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/21 20:22:45 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int				handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell);
 int				is_word(t_lexer *tokens);
 int				is_quote(t_lexer *tokens);
 int				is_redir(t_lexer *tokens);
-
+void			update_command(t_lexer **tokens, char **command, int *i, char *expanded);
 /* EXECUTION */
 
 char			*check_cmd(char **cmd, t_shell **shell);

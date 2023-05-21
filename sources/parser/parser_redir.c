@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 17:11:51 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/11 11:10:22 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/21 20:36:51 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,50 @@ void	rd_addback(t_rd **rd, t_rd *new)
 	while (current->next != NULL)
 		current = current->next;
 	current->next = new;
+}
+
+char	**get_filename(t_lexer **tokens, t_shell **shell)
+{
+	char			**args;
+	int				i;
+	i = 0;
+	args = (char **)malloc(sizeof(char *) * (args_len(*tokens, shell, WSPACE) + 1));
+	if (!args)
+		return (NULL);
+	while ((*tokens))
+	{
+		if (is_word(*tokens) && handle_word_redir(args, &i, tokens, shell))
+			return (NULL);
+		if (is_quote(*tokens))
+			handle_quote(args, &i, tokens, shell, 1);
+		if ((*tokens)->token->type == WSPACE || !(*tokens)->next)
+			break ;
+		(*tokens) = (*tokens)->next;
+	}
+	args[i] = NULL;
+	return (args);
+}
+
+int	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
+{
+	char			**args;
+	t_token_type	type;
+	char			*file;
+
+	type = (*tokens)->token->type;
+	while ((*tokens)->token->type != WORD && (*tokens)->token->type != VAR && \
+		(*tokens)->token->type != SQUOTE && (*tokens)->token->type != DQUOTE)
+		*tokens = (*tokens)->next;
+	if (type == HEREDOC)
+		file = open_heredoc(tokens, shell);
+	else
+	{
+		args = get_filename(tokens, shell);
+		if (!args || (args && !args[0]))
+			return (1);
+		file = ft_strdup(args[0]);
+		free_array(args);
+	}	
+	rd_addback(rd, new_rd(file, type));
+	return (0);
 }

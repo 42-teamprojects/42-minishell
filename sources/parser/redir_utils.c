@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:49:50 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/21 18:16:31 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/21 20:24:16 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,148 +48,127 @@ int	check_near_quotes(t_lexer **tokens)
 	return (0);
 }
 
-int	handle_word_redir(char **command, int *i, t_lexer **tokens, t_shell **shell)
+int	all_space_ambiguous(t_lexer **tokens)
 {
-	char	*expanded;
+	if (check_near_quotes(tokens))
+		return (1);
+	if ((is_quote((*tokens)->prev) && \
+		((*tokens)->next == NULL || !is_token_type((*tokens)->next, WSPACE, DEFAULT)))
+		|| (is_quote((*tokens)->next) && \
+		((*tokens)->prev == NULL || !is_token_type((*tokens)->prev, WSPACE, DEFAULT)))
+		|| ((*tokens)->prev && \
+		((*tokens)->next == NULL || is_token_type((*tokens)->next, WSPACE, DEFAULT))))
+		return (0);
+	return (-2);
+}
 
-	expanded = ft_strdup((*tokens)->token->content);
-	if ((*tokens)->token->type == VAR)
+int	space_right_quotes_ambiguous(t_lexer **tokens, t_shell **shell)
+{
+	t_lexer			*tmp;
+	char			*str;
+	t_token_type	quote_type;
+
+	quote_type = UNKNOWN;
+	tmp = (*tokens)->next;
+	if (tmp && is_quote(tmp))
+		quote_type = tmp->token->type;
+	while (tmp && is_quote(tmp) && is_token_type(tmp, quote_type, S_UNKNOWN))
+			tmp = tmp->next;
+	if (tmp && tmp->token->type == WORD)
+		return (1);
+	if (tmp && is_quote(tmp->prev))
 	{
-		if ((*tokens)->token->content && \
-		((*tokens)->token->content[1] == '@' || \
-		(*tokens)->token->content[1] == '*' || \
-		ft_isdigit((*tokens)->token->content[1])) \
-		&& (*tokens)->token->len == 2)
-			expanded = ft_strdup("");
-		else if ((*tokens)->token->state == DEFAULT)
-		{
-			expanded = ft_getenv(shell, (*tokens)->token->content + 1);
-			expanded = ft_strtrim_min(expanded, " ");
-			if (!expanded && is_var_alone(*tokens))
-				return (1);
-			else if ((!expanded && !is_var_alone(*tokens)) \
-				|| (expanded && !ft_strlen(expanded) && !is_var_alone(*tokens)))
-				expanded = ft_strdup("");
-			else
-			{
-				if (is_only_whitespace(expanded)) //space
-				{
-					if (check_near_quotes(tokens))
-						return (1);
-					if ((is_quote((*tokens)->prev) && \
-						((*tokens)->next == NULL || !is_token_type((*tokens)->next, WSPACE, DEFAULT)))
-						|| (is_quote((*tokens)->next) && \
-						((*tokens)->prev == NULL || !is_token_type((*tokens)->prev, WSPACE, DEFAULT)))
-						|| ((*tokens)->prev && \
-						((*tokens)->next == NULL || is_token_type((*tokens)->next, WSPACE, DEFAULT))))
-						return (0);
-				}
-				else if (*expanded == ' ' && command[*i - 1] && 
-					(!is_token_type((*tokens)->prev, WSPACE, DEFAULT)) && !is_redir((*tokens)->prev)) //space left
-				{
-					if (is_quote((*tokens)->prev) \
-						&& ft_strlen(command[*i - 1]) > 0 && is_only_whitespace(command[*i - 1]))
-						return (1);
-					else if (ft_strlen(command[*i - 1]) > 0 && !is_only_whitespace(command[*i - 1]))
-						return (1);
-				}
-				else if (expanded[ft_strlen(expanded) - 1] == ' ' && (*tokens)->next) //space right
-				{
-					if (is_quote((*tokens)->next))
-					{
-						t_lexer			*tmp;
-						t_token_type	quote_type;
-
-						quote_type = UNKNOWN;
-						tmp = (*tokens)->next;
-						if (tmp && is_quote(tmp))
-							quote_type = tmp->token->type;
-						while (tmp && is_quote(tmp) && is_token_type(tmp, quote_type, S_UNKNOWN))
-								tmp = tmp->next;
-						if (tmp && tmp->token->type == WORD)
-							return (1);
-						if (tmp && is_quote(tmp->prev))
-						{
-							tmp = tmp->prev;
-							char *str = parse_quotes(&tmp, shell, 1);
-							if (str && ft_strlen(str) > 0)
-								return (free(str), 1);
-							free(str);
-						}
-					}
-					else if ((*tokens)->next->token->type == VAR)
-					{
-						char *str = ft_getenv(shell, (*tokens)->next->token->content + 1);
-						if (str && ft_strlen(str) > 0 && !is_only_whitespace(str))
-							return (free(str), 1);
-						free(str);
-					}
-				}
-				else
-				{
-					char **split = ft_split(expanded, ' ');
-					if (args_count(split) == 0 || args_count(split) > 1 || !split[0] || !ft_strlen(split[0]))
-					{
-						return (1);
-					}
-					free_array(split);
-				}
-			}
-			expanded = ft_strtrim(expanded, " ");
-		}
+		tmp = tmp->prev;
+		str = parse_quotes(&tmp, shell, 1);
+		if (str && ft_strlen(str) > 0)
+			return (free(str), 1);
+		free(str);
 	}
-	if ((*tokens)->prev && (*tokens)->prev->token->type != WSPACE && \
-		!is_redir((*tokens)->prev) && \
-			(*tokens)->prev->token->type != PIPE)
-		{
-			if (command[*i - 1])
-				command[*i - 1] = ft_strjoin_gnl(command[*i - 1], \
-					expanded);
-			else
-				command[(*i)++] = expanded;
-		}
-	else
-		command[(*i)++] = expanded;
+	return (0);
+}
+int	space_right_ambiguous(t_lexer **tokens, t_shell **shell)
+{
+	char	*str;
+
+	if (is_quote((*tokens)->next) && \
+		space_right_quotes_ambiguous(tokens, shell))
+			return (1);
+	else if ((*tokens)->next->token->type == VAR)
+	{
+		str = ft_getenv(shell, (*tokens)->next->token->content + 1);
+		if (str && ft_strlen(str) > 0 && !is_only_whitespace(str))
+			return (free(str), 1);
+		free(str);
+	}
 	return (0);
 }
 
-int	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
+int	ambiguous_cases(t_lexer **tokens, t_shell **shell, char **command, int *i)
 {
-	char			**args;
-	int				i;
-	t_token_type	type;
-	char			*file;
+	char	*expanded;
+	char	**split;
 
-	type = (*tokens)->token->type;
-	while ((*tokens)->token->type != WORD && (*tokens)->token->type != VAR && \
-		(*tokens)->token->type != SQUOTE && (*tokens)->token->type != DQUOTE)
-		*tokens = (*tokens)->next;
-	if (type == HEREDOC)
-		file = open_heredoc(tokens, shell);
+	expanded = ft_getenv(shell, (*tokens)->token->content + 1);
+	if (is_only_whitespace(expanded))
+		return (free(expanded), all_space_ambiguous(tokens));
+	else if ((*expanded == ' ' && command[*i - 1] && \
+	(!is_token_type((*tokens)->prev, WSPACE, DEFAULT)) && !is_redir((*tokens)->prev)) && \
+	((is_quote((*tokens)->prev) \
+	&& ft_strlen(command[*i - 1]) > 0 && is_only_whitespace(command[*i - 1]))
+	|| (ft_strlen(command[*i - 1]) > 0 && !is_only_whitespace(command[*i - 1]))))
+		return (free(expanded), 1);
+	else if (expanded[ft_strlen(expanded) - 1] == ' ' && (*tokens)->next \
+		&& space_right_ambiguous(tokens, shell))
+		return (free(expanded), 1);
+	split = ft_split(expanded, ' ');
+	if (args_count(split) == 0 || args_count(split) > 1 || !ft_strlen(split[0]))
+		return (free_array(split), 1);
+	return (free_array(split), free(expanded), -2);
+}
+
+int	check_ambiguous(t_lexer **tokens, t_shell **shell, char **command, int *i)
+{
+	char	*expanded;
+
+	if ((*tokens)->token->content && ((*tokens)->token->content[1] == '@' || \
+	(*tokens)->token->content[1] == '*' || \
+	ft_isdigit((*tokens)->token->content[1])) && (*tokens)->token->len == 2)
+		return (-1);
 	else
 	{
-		i = 0;
-		args = (char **)malloc(sizeof(char *) * (args_len(*tokens, shell, WSPACE) + 1));
-		if (!args)
+		expanded = ft_getenv(shell, (*tokens)->token->content + 1);
+		if (!expanded && is_var_alone(*tokens))
+			return (free(expanded), 1);
+		else if ((!expanded && !is_var_alone(*tokens)) \
+			|| (expanded && !ft_strlen(expanded) && !is_var_alone(*tokens)))
+			return (free(expanded), -1);
+		return (free(expanded), ambiguous_cases(tokens, shell, command, i));
+	}
+}
+
+int	handle_word_redir(char **command, int *i, t_lexer **tokens, t_shell **shell)
+{
+	char	*tmp;
+	char	*expanded;
+
+	expanded = NULL;
+	if ((*tokens)->token->type == VAR)
+	{
+		if (check_ambiguous(tokens, shell, command, i) == 1)
 			return (1);
-		while ((*tokens))
+		else if (check_ambiguous(tokens, shell, command, i) == 0)
+			return (0);
+		else if (check_ambiguous(tokens, shell, command, i) == -1)
+			expanded = ft_strdup("");
+		else
 		{
-			if (is_word(*tokens))
-			{
-				if (handle_word_redir(args, &i, tokens, shell))
-					return (1);
-			}
-			if (is_quote(*tokens))
-				handle_quote(args, &i, tokens, shell, 1);
-			if ((*tokens)->token->type == WSPACE || !(*tokens)->next)
-				break ;
-			(*tokens) = (*tokens)->next;
+			tmp = ft_getenv(shell, (*tokens)->token->content + 1);
+			expanded = ft_strtrim(tmp, " ");
+			free(tmp);
 		}
-		args[i] = NULL;
-		if (!args[0])
-			return (1);
-		file = ft_strdup(args[0]);
-	}	
-	rd_addback(rd, new_rd(file, type));
+	}
+	else
+		expanded = ft_strdup((*tokens)->token->content);
+	update_command(tokens, command, i, expanded);
 	return (0);
 }

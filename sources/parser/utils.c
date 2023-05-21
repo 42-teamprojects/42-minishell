@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:05:59 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/21 16:11:54 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/21 21:00:27 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	is_token_type(t_lexer *tokens, t_token_type type, t_state state)
 {
+	if (!tokens)
+		return (0);
 	if (state == S_UNKNOWN)
 		return (tokens && tokens->token->type == type);
 	return (tokens && tokens->token->type == type \

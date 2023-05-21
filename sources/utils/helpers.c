@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 09:28:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/20 23:19:20 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/21 20:50:58 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,17 @@ void	rollback_fd(t_shell **shell)
 		dup2((*shell)->fd.orig_stdin, STDIN_FILENO);
 		close((*shell)->fd.orig_stdin);
 	}
+}
+
+void	update_command(t_lexer **tokens, char **command, int *i, char *expanded)
+{
+	if (!is_token_type((*tokens)->prev, WSPACE, DEFAULT) && command[*i - 1] 
+		&& !is_redir((*tokens)->prev) && (*tokens)->prev->token->type != PIPE)
+		{
+			command[*i - 1] = ft_strjoin_gnl(command[*i - 1], \
+				expanded);
+			free(expanded);
+		}
+	else
+		command[(*i)++] = expanded;
 }
