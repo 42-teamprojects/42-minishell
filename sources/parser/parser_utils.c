@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 13:03:26 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/21 21:49:32 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/21 22:10:15 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,32 @@ int	is_var_alone(t_lexer *tokens)
 		|| is_redir(tokens) || is_redir(tokens->next))))));
 }
 
+int	count_vars_words(t_lexer *tmp, t_shell **shell)
+{
+	char	*expanded;
+	char	**split;
+	int		i;
+
+	i = 0;
+	if (tmp->token->type == VAR && is_var_alone(tmp))
+	{
+		expanded = ft_getenv(shell, tmp->token->content + 1);
+		if (expanded)
+		{
+			split = ft_split(expanded, ' ');
+			i += args_count(split);
+			free(expanded);
+			free_array(split);
+		}
+		else
+			i++;
+	}
+	else if (tmp->token->type == VAR || \
+		(tmp->token->type == WORD && !is_var_alone(tmp)))
+		i++;
+	return (i);
+}
+
 int	args_len(t_lexer *tokens, t_shell **shell, t_token_type test_type)
 {
 	int				i;
@@ -51,22 +77,8 @@ int	args_len(t_lexer *tokens, t_shell **shell, t_token_type test_type)
 	tmp = tokens;
 	while (tmp && tmp->token->type != test_type)
 	{
-		if (tmp->token->type == VAR && is_var_alone(tmp))
-		{
-			char *expanded = ft_getenv(shell, tmp->token->content + 1);
-			if (expanded)
-			{
-				char **split = ft_split(expanded, ' ');
-				i += args_count(split);
-				free(expanded);
-				free_array(split);
-			}
-			else
-				i++;
-		}
-		else if (tmp->token->type == VAR || \
-			(tmp->token->type == WORD && !is_var_alone(tmp)))
-			i++;
+		if (is_word(tmp))
+			i += count_vars_words(tmp, shell);
 		else if (is_quote(tmp))
 		{
 			type = tmp->token->type;
