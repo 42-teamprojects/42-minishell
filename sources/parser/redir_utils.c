@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:49:50 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/21 18:13:06 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/21 18:16:31 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,10 +112,8 @@ int	handle_word_redir(char **command, int *i, t_lexer **tokens, t_shell **shell)
 						{
 							tmp = tmp->prev;
 							char *str = parse_quotes(&tmp, shell, 1);
-							// if (tmp->next != NULL || is_token_type(tmp->next, quote_type, S_UNKNOWN))
-							// 	return (1);
 							if (str && ft_strlen(str) > 0)
-								return (1);
+								return (free(str), 1);
 							free(str);
 						}
 					}
@@ -123,9 +121,8 @@ int	handle_word_redir(char **command, int *i, t_lexer **tokens, t_shell **shell)
 					{
 						char *str = ft_getenv(shell, (*tokens)->next->token->content + 1);
 						if (str && ft_strlen(str) > 0 && !is_only_whitespace(str))
-						{
-							return (1);
-						}
+							return (free(str), 1);
+						free(str);
 					}
 				}
 				else
