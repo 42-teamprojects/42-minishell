@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:31:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/21 21:35:43 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/21 21:39:36 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,14 @@ int	all_space_ambiguous(t_lexer **tokens)
 	if (check_near_quotes(tokens))
 		return (1);
 	if ((is_quote((*tokens)->prev) && \
-		((*tokens)->next == NULL || !is_token_type((*tokens)->next, WSPACE, DEFAULT)))
+		((*tokens)->next == NULL || \
+		!is_token_type((*tokens)->next, WSPACE, DEFAULT)))
 		|| (is_quote((*tokens)->next) && \
-		((*tokens)->prev == NULL || !is_token_type((*tokens)->prev, WSPACE, DEFAULT)))
+		((*tokens)->prev == NULL || \
+		!is_token_type((*tokens)->prev, WSPACE, DEFAULT)))
 		|| ((*tokens)->prev && \
-		((*tokens)->next == NULL || is_token_type((*tokens)->next, WSPACE, DEFAULT))))
+		((*tokens)->next == NULL || \
+		is_token_type((*tokens)->next, WSPACE, DEFAULT))))
 		return (0);
 	return (-2);
 }
@@ -82,7 +85,7 @@ int	space_right_ambiguous(t_lexer **tokens, t_shell **shell)
 
 	if (is_quote((*tokens)->next) && \
 		space_right_quotes_ambiguous(tokens, shell))
-			return (1);
+		return (1);
 	else if ((*tokens)->next->token->type == VAR)
 	{
 		str = ft_getenv(shell, (*tokens)->next->token->content + 1);

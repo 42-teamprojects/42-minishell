@@ -6,13 +6,14 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:27:23 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/21 21:01:21 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/21 21:40:32 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*handle_var_alone(char **command, int *i, t_lexer **tokens, t_shell **shell)
+static char	*handle_var_alone(char **command, int *i, t_lexer **tokens, \
+	t_shell **shell)
 {
 	char	**split;
 	char	*expanded;
@@ -29,7 +30,8 @@ static char	*handle_var_alone(char **command, int *i, t_lexer **tokens, t_shell 
 	return (NULL);
 }
 
-static char	*handle_expanding(char **command, int *i, t_lexer **tokens, t_shell **shell)
+static char	*handle_expanding(char **command, int *i, t_lexer **tokens, \
+	t_shell **shell)
 {
 	char	*expanded;
 
@@ -53,7 +55,8 @@ static char	*handle_expanding(char **command, int *i, t_lexer **tokens, t_shell 
 	return (ft_strdup(""));
 }
 
-void	handle_word(char **command, int *i, t_lexer **tokens, t_shell **shell, int expand)
+void	handle_word(char **command, int *i, t_lexer **tokens, t_shell **shell, \
+	int expand)
 {
 	char	*expanded;
 
@@ -64,13 +67,14 @@ void	handle_word(char **command, int *i, t_lexer **tokens, t_shell **shell, int 
 		if (!expanded)
 			return ;
 	}
-	if ((*tokens)->prev && (*tokens)->prev->token->type != WSPACE && command[*i - 1]
+	if ((*tokens)->prev && \
+		(*tokens)->prev->token->type != WSPACE && command[*i - 1]
 		&& !is_redir((*tokens)->prev) && (*tokens)->prev->token->type != PIPE)
-		{
-			command[*i - 1] = ft_strjoin_gnl(command[*i - 1], \
-			expanded);
-			free(expanded);
-		}
+	{
+		command[*i - 1] = ft_strjoin_gnl(command[*i - 1], \
+		expanded);
+		free(expanded);
+	}
 	else
 		command[(*i)++] = expanded;
 }
@@ -82,7 +86,7 @@ void	handle_quote(char **command, int *i, t_lexer **tokens, \
 			!is_redir((*tokens)->prev) && \
 			(*tokens)->prev->token->type != PIPE)
 	{
-			command[*i - 1] = ft_strjoin_gnl(command[*i - 1], 
+			command[*i - 1] = ft_strjoin_gnl(command[*i - 1],
 				parse_quotes(tokens, shell, expand));
 	}
 	else

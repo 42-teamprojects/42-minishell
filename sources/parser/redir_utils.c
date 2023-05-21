@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:49:50 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/21 21:34:15 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/21 21:39:00 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,11 @@ int	ambiguous_cases(t_lexer **tokens, t_shell **shell, char **command, int *i)
 	if (is_only_whitespace(expanded))
 		return (free(expanded), all_space_ambiguous(tokens));
 	else if ((*expanded == ' ' && command[*i - 1] && \
-	(!is_token_type((*tokens)->prev, WSPACE, DEFAULT)) && !is_redir((*tokens)->prev)) && \
-	((is_quote((*tokens)->prev) \
-	&& ft_strlen(command[*i - 1]) > 0 && is_only_whitespace(command[*i - 1]))
-	|| (ft_strlen(command[*i - 1]) > 0 && !is_only_whitespace(command[*i - 1]))))
+	(!is_token_type((*tokens)->prev, WSPACE, DEFAULT)) && \
+	!is_redir((*tokens)->prev)) && ((is_quote((*tokens)->prev) \
+	&& ft_strlen(command[*i - 1]) > 0 && is_only_whitespace(command[*i - 1])) \
+	|| (ft_strlen(command[*i - 1]) > 0 && \
+	!is_only_whitespace(command[*i - 1]))))
 		return (free(expanded), 1);
 	else if (expanded[ft_strlen(expanded) - 1] == ' ' && (*tokens)->next \
 		&& space_right_ambiguous(tokens, shell))
