@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/21 20:22:45 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/21 21:33:25 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,11 @@ int				is_word(t_lexer *tokens);
 int				is_quote(t_lexer *tokens);
 int				is_redir(t_lexer *tokens);
 void			update_command(t_lexer **tokens, char **command, int *i, char *expanded);
+int				check_near_quotes(t_lexer **tokens);
+int				all_space_ambiguous(t_lexer **tokens);
+int				space_right_quotes_ambiguous(t_lexer **tokens, t_shell **shell);
+int				space_right_ambiguous(t_lexer **tokens, t_shell **shell);
+
 /* EXECUTION */
 
 char			*check_cmd(char **cmd, t_shell **shell);

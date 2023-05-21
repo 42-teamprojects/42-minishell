@@ -33,6 +33,7 @@ SRCS = main.c \
 	sources/parser/parser_cmd.c \
 	sources/parser/parser_redir.c \
 	sources/parser/redir_utils.c \
+	sources/parser/ambiguous.c \
 	sources/parser/heredoc.c \
 	sources/lexer/lexer_init.c \
 	sources/lexer/lexer_utils.c \
@@ -74,6 +75,7 @@ OBJS = main.o \
 	$(PARSERDIR)/parser_redir.o \
 	$(PARSERDIR)/heredoc.o \
 	$(PARSERDIR)/redir_utils.o \
+	$(PARSERDIR)/ambiguous.o \
 	$(LEXERDIR)/lexer_init.o \
 	$(LEXERDIR)/lexer_utils.o \
 	$(LEXERDIR)/tokenizer.o \
