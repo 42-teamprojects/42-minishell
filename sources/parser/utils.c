@@ -6,11 +6,16 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:05:59 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/20 22:23:31 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/21 14:25:12 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	is_token_type(t_lexer *tokens, t_token_type type_to_check)
+{
+	return (tokens->token->type == type_to_check);
+}
 
 int	is_word(t_lexer *tokens)
 {

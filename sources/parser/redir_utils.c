@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:49:50 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/11 22:12:43 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/21 14:47:56 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,17 +64,21 @@ int	handle_word_redir(char **command, int *i, t_lexer **tokens, t_shell **shell)
 			}
 			else
 			{
-				// ((tmp->token->type != WSPACE || !is_redir(tmp))  && tmp->token->state == DEFAULT)
-				// || ((tmp->token->type == WSPACE || is_redir(tmp)))
 				if (is_only_whitespace(expanded)) //space
 				{
 					t_lexer *tmp = (*tokens)->next;
-					while (tmp && is_quote(tmp))
+					t_token_type quote_type = UNKNOWN; 
+					if (tmp && is_quote(tmp))
+						quote_type = tmp->token->type;
+					while (tmp && is_quote(tmp) && is_token_type(tmp, quote_type))
 							tmp = tmp->next;
 					if ((!tmp) && (*tokens)->next && is_quote((*tokens)->next))
 						return (1);
 					t_lexer *tmp2 = (*tokens)->prev;
-					while (tmp2 && tmp2->token->type != WSPACE && is_quote(tmp2))
+					if (tmp2 && is_quote(tmp2))
+						quote_type = tmp2->token->type;
+					quote_type = tmp2->token->type;
+					while (tmp2 && tmp2->token->type != WSPACE && is_quote(tmp2) && is_token_type(tmp2, quote_type))
 							tmp2 = tmp2->prev;
 					if (tmp2 && tmp2->token->type == WSPACE && (*tokens)->prev && is_quote((*tokens)->prev) && !(*tokens)->next)
 						return (1);
@@ -158,6 +162,7 @@ int	handle_word_redir(char **command, int *i, t_lexer **tokens, t_shell **shell)
 					{
 						return (1);
 					}
+					free_array(split);
 				}
 			}
 			expanded = ft_strtrim(expanded, " ");
@@ -186,8 +191,8 @@ int	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
 	char			*file;
 
 	type = (*tokens)->token->type;
-	while ((*tokens)->token->type != WORD && (*tokens)->token->type != VAR &&
-		   (*tokens)->token->type != SQUOTE && (*tokens)->token->type != DQUOTE)
+	while ((*tokens)->token->type != WORD && (*tokens)->token->type != VAR && \
+		(*tokens)->token->type != SQUOTE && (*tokens)->token->type != DQUOTE)
 		*tokens = (*tokens)->next;
 	if (type == HEREDOC)
 		file = open_heredoc(tokens, shell);
@@ -204,7 +209,6 @@ int	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
 				if (handle_word_redir(args, &i, tokens, shell))
 					return (1);
 			}
-			
 			if (is_quote(*tokens))
 				handle_quote(args, &i, tokens, shell, 1);
 			if ((*tokens)->token->type == WSPACE || !(*tokens)->next)

@@ -1,3 +1,6 @@
+ 
+'
+;
 Makefile
 README.md
 includes
@@ -7,5 +10,6 @@ main.o
 minishell
 obj
 rd
+s
 sources
 tests
