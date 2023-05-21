@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:49:50 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/21 14:47:56 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/21 16:44:17 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,31 @@ int	is_only_whitespace(char *str)
 		str++;
 	}
 	return (1);
+}
+
+int	check_near_quotes(t_lexer **tokens)
+{
+	t_lexer			*tmp;
+	t_token_type	quote_type;
+
+	quote_type = UNKNOWN;
+	tmp = (*tokens)->next;
+	if (tmp && is_quote(tmp))
+		quote_type = tmp->token->type;
+	while (tmp && is_quote(tmp) && is_token_type(tmp, quote_type, S_UNKNOWN))
+			tmp = tmp->next;
+	if ((!tmp) && (*tokens)->next && is_quote((*tokens)->next))
+		return (1);
+	tmp = (*tokens)->prev;
+	if (tmp && is_quote(tmp))
+		quote_type = tmp->token->type;
+	while (tmp && !is_token_type(tmp, WSPACE, DEFAULT) && !is_redir(tmp) \
+		&& is_quote(tmp) && is_token_type(tmp, quote_type, S_UNKNOWN))
+			tmp = tmp->prev;
+	if (tmp && (is_token_type(tmp, WSPACE, DEFAULT) || is_redir(tmp)) \
+		&& is_quote((*tokens)->prev) && !(*tokens)->next)
+		return (1);
+	return (0);
 }
 
 int	handle_word_redir(char **command, int *i, t_lexer **tokens, t_shell **shell)
@@ -38,70 +63,31 @@ int	handle_word_redir(char **command, int *i, t_lexer **tokens, t_shell **shell)
 			expanded = ft_strdup("");
 		else if ((*tokens)->token->state == DEFAULT)
 		{
-			expanded = ft_strtrim_min(ft_getenv(shell, \
-				(*tokens)->token->content + 1), " ");
-			if (!expanded)
-			{
-				if (is_var_alone(*tokens))
-				{
-					return (1);
-				}
-				else
-					expanded = ft_strdup("");
-			}
-			else if (ft_strlen(expanded) == 0 && !is_var_alone(*tokens))
-			{
-				t_lexer *tmp = (*tokens)->next;
-				while (tmp && is_quote(tmp))
-						tmp = tmp->next;
-				if (!tmp && (*tokens)->next && is_quote((*tokens)->next))
-					expanded = ft_strdup("");
-				t_lexer *tmp2 = (*tokens)->next;
-				while (tmp2 && ((tmp2->token->type == WSPACE || is_redir(tmp2))  && tmp2->token->state == DEFAULT) && is_quote(tmp2))
-						tmp2 = tmp2->prev;
-				if (!tmp2 && (*tokens)->next && is_quote((*tokens)->next))
-					expanded = ft_strdup("");
-			}
+			expanded = ft_getenv(shell, (*tokens)->token->content + 1);
+			expanded = ft_strtrim_min(expanded, " ");
+			if (!expanded && is_var_alone(*tokens))
+				return (1);
+			else if ((!expanded && !is_var_alone(*tokens)) \
+				|| (expanded && !ft_strlen(expanded) && !is_var_alone(*tokens)))
+				expanded = ft_strdup("");
 			else
 			{
 				if (is_only_whitespace(expanded)) //space
 				{
-					t_lexer *tmp = (*tokens)->next;
-					t_token_type quote_type = UNKNOWN; 
-					if (tmp && is_quote(tmp))
-						quote_type = tmp->token->type;
-					while (tmp && is_quote(tmp) && is_token_type(tmp, quote_type))
-							tmp = tmp->next;
-					if ((!tmp) && (*tokens)->next && is_quote((*tokens)->next))
-						return (1);
-					t_lexer *tmp2 = (*tokens)->prev;
-					if (tmp2 && is_quote(tmp2))
-						quote_type = tmp2->token->type;
-					quote_type = tmp2->token->type;
-					while (tmp2 && tmp2->token->type != WSPACE && is_quote(tmp2) && is_token_type(tmp2, quote_type))
-							tmp2 = tmp2->prev;
-					if (tmp2 && tmp2->token->type == WSPACE && (*tokens)->prev && is_quote((*tokens)->prev) && !(*tokens)->next)
+					if (check_near_quotes(tokens))
 						return (1);
 					// Check if the previous token is a quote and the next token is not whitespace or NULL
-					if ((*tokens)->prev && is_quote((*tokens)->prev) && ((*tokens)->next == NULL || ((*tokens)->next->token->type != WSPACE && (*tokens)->next->token->state != DEFAULT)))
-					{
+					if (is_quote((*tokens)->prev) && \
+						((*tokens)->next == NULL || !is_token_type((*tokens)->next, WSPACE, DEFAULT)))
 						return (0);
-					}
 
 					// Check if the next token is a quote and the previous token is not whitespace or NULL
-					if ((*tokens)->next && is_quote((*tokens)->next) && ((*tokens)->prev == NULL || ((*tokens)->prev->token->type != WSPACE && (*tokens)->prev->token->state != DEFAULT)))
-					{
-						
+					if (is_quote((*tokens)->next) && \
+						((*tokens)->prev == NULL || !is_token_type((*tokens)->prev, WSPACE, DEFAULT)))
 						return (0);
-					}
 
-					if ((*tokens)->prev && ((*tokens)->prev->token->type == SQUOTE || (*tokens)->prev->token->type == DQUOTE) && ((*tokens)->prev->prev && ((*tokens)->prev->prev->token->type == (*tokens)->prev->token->type)))
-					{
-						return (1);
-					}
-
-					if ((*tokens)->prev && ((*tokens)->next == NULL || ((*tokens)->next->token->type == WSPACE && (*tokens)->next->token->state == DEFAULT)))
-						return (0);
+					// if ((*tokens)->prev && ((*tokens)->next == NULL || ((*tokens)->next->token->type == WSPACE && (*tokens)->next->token->state == DEFAULT)))
+					// 	return (0);
 					if (!(*tokens)->next && !(*tokens)->prev)
 					{
 						return (1);

@@ -6,13 +6,13 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:27:23 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/21 00:01:39 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/21 15:09:19 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*handle_var_alone(char **command, int *i, t_lexer **tokens, t_shell **shell)
+static char	*handle_var_alone(char **command, int *i, t_lexer **tokens, t_shell **shell)
 {
 	char	**split;
 	char	*expanded;
@@ -29,7 +29,7 @@ char	*handle_var_alone(char **command, int *i, t_lexer **tokens, t_shell **shell
 	return (NULL);
 }
 
-char	*handle_expanding(char **command, int *i, t_lexer **tokens, t_shell **shell)
+static char	*handle_expanding(char **command, int *i, t_lexer **tokens, t_shell **shell)
 {
 	char	*expanded;
 

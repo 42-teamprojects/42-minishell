@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 12:20:42 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/06 22:57:05 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/21 15:24:24 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ char	*ft_strtrim_min(char const *s1, char const *set)
 		if (!str)
 			return (NULL);
 		ft_strlcpy(str, &s1[front], back - front + 1);
+		free((char *)s1);
 	}
 	return (str);
 }

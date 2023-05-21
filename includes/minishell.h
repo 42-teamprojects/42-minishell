@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/21 14:26:35 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/21 16:11:43 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ char			*redir_type(t_token_type type);
 char			*remove_slashes(char *path);
 void			init_shell(t_shell **shell, char **env);
 void			rollback_fd(t_shell **shell);
-int				is_token_type(t_lexer *tokens, t_token_type type_to_check);
+int				is_token_type(t_lexer *tokens, t_token_type type, t_state state);
 
 /* ERRORS */
 

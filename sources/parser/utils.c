@@ -6,36 +6,39 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:05:59 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/21 14:25:12 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/21 16:11:54 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_token_type(t_lexer *tokens, t_token_type type_to_check)
+int	is_token_type(t_lexer *tokens, t_token_type type, t_state state)
 {
-	return (tokens->token->type == type_to_check);
+	if (state == S_UNKNOWN)
+		return (tokens && tokens->token->type == type);
+	return (tokens && tokens->token->type == type \
+		&& tokens->token->state == state);
 }
 
 int	is_word(t_lexer *tokens)
 {
-	return ((tokens->token->type == WORD \
+	return (tokens && ((tokens->token->type == WORD \
 			|| tokens->token->type == VAR) \
-			&& tokens->token->state == DEFAULT);
+			&& tokens->token->state == DEFAULT));
 }
 
 int	is_quote(t_lexer *tokens)
 {
-	return (tokens->token->type == DQUOTE \
-		|| tokens->token->type == SQUOTE);
+	return (tokens && (tokens->token->type == DQUOTE \
+		|| tokens->token->type == SQUOTE));
 }
 
 int	is_redir(t_lexer *tokens)
 {
-	return (tokens->token->type == RD_OUT || \
+	return (tokens && (tokens->token->type == RD_OUT || \
 		tokens->token->type == RD_IN || \
 		tokens->token->type == RD_AOUT || \
-		tokens->token->type == HEREDOC);
+		tokens->token->type == HEREDOC));
 }
 
 t_command	*init_cmd(char **command, char *path, t_rd *rd)
