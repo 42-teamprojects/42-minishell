@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:49:50 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/21 16:44:17 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/21 18:13:06 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,57 +76,44 @@ int	handle_word_redir(char **command, int *i, t_lexer **tokens, t_shell **shell)
 				{
 					if (check_near_quotes(tokens))
 						return (1);
-					// Check if the previous token is a quote and the next token is not whitespace or NULL
-					if (is_quote((*tokens)->prev) && \
+					if ((is_quote((*tokens)->prev) && \
 						((*tokens)->next == NULL || !is_token_type((*tokens)->next, WSPACE, DEFAULT)))
-						return (0);
-
-					// Check if the next token is a quote and the previous token is not whitespace or NULL
-					if (is_quote((*tokens)->next) && \
+						|| (is_quote((*tokens)->next) && \
 						((*tokens)->prev == NULL || !is_token_type((*tokens)->prev, WSPACE, DEFAULT)))
-						return (0);
-
-					// if ((*tokens)->prev && ((*tokens)->next == NULL || ((*tokens)->next->token->type == WSPACE && (*tokens)->next->token->state == DEFAULT)))
-					// 	return (0);
-					if (!(*tokens)->next && !(*tokens)->prev)
-					{
-						return (1);
-					}
-					if ((*tokens)->prev && ((*tokens)->prev->token->type == SQUOTE || (*tokens)->prev->token->type == DQUOTE) \
-					&& ((*tokens)->prev->prev && ((*tokens)->prev->prev->token->type == (*tokens)->prev->token->type)))
-					{
-						return (1);
-					}
-					if ((*tokens)->prev && ((*tokens)->next == NULL || ((*tokens)->next->token->type == WSPACE && (*tokens)->next->token->state == DEFAULT)))
+						|| ((*tokens)->prev && \
+						((*tokens)->next == NULL || is_token_type((*tokens)->next, WSPACE, DEFAULT))))
 						return (0);
 				}
-				else if (*expanded == ' ' && ((*tokens)->prev && (*tokens)->prev->token->type != WSPACE && !is_redir((*tokens)->prev))) //space left
+				else if (*expanded == ' ' && command[*i - 1] && 
+					(!is_token_type((*tokens)->prev, WSPACE, DEFAULT)) && !is_redir((*tokens)->prev)) //space left
 				{
-					if (((*tokens)->prev->token->type == SQUOTE || (*tokens)->prev->token->type == DQUOTE) \
-						&& command[*i - 1] && ft_strlen(command[*i - 1]) > 0 && is_only_whitespace(command[*i - 1]))
-					{
+					if (is_quote((*tokens)->prev) \
+						&& ft_strlen(command[*i - 1]) > 0 && is_only_whitespace(command[*i - 1]))
 						return (1);
-					}
-					else if ((command[*i - 1] && ft_strlen(command[*i - 1]) > 0 && !is_only_whitespace(command[*i - 1])))
-					{
+					else if (ft_strlen(command[*i - 1]) > 0 && !is_only_whitespace(command[*i - 1]))
 						return (1);
-					}
 				}
 				else if (expanded[ft_strlen(expanded) - 1] == ' ' && (*tokens)->next) //space right
 				{
 					if (is_quote((*tokens)->next))
 					{
-						t_lexer *tmp = (*tokens)->next;
-						while (tmp && is_quote(tmp))
-							tmp = tmp->next;
+						t_lexer			*tmp;
+						t_token_type	quote_type;
+
+						quote_type = UNKNOWN;
+						tmp = (*tokens)->next;
+						if (tmp && is_quote(tmp))
+							quote_type = tmp->token->type;
+						while (tmp && is_quote(tmp) && is_token_type(tmp, quote_type, S_UNKNOWN))
+								tmp = tmp->next;
 						if (tmp && tmp->token->type == WORD)
 							return (1);
-						if (tmp && tmp->prev && is_quote(tmp->prev))
+						if (tmp && is_quote(tmp->prev))
 						{
 							tmp = tmp->prev;
 							char *str = parse_quotes(&tmp, shell, 1);
-							if (tmp->next != NULL || (tmp->next && (tmp->next->token->type == WSPACE && tmp->next->token->state == DEFAULT)))
-								return (1);
+							// if (tmp->next != NULL || is_token_type(tmp->next, quote_type, S_UNKNOWN))
+							// 	return (1);
 							if (str && ft_strlen(str) > 0)
 								return (1);
 							free(str);
