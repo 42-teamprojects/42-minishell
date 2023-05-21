@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/20 22:29:44 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/21 13:41:49 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	execute_inparent(t_shell **shell)
 	rd = (*shell)->cmds[0]->redir;
 	if (rd && handle_redirection(rd, shell))
 		return ;
-	ft_exec_builtin(shell, 0);
+	(*shell)->status_code = ft_exec_builtin(shell, 0);
 	if (rd)
 		rollback_fd(shell);
 }
