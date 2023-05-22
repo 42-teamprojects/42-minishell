@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 17:11:51 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/21 22:02:06 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/22 19:35:18 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,10 @@ int	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
 	else
 	{
 		args = get_filename(tokens, shell);
-		if (!args || (args && !args[0]))
+		if (!args)
 			return (1);
+		if (args && !args[0])
+			return (free_array(args), 1);
 		file = ft_strdup(args[0]);
 		free_array(args);
 	}	

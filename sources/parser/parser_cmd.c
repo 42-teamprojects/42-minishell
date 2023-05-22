@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:27:23 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/21 21:40:32 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/22 22:41:17 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ static char	*handle_var_alone(char **command, int *i, t_lexer **tokens, \
 	{
 		split = ft_split(expanded, ' ');
 		while (split && *split)
-			command[(*i)++] = ft_strdup(*split++);
-		free_array(split);
+			command[(*i)++] = *split++;
 		free(expanded);
 	}
 	return (NULL);
