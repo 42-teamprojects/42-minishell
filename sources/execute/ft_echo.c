@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 23:24:42 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/20 18:40:03 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/22 18:54:42 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	ft_echo(t_shell **shell, int idx)
 	int	flag;
 
 	flag = 0;
-	if (!(*shell)->cmds[idx]->args[0])
+	if (!(*shell)->cmds[idx]->args)
 	{
 		printf("\n");
 		return (0);

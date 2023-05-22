@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 23:26:06 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/21 14:00:42 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/22 18:55:36 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int	ft_export(t_shell **shell, int idx)
 	char	*value;
 	int		i;
 
-	if ((*shell)->cmds[idx]->args[0] == NULL)
+	if (!(*shell)->cmds[idx]->args)
 		return (export_env(shell), 1);
 	i = -1;
 	while ((*shell)->cmds[idx]->args[++i])

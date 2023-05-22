@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 23:25:30 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/21 13:42:39 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/22 18:53:06 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ int	ft_cd(t_shell **shell, int idx)
 	else if ((*shell)->cmds[idx]->argc == 0 && chdir(home) != 0)
 		return (free_mem(user, home, path), \
 			console(1, "cd", "HOME not set"), 1);
-	else if ((*shell)->cmds[idx]->args[0] && \
+	else if ((*shell)->cmds[idx]->args && \
+		(*shell)->cmds[idx]->args[0] && \
 		*((*shell)->cmds[idx]->args[0]) == '~')
 		chdir(path);
 	ft_setenv("OLDPWD", s, shell);
