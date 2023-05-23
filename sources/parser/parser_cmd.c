@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:27:23 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/22 22:41:17 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/23 16:40:36 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,17 @@ static char	*handle_var_alone(char **command, int *i, t_lexer **tokens, \
 {
 	char	**split;
 	char	*expanded;
+	int		j;
 
 	expanded = ft_getenv(shell, (*tokens)->token->content + 1);
 	if (expanded)
 	{
+		j = -1;
 		split = ft_split(expanded, ' ');
-		while (split && *split)
-			command[(*i)++] = *split++;
+		while (split[++j])
+			command[(*i)++] = ft_strdup(split[j]);
 		free(expanded);
+		free_array(split);
 	}
 	return (NULL);
 }
@@ -59,13 +62,14 @@ void	handle_word(char **command, int *i, t_lexer **tokens, t_shell **shell, \
 {
 	char	*expanded;
 
-	expanded = ft_strdup((*tokens)->token->content);
 	if (expand && (*tokens)->token->type == VAR)
 	{
 		expanded = handle_expanding(command, i, tokens, shell);
 		if (!expanded)
 			return ;
 	}
+	else
+		expanded = ft_strdup((*tokens)->token->content);
 	if ((*tokens)->prev && \
 		(*tokens)->prev->token->type != WSPACE && command[*i - 1]
 		&& !is_redir((*tokens)->prev) && (*tokens)->prev->token->type != PIPE)
