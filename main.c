@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/23 21:27:49 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/23 21:43:01 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ char	*ft_prompt(t_shell **shell)
 	if (!prompt)
 	{
 		free(prompt);
+		free_array((*shell)->env);
 		exit((*shell)->status_code);
 	}
 	free(prompt);

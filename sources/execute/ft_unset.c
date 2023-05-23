@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 23:27:15 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/05 15:52:52 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/23 21:36:47 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	check_var_for_unset(t_shell **shell, char *var)
 	}
 	return (1);
 }
+
 int	ft_unset(t_shell **shell, int idx)
 {
 	int		i;
@@ -84,6 +85,7 @@ int	ft_unset(t_shell **shell, int idx)
 		}
 	}
 	new_environ[k] = NULL;
+	free_array((*shell)->env);
 	(*shell)->env = new_environ;
 	return (0);
 }

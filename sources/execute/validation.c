@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 21:50:33 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/20 15:06:54 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/23 22:02:04 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,9 @@ char	*check_cmd(char **cmd, t_shell **shell)
 	path_list = ft_split(full_path, ':');
 	free(full_path);
 	path = cmd[0];
-	if (*cmd[0] == '/' || (*cmd[0] == '.' && *(cmd[0] + 1) == '/'))
+	if (*cmd[0] == '.' && *(cmd[0] + 1) == '/')
+		return (free_array(path_list), ft_strdup(cmd[0]));
+	if (*cmd[0] == '/')
 	{
 		if (access(path, F_OK) == 0)
 			return (free_array(path_list), path);

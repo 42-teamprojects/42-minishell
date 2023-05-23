@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:05:59 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/23 18:19:33 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/23 21:53:49 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ t_command	*init_cmd(char **command, char *path, t_rd *rd)
 			cmd->args = init_args(command);
 		else
 			cmd->args = NULL;
-		cmd->full_cmd = command;
+		cmd->full_cmd = dup_list(command);
+		free_array(command);
 	}
 	else
 		free(command);

@@ -22,9 +22,10 @@ char	*tokens_to_str(t_shell **shell, t_lexer **tokens)
 	current = *tokens;
 	while (current)
 	{
-		tmp = ft_strdup(current->token->content);
 		if (current->token->type == VAR)
 			tmp = ft_getenv(shell, current->token->content + 1);
+		else
+			tmp = ft_strdup(current->token->content);
 		str = ft_strjoin_gnl(str, tmp);
 		free(tmp);
 		current = current->next;
