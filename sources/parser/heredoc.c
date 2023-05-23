@@ -16,17 +16,18 @@ char	*tokens_to_str(t_shell **shell, t_lexer **tokens)
 {
 	char	*str;
 	char	*tmp;
+	t_lexer	*current;
 
 	str = ft_strdup("");
-	tmp = ft_strdup("");
-	while ((*tokens))
+	current = *tokens;
+	while (current)
 	{
-		tmp = ft_strdup((*tokens)->token->content);
-		if ((*tokens)->token->type == VAR)
-			tmp = ft_getenv(shell, tmp + 1);
+		tmp = ft_strdup(current->token->content);
+		if (current->token->type == VAR)
+			tmp = ft_getenv(shell, current->token->content + 1);
 		str = ft_strjoin_gnl(str, tmp);
 		free(tmp);
-		(*tokens) = (*tokens)->next;
+		current = current->next;
 	}
 	return (str);
 }
@@ -71,14 +72,15 @@ void	write_heredoc(int fd, char *line, char *delimiter, \
 	t_shell **shell, int flag)
 {
 	char	*expanded_line;
+	char	*tmp;
 
 	while (1)
 	{
-		ft_putstr_fd("heredoc> ", 0);
-		line = get_next_line(0);
-		if (!line)
+		tmp = readline("heredoc> ");
+		if (!tmp)
 			break ;
-		line = ft_strtrim(line, "\n");
+		line = ft_strtrim(tmp, "\n");
+		free(tmp);
 		if (ft_strcmp(line, delimiter) == 0)
 		{
 			free(line);
