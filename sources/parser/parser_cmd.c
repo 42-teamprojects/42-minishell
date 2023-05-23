@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:27:23 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/23 16:40:36 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/23 21:09:39 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,16 @@ void	handle_word(char **command, int *i, t_lexer **tokens, t_shell **shell, \
 void	handle_quote(char **command, int *i, t_lexer **tokens, \
 	t_shell **shell, int expand)
 {
+	char	*quotes;
+
 	if ((*tokens)->prev && (*tokens)->prev->token->type != WSPACE && \
 			!is_redir((*tokens)->prev) && \
 			(*tokens)->prev->token->type != PIPE)
 	{
-			command[*i - 1] = ft_strjoin_gnl(command[*i - 1],
-				parse_quotes(tokens, shell, expand));
+		quotes = parse_quotes(tokens, shell, expand);
+		command[*i - 1] = ft_strjoin_gnl(command[*i - 1],
+				quotes);
+		free(quotes);
 	}
 	else
 		command[(*i)++] = parse_quotes(tokens, shell, expand);
@@ -107,7 +111,6 @@ char	*parse_quotes(t_lexer **tokens, t_shell **shell, int expand)
 	str_in_quotes = ft_strdup("");
 	while ((*tokens) && (*tokens)->token->type != type)
 	{
-		expanded = ft_strdup((*tokens)->token->content);
 		if ((*tokens)->token->type == VAR && (*tokens)->token->len > 1 \
 			&& (*tokens)->token->state == IN_DQUOTE && expand)
 		{
@@ -115,6 +118,8 @@ char	*parse_quotes(t_lexer **tokens, t_shell **shell, int expand)
 			if (!expanded)
 				expanded = ft_strdup("");
 		}
+		else
+			expanded = ft_strdup((*tokens)->token->content);
 		str_in_quotes = ft_strjoin_gnl(str_in_quotes, \
 			expanded);
 		(*tokens) = (*tokens)->next;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 09:28:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/21 20:50:58 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/23 21:21:18 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	init_shell(t_shell **shell, char **env)
 	(*shell) = (t_shell *) malloc(sizeof(t_shell));
 	(*shell)->exit = 0;
 	(*shell)->status_code = 0;
-	(*shell)->env = env;
+	(*shell)->env = dup_list(env);
 	(*shell)->exp = NULL;
 	(*shell)->fd.old_out = -1;
 	(*shell)->fd.old_in = -1;

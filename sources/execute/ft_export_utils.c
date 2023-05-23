@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 02:22:00 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/01 19:28:41 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/23 21:24:11 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,11 @@ int	ft_setenv_help(char *name, char *value, t_shell **shell, int i)
 		return (-1);
 	ft_memcpy(new_environ, (*shell)->env, i * sizeof(char *));
 	input = ft_concat(3, name, "=", value);
-	new_environ[i] = input;
+	new_environ[i] = ft_strdup(input);
 	new_environ[i + 1] = NULL;
+	free((*shell)->env);
 	(*shell)->env = new_environ;
+	free(input);
 	return (0);
 }
 
@@ -50,6 +52,7 @@ int	ft_setenv(char *name, char *value, t_shell **shell)
 	if (overwrite == 1)
 	{
 		input = ft_concat(3, name, "=", value);
+		free((*shell)->env[i]);
 		(*shell)->env[i] = input;
 	}
 	else

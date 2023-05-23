@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/23 18:17:33 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/23 21:27:49 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	read_input(t_shell **shell)
 		return (free_lexer((*shell)->lexer), stop(-1, shell));
 	(*shell)->cmds = parse(shell);
 	free_lexer((*shell)->lexer);
-	// system("leaks minishell");
+	// system("leaks minishell -q");
 	// return (free_shell(*shell, BASIC), stop(-1, shell));
 	// print_lexer((*shell)->lexer);
 	// return (stop(-1, shell));
