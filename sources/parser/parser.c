@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/23 16:41:16 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/23 18:24:26 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,5 +127,6 @@ t_command	**parse(t_shell **shell)
 		v.commands[v.i] = init_cmd(v.cmd, v.path, v.rd);
 	}
 	v.commands[v.i] = NULL;
+	// system("leaks minishell -q");
 	return (v.commands);
 }
