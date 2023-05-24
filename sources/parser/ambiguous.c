@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ambiguous.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 21:31:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/21 21:39:36 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/24 17:04:46 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	all_space_ambiguous(t_lexer **tokens)
 	return (-2);
 }
 
-int	space_right_quotes_ambiguous(t_lexer **tokens, t_shell **shell)
+int	space_right_quotes_ambiguous(t_lexer **tokens)
 {
 	t_lexer			*tmp;
 	char			*str;
@@ -71,7 +71,7 @@ int	space_right_quotes_ambiguous(t_lexer **tokens, t_shell **shell)
 	if (tmp && is_quote(tmp->prev))
 	{
 		tmp = tmp->prev;
-		str = parse_quotes(&tmp, shell, 1);
+		str = parse_quotes(&tmp, 1);
 		if (str && ft_strlen(str) > 0)
 			return (free(str), 1);
 		free(str);
@@ -79,16 +79,16 @@ int	space_right_quotes_ambiguous(t_lexer **tokens, t_shell **shell)
 	return (0);
 }
 
-int	space_right_ambiguous(t_lexer **tokens, t_shell **shell)
+int	space_right_ambiguous(t_lexer **tokens)
 {
 	char	*str;
 
 	if (is_quote((*tokens)->next) && \
-		space_right_quotes_ambiguous(tokens, shell))
+		space_right_quotes_ambiguous(tokens))
 		return (1);
 	else if ((*tokens)->next->token->type == VAR)
 	{
-		str = ft_getenv(shell, (*tokens)->next->token->content + 1);
+		str = ft_getenv((*tokens)->next->token->content + 1);
 		if (str && ft_strlen(str) > 0 && !is_only_whitespace(str))
 			return (free(str), 1);
 		free(str);

@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   redir_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:49:50 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/21 21:39:00 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/24 17:36:42 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ambiguous_cases(t_lexer **tokens, t_shell **shell, char **command, int *i)
+int	ambiguous_cases(t_lexer **tokens, char **command, int *i)
 {
 	char	*expanded;
 	char	**split;
 
-	expanded = ft_getenv(shell, (*tokens)->token->content + 1);
+	expanded = ft_getenv((*tokens)->token->content + 1);
 	if (is_only_whitespace(expanded))
 		return (free(expanded), all_space_ambiguous(tokens));
 	else if ((*expanded == ' ' && command[*i - 1] && \
@@ -28,15 +28,15 @@ int	ambiguous_cases(t_lexer **tokens, t_shell **shell, char **command, int *i)
 	!is_only_whitespace(command[*i - 1]))))
 		return (free(expanded), 1);
 	else if (expanded[ft_strlen(expanded) - 1] == ' ' && (*tokens)->next \
-		&& space_right_ambiguous(tokens, shell))
+		&& space_right_ambiguous(tokens))
 		return (free(expanded), 1);
 	split = ft_split(expanded, ' ');
 	if (args_count(split) == 0 || args_count(split) > 1 || !ft_strlen(split[0]))
-		return (free_array(split), 1);
+		return (free_array(split), free(expanded), 1);
 	return (free_array(split), free(expanded), -2);
 }
 
-int	check_ambiguous(t_lexer **tokens, t_shell **shell, char **command, int *i)
+int	check_ambiguous(t_lexer **tokens, char **command, int *i)
 {
 	char	*expanded;
 
@@ -46,17 +46,17 @@ int	check_ambiguous(t_lexer **tokens, t_shell **shell, char **command, int *i)
 		return (-1);
 	else
 	{
-		expanded = ft_getenv(shell, (*tokens)->token->content + 1);
+		expanded = ft_getenv((*tokens)->token->content + 1);
 		if (!expanded && is_var_alone(*tokens))
 			return (free(expanded), 1);
 		else if ((!expanded && !is_var_alone(*tokens)) \
 			|| (expanded && !ft_strlen(expanded) && !is_var_alone(*tokens)))
 			return (free(expanded), -1);
-		return (free(expanded), ambiguous_cases(tokens, shell, command, i));
+		return (free(expanded), ambiguous_cases(tokens, command, i));
 	}
 }
 
-int	handle_word_redir(char **command, int *i, t_lexer **tokens, t_shell **shell)
+int	handle_word_redir(char **command, int *i, t_lexer **tokens)
 {
 	char	*tmp;
 	char	*expanded;
@@ -64,15 +64,15 @@ int	handle_word_redir(char **command, int *i, t_lexer **tokens, t_shell **shell)
 	expanded = NULL;
 	if ((*tokens)->token->type == VAR)
 	{
-		if (check_ambiguous(tokens, shell, command, i) == 1)
+		if (check_ambiguous(tokens, command, i) == 1)
 			return (1);
-		else if (check_ambiguous(tokens, shell, command, i) == 0)
+		else if (check_ambiguous(tokens, command, i) == 0)
 			return (0);
-		else if (check_ambiguous(tokens, shell, command, i) == -1)
+		else if (check_ambiguous(tokens, command, i) == -1)
 			expanded = ft_strdup("");
 		else
 		{
-			tmp = ft_getenv(shell, (*tokens)->token->content + 1);
+			tmp = ft_getenv((*tokens)->token->content + 1);
 			expanded = ft_strtrim(tmp, " ");
 			free(tmp);
 		}

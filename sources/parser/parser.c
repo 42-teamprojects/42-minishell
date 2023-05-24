@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/24 09:43:04 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/24 16:58:40 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef struct s_vars
 	t_rd		*rd;
 }	t_vars;
 
-int	check_files(int *err, t_shell **shell, t_rd *rd)
+int	check_files(int *err, t_rd *rd)
 {
 	t_rd	*tmp;
 	int		fd;
@@ -37,8 +37,8 @@ int	check_files(int *err, t_shell **shell, t_rd *rd)
 			if (fd < 0)
 			{
 				*err = 1;
-				(*shell)->status_code = 1;
-				return (stop(-1, shell), console(1, tmp->file, \
+				(g_shell)->status_code = 1;
+				return (stop(-1), console(1, tmp->file, \
 					strerror(errno)), 1);
 			}
 		}
@@ -46,21 +46,21 @@ int	check_files(int *err, t_shell **shell, t_rd *rd)
 	}
 	if (*err)
 	{
-		(*shell)->status_code = 1;
-		return (stop(-1, shell), console(1, "", "ambiguous redirect"), 1);
+		(g_shell)->status_code = 1;
+		return (stop(-1), console(1, "", "ambiguous redirect"), 1);
 	}
 	return (0);
 }
 
-void	parse_logic(char ***command, int *i, t_lexer **tokens, t_shell **shell)
+void	parse_logic(char ***command, int *i, t_lexer **tokens)
 {
 	if (is_word(*tokens))
-		handle_word(*command, i, tokens, shell, 1);
+		handle_word(*command, i, tokens, 1);
 	if (is_quote(*tokens))
-		handle_quote(*command, i, tokens, shell, 1);
+		handle_quote(*command, i, tokens, 1);
 }
 
-char	**parse_cmds(t_lexer **tokens, t_shell **shell, t_rd **rd, int *err)
+char	**parse_cmds(t_lexer **tokens, t_rd **rd, int *err)
 {
 	char	**command;
 	int		i;
@@ -68,16 +68,16 @@ char	**parse_cmds(t_lexer **tokens, t_shell **shell, t_rd **rd, int *err)
 	i = 0;
 	*err = 0;
 	command = (char **)malloc(sizeof(char *) * \
-		(args_len(*tokens, shell, PIPE) + 1));
+		(args_len(*tokens, PIPE) + 1));
 	if (!command)
 		return (NULL);
-	while ((*tokens) && (*shell)->exit == 0)
+	while ((*tokens) && (g_shell)->exit == 0)
 	{
 		if ((*tokens)->token->type == WSPACE)
 			(*tokens) = (*tokens)->next;
-		parse_logic(&command, &i, tokens, shell);
+		parse_logic(&command, &i, tokens);
 		if (is_redir(*tokens))
-			*err = handle_redir(rd, tokens, shell);
+			*err = handle_redir(rd, tokens);
 		if (*err)
 			break ;
 		if ((*tokens)->token->type == PIPE)
@@ -88,45 +88,45 @@ char	**parse_cmds(t_lexer **tokens, t_shell **shell, t_rd **rd, int *err)
 		(*tokens) = (*tokens)->next;
 	}
 	command[i] = NULL;
-	if (check_files(err, shell, *rd))
+	if (check_files(err, *rd))
 		return (free_rd(*rd), free_array(command), NULL);
 	return (command);
 }
 
-t_command	**init_commands(t_shell **shell)
+t_command	**init_commands(void)
 {
 	t_command	**commands;
 
-	(*shell)->cmds_count = cmds_len((*shell)->lexer);
+	(g_shell)->cmds_count = cmds_len((g_shell)->lexer);
 	commands = (t_command **)malloc(sizeof(t_command *) \
-		* ((*shell)->cmds_count + 1));
+		* ((g_shell)->cmds_count + 1));
 	if (!commands)
 		return (NULL);
 	return (commands);
 }
 
-t_command	**parse(t_shell **shell)
+t_command	**parse(void)
 {
 	t_vars		v;
 
-	v.commands = init_commands(shell);
+	v.commands = init_commands();
 	if (!v.commands)
 		return (NULL);
 	v.i = -1;
-	v.tokens = (*shell)->lexer;
-	while (++v.i < (*shell)->cmds_count)
+	v.tokens = (g_shell)->lexer;
+	while (++v.i < (g_shell)->cmds_count)
 	{
 		v.rd = NULL;
 		v.path = NULL;
-		v.cmd = parse_cmds(&v.tokens, shell, &v.rd, &v.err);
+		v.cmd = parse_cmds(&v.tokens, &v.rd, &v.err);
 		if (v.err)
 			return (free(v.commands), NULL);
-		if (!v.cmd || (*shell)->exit != 0)
+		if (!v.cmd || (g_shell)->exit != 0)
 			break ;
 		if (v.cmd[0] == NULL && v.rd != NULL)
 			v.path = ft_strdup("redir");
 		else
-			v.path = check_cmd(v.cmd, shell);
+			v.path = check_cmd(v.cmd);
 		v.commands[v.i] = init_cmd(v.cmd, v.path, v.rd);
 	}
 	v.commands[v.i] = NULL;

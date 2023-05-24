@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:18:01 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/05 18:55:59 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/24 16:25:58 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,28 +32,28 @@ int	check_for_int(char *arg)
 	return (1);
 }
 
-int	ft_exit(t_shell **shell, int idx)
+int	ft_exit(int idx)
 {
 	int	exit_value;
 
-	if ((*shell)->cmds[idx]->argc == 0)
-		exit((*shell)->status_code);
-	if (check_for_int((*shell)->cmds[idx]->args[0]) == -1)
+	if ((g_shell)->cmds[idx]->argc == 0)
+		exit((g_shell)->status_code);
+	if (check_for_int((g_shell)->cmds[idx]->args[0]) == -1)
 	{
-		(*shell)->cmds[idx]->args[0] = ft_concat(2, "exit: ", \
-			(*shell)->cmds[idx]->args[0]);
-		console(1, (*shell)->cmds[idx]->args[0], "numeric argument required");
+		(g_shell)->cmds[idx]->args[0] = ft_concat(2, "exit: ", \
+			(g_shell)->cmds[idx]->args[0]);
+		console(1, (g_shell)->cmds[idx]->args[0], "numeric argument required");
 		exit(255);
 	}
-	else if ((*shell)->cmds[idx]->argc >= 2)
+	else if ((g_shell)->cmds[idx]->argc >= 2)
 	{
 		console(1, "exit", "too many arguments");
-		(*shell)->status_code = 1;
+		(g_shell)->status_code = 1;
 		return (1);
 	}
 	else
 	{
-		exit_value = ft_atoi((*shell)->cmds[idx]->args[0]);
+		exit_value = ft_atoi((g_shell)->cmds[idx]->args[0]);
 		exit(exit_value % 256);
 	}
 	return (0);

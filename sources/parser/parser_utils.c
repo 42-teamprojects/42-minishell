@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 13:03:26 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/21 22:10:15 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/24 16:55:48 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	is_var_alone(t_lexer *tokens)
 		|| is_redir(tokens) || is_redir(tokens->next))))));
 }
 
-int	count_vars_words(t_lexer *tmp, t_shell **shell)
+int	count_vars_words(t_lexer *tmp)
 {
 	char	*expanded;
 	char	**split;
@@ -50,7 +50,7 @@ int	count_vars_words(t_lexer *tmp, t_shell **shell)
 	i = 0;
 	if (tmp->token->type == VAR && is_var_alone(tmp))
 	{
-		expanded = ft_getenv(shell, tmp->token->content + 1);
+		expanded = ft_getenv(tmp->token->content + 1);
 		if (expanded)
 		{
 			split = ft_split(expanded, ' ');
@@ -67,7 +67,7 @@ int	count_vars_words(t_lexer *tmp, t_shell **shell)
 	return (i);
 }
 
-int	args_len(t_lexer *tokens, t_shell **shell, t_token_type test_type)
+int	args_len(t_lexer *tokens, t_token_type test_type)
 {
 	int				i;
 	t_lexer			*tmp;
@@ -78,7 +78,7 @@ int	args_len(t_lexer *tokens, t_shell **shell, t_token_type test_type)
 	while (tmp && tmp->token->type != test_type)
 	{
 		if (is_word(tmp))
-			i += count_vars_words(tmp, shell);
+			i += count_vars_words(tmp);
 		else if (is_quote(tmp))
 		{
 			type = tmp->token->type;

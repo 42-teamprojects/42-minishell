@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 17:11:51 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/24 16:33:26 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/24 19:27:27 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,31 +54,39 @@ void	rd_addback(t_rd **rd, t_rd *new)
 	current->next = new;
 }
 
-char	**get_filename(t_lexer **tokens, t_shell **shell)
+char	**get_filename(t_lexer **tokens)
 {
 	char			**args;
 	int				i;
+	int				flag;
 
 	i = 0;
 	args = (char **)malloc(sizeof(char *) * \
-		(args_len(*tokens, shell, WSPACE) + 1));
+		(args_len(*tokens, WSPACE) + 1));
 	if (!args)
 		return (NULL);
+	flag = 0;
 	while ((*tokens))
 	{
-		if (is_word(*tokens) && handle_word_redir(args, &i, tokens, shell))
-			return (free_array(args), NULL);
+		if (is_word(*tokens))
+		{
+			flag = handle_word_redir(args, &i, tokens);
+			if (flag)
+				break ;
+		}
 		if (is_quote(*tokens))
-			handle_quote(args, &i, tokens, shell, 1);
+			handle_quote(args, &i, tokens, 1);
 		if ((*tokens)->token->type == WSPACE || !(*tokens)->next)
 			break ;
 		(*tokens) = (*tokens)->next;
 	}
 	args[i] = NULL;
+	if (flag)
+		return (free_array(args), NULL);
 	return (args);
 }
 
-int	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
+int	handle_redir(t_rd **rd, t_lexer **tokens)
 {
 	char			**args;
 	t_token_type	type;
@@ -89,10 +97,10 @@ int	handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell)
 		(*tokens)->token->type != SQUOTE && (*tokens)->token->type != DQUOTE)
 		*tokens = (*tokens)->next;
 	if (type == HEREDOC)
-		file = open_heredoc(tokens, shell);
+		file = open_heredoc(tokens);
 	else
 	{
-		args = get_filename(tokens, shell);
+		args = get_filename(tokens);
 		if (!args)
 			return (1);
 		if (args && !args[0])
