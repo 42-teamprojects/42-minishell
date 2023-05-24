@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 21:50:33 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/24 16:46:25 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/24 22:52:07 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*check_cmd(char **cmd)
 		return (free_array(path_list), ft_strdup(cmd[0]));
 	if (*cmd[0] == '/')
 	{
-		if (access(path, F_OK) == 0)
+		if (access(path, X_OK) == 0)
 			return (free_array(path_list), path);
 		return (free_array(path_list), console(1, path, strerror(errno)), NULL);
 	}

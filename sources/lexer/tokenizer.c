@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 12:21:51 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/17 17:38:34 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/24 22:35:13 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_token_type	is_redirection(char *str)
 
 t_token_type	get_token_type(char *str)
 {
-	if (*str == ' ')
+	if (*str == ' ' || *str == '\t')
 		return (WSPACE);
 	else if (*str == '|')
 		return (PIPE);

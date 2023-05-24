@@ -84,7 +84,7 @@ OBJS = main.o \
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS) $(HEADERS)
-	$(CC) $(CFLAGS) $(OBJS) -lreadline -o $@ $(LIBFT)
+	$(CC) $(CFLAGS) $(OBJS) -lreadline -L /goinfre/$(USER)/.brew/opt/readline/lib -I /goinfre/$(USER)/.brew/opt/readline/include -o  $@ $(LIBFT)
 
 $(LIBFT):
 	make all -C libft

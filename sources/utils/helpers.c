@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 09:28:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/23 21:21:18 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/24 22:21:47 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,9 @@ void	sig_handler(int sig)
 	{
 		printf("\n");
 		rl_on_new_line();
-		// rl_replace_line("", 0);
+		rl_replace_line("", 0);
 		rl_redisplay();
-	}
-	else if (sig == SIGQUIT)
-	{
-		rl_on_new_line();
-		rl_redisplay();
-		return ;
+		(g_shell)->status_code = 1;
 	}
 }
 
@@ -39,7 +34,7 @@ void	init_shell(t_shell **shell, char **env)
 	(*shell)->fd.old_out = -1;
 	(*shell)->fd.old_in = -1;
 	signal(SIGINT, &sig_handler);
-	signal(SIGQUIT, &sig_handler);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	rollback_fd(t_shell **shell)

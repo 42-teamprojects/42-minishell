@@ -12,6 +12,17 @@
 
 #include "minishell.h"
 
+typedef struct s_vars
+{
+	int		fd;
+	int		i;
+	int		flag;
+	char	*line;
+	char	**args;
+	int		pid;
+	int		status;
+}				t_vars;
+
 char	*tokens_to_str(t_lexer **tokens)
 {
 	char	*str;
@@ -100,23 +111,33 @@ void	write_heredoc(int fd, char *line, char *delimiter, int flag)
 
 char	*open_heredoc(t_lexer **tokens)
 {
-	int		fd;
-	int		i;
-	int		flag;
-	char	*line;
-	char	**args;
+	t_vars	v;
 
-	i = 0;
-	flag = 0;
-	args = get_args(tokens, &i, &flag);
-	line = NULL;
-	if (!args[0])
+	v.i = 0;
+	v.flag = 0;
+	v.args = get_args(tokens, &v.i, &v.flag);
+	v.line = NULL;
+	if (!v.args[0])
 		return (NULL);
-	fd = open("/tmp/.ms_heredoc", O_CREAT | O_TRUNC | O_WRONLY, 0644);
-	if (fd < 0)
+	v.fd = open("/tmp/.ms_heredoc", O_CREAT | O_TRUNC | O_WRONLY, 0644);
+	if (v.fd < 0)
 		return (NULL);
-	write_heredoc(fd, line, args[0], flag);
-	free_array(args);
-	close(fd);
+	signal(SIGINT, SIG_IGN);
+	v.pid = fork();
+	if (v.pid == -1)
+		return (free_array(v.args), console(1, "", strerror(errno)), NULL);
+	else if (v.pid == 0)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+		write_heredoc(v.fd, v.line, v.args[0], v.flag);
+		exit(0);
+	}
+	else
+		waitpid(v.pid, &v.status, 0);
+	(g_shell)->status_code = WEXITSTATUS(v.status);
+	free_array(v.args);
+	close(v.fd);
+	signal(SIGINT, &sig_handler);
 	return (ft_strdup("/tmp/.ms_heredoc"));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 16:05:59 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/23 21:53:49 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/24 22:54:01 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,9 @@ t_command	*init_cmd(char **command, char *path, t_rd *rd)
 		free_array(command);
 	}
 	else
+	{
 		free(command);
+	}
 	cmd->redir = rd;
 	cmd->path = path;
 	return (cmd);

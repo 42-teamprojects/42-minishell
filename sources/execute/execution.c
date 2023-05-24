@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/24 16:47:18 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/24 22:09:13 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,16 @@ int	ft_exec(void)
 	i = -1;
 	while (++i < (g_shell)->cmds_count)
 	{
+		signal(SIGINT, SIG_IGN);
 		pid = fork();
 		if (pid == -1)
 			return (free(pids), console(1, "", strerror(errno)), 1);
 		else if (pid == 0)
+		{
+			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_DFL);
 			start_pipe(i);
+		}
 		pids[i] = pid;
 	}
 	close_pipes();
@@ -71,6 +76,7 @@ int	ft_exec(void)
 	while (++i < (g_shell)->cmds_count)
 		waitpid(pids[i], &state, 0);
 	(g_shell)->status_code = WEXITSTATUS(state);
+	signal(SIGINT, &sig_handler);
 	return (free(pids), 0);
 }
 

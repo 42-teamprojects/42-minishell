@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/24 21:33:46 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/24 22:33:58 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_prompt(t_shell **shell)
 	char		*input;
 
 	prompt = readline(BGREEN"minishell $> "CX);
-	input = ft_strtrim(prompt, " ");
+	input = ft_strtrim(prompt, " \t");
 	if (!prompt)
 	{
 		free(prompt);

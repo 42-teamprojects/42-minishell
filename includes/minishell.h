@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/24 17:03:34 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/24 22:13:09 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,4 +118,6 @@ void			free_shell(t_shell *shell, int option);
 void			print_commands(t_command **cmds);
 void			print_redir(t_rd *rd);
 void			print_lexer(t_lexer *lexer);
+
+int				rl_replace_line(char *str, int i);
 #endif
