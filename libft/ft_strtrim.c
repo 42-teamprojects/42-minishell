@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 12:20:42 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/21 18:42:49 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/24 15:15:33 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ char	*ft_strtrim_min(char const *s1, char const *set)
 			front--;
 		if (back < ft_strlen(s1) && s1[back] == ' ')
 			back++;
-
 		str = (char *)malloc(sizeof(char) * (back - front + 1));
 		if (!str)
 			return (NULL);

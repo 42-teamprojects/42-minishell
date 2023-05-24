@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/24 09:18:34 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/24 16:07:16 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define MINISHELL_H
 
 # include "global.h"
+
+t_shell	*g_shell;
 
 /* LEXER */
 
@@ -66,8 +68,8 @@ int				space_right_ambiguous(t_lexer **tokens, t_shell **shell);
 /* EXECUTION */
 
 char			*check_cmd(char **cmd, t_shell **shell);
-int				ft_exec(t_shell **shell);
-int				ft_exec_builtin(t_shell **shell, int idx);
+int				ft_exec(int i);
+int				ft_exec_builtin(int idx);
 int				ft_pwd(t_shell **shell, int idx);
 int				ft_echo(t_shell **shell, int idx);
 int				ft_env(t_shell **shell, int idx);
@@ -86,7 +88,7 @@ int				redirect_output(char *file, t_shell **shell, t_token_type type);
 int				redirect_input(char *file, t_shell **shell);
 int				create_pipe(t_shell **shell);
 void			close_pipes(t_shell **shell);
-void			redirect_pipe(t_shell **shell, int i);
+void			redirect_pipe(int i);
 int				is_cmd_parent(char *cmd);
 int				is_var_alone(t_lexer *tokens);
 

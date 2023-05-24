@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/24 09:22:08 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/24 16:04:07 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,30 +59,28 @@ void	execute_inparent(t_shell **shell)
 	rd = (*shell)->cmds[0]->redir;
 	if (rd && handle_redirection(rd, shell))
 		return ;
-	(*shell)->status_code = ft_exec_builtin(shell, 0);
+	(*shell)->status_code = ft_exec_builtin(0);
 	if (rd)
 		rollback_fd(shell);
 }
 
 int	main(int ac, char **av, char **env)
 {
-	t_shell		*shell;
-
 	(void) ac;
 	(void) av;
-	init_shell(&shell, env);
-	while (shell->exit != 1)
+	init_shell(&g_shell, env);
+	while (g_shell->exit != 1)
 	{
-		shell->exit = 0;
-		read_input(&shell);
-		if (shell->exit != 0)
+		g_shell->exit = 0;
+		read_input(&g_shell);
+		if (g_shell->exit != 0)
 			continue ;
-		if (shell->cmds_count == 1 && \
-			is_cmd_parent(shell->cmds[0]->name))
-			execute_inparent(&shell);
+		if (g_shell->cmds_count == 1 && \
+			is_cmd_parent(g_shell->cmds[0]->name))
+			execute_inparent(&g_shell);
 		else
-			ft_exec(&shell);
-		free_shell(shell, BASIC);
+			ft_exec(0);
+		free_shell(g_shell, BASIC);
 	}
-	free_shell(shell, FULL);
+	free_shell(g_shell, FULL);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 23:25:05 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/10 14:16:44 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/24 16:06:25 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ void	close_pipes(t_shell **shell)
 	}
 }
 
-void	redirect_pipe(t_shell **shell, int i)
+void	redirect_pipe(int i)
 {
 	if (i > 0)
-		dup2((*shell)->cmds[i - 1]->fd[0], STDIN_FILENO);
-	if (i < (*shell)->cmds_count - 1)
-		dup2((*shell)->cmds[i]->fd[1], STDOUT_FILENO);
+		dup2((g_shell)->cmds[i - 1]->fd[0], STDIN_FILENO);
+	if (i < (g_shell)->cmds_count - 1)
+		dup2((g_shell)->cmds[i]->fd[1], STDOUT_FILENO);
 }
