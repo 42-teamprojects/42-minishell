@@ -71,7 +71,7 @@ RM			= rm -f
 
 all:		$(NAME)
 
-$(NAME):	$(OBJS)
+$(NAME):	$(OBJS) libft.h $(SRCS)
 		ar rcs $@ $^
 
 

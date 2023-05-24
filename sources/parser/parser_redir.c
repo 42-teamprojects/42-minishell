@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 17:11:51 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/24 17:35:54 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/24 19:27:27 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,16 +58,22 @@ char	**get_filename(t_lexer **tokens)
 {
 	char			**args;
 	int				i;
+	int				flag;
 
 	i = 0;
 	args = (char **)malloc(sizeof(char *) * \
 		(args_len(*tokens, WSPACE) + 1));
 	if (!args)
 		return (NULL);
+	flag = 0;
 	while ((*tokens))
 	{
-		if (is_word(*tokens) && handle_word_redir(args, &i, tokens))
-			return (free(args), NULL);
+		if (is_word(*tokens))
+		{
+			flag = handle_word_redir(args, &i, tokens);
+			if (flag)
+				break ;
+		}
 		if (is_quote(*tokens))
 			handle_quote(args, &i, tokens, 1);
 		if ((*tokens)->token->type == WSPACE || !(*tokens)->next)
@@ -75,6 +81,8 @@ char	**get_filename(t_lexer **tokens)
 		(*tokens) = (*tokens)->next;
 	}
 	args[i] = NULL;
+	if (flag)
+		return (free_array(args), NULL);
 	return (args);
 }
 
