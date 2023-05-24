@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/21 21:58:23 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/24 09:18:34 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void			handle_quote(char **command, int *i, t_lexer **tokens, \
 	t_shell **shell, int expand);
 char			*open_heredoc(t_lexer **tokens, t_shell **shell);
 t_command		*init_cmd(char **command, char *path, t_rd *rd);
-char			**parse_cmds(t_lexer **tokens, t_shell **shell, t_rd **rd);
+char			**parse_cmds(t_lexer **tokens, t_shell **shell, t_rd **rd, int *err);
 t_rd			*new_rd(char *file, t_token_type type);
 void			rd_addback(t_rd **rd, t_rd *new);
 int				handle_redir(t_rd **rd, t_lexer **tokens, t_shell **shell);

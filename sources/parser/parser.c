@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/23 21:50:06 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/24 09:43:04 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,13 @@ typedef struct s_vars
 	int			i;
 	char		**cmd;
 	char		*path;
+	int			err;
 	t_lexer		*tokens;
 	t_command	**commands;
 	t_rd		*rd;
 }	t_vars;
 
-int	check_files(int err, t_shell **shell, t_rd *rd)
+int	check_files(int *err, t_shell **shell, t_rd *rd)
 {
 	t_rd	*tmp;
 	int		fd;
@@ -35,6 +36,7 @@ int	check_files(int err, t_shell **shell, t_rd *rd)
 			fd = open(tmp->file, O_RDONLY);
 			if (fd < 0)
 			{
+				*err = 1;
 				(*shell)->status_code = 1;
 				return (stop(-1, shell), console(1, tmp->file, \
 					strerror(errno)), 1);
@@ -42,7 +44,7 @@ int	check_files(int err, t_shell **shell, t_rd *rd)
 		}
 		tmp = tmp->next;
 	}
-	if (err)
+	if (*err)
 	{
 		(*shell)->status_code = 1;
 		return (stop(-1, shell), console(1, "", "ambiguous redirect"), 1);
@@ -58,26 +60,25 @@ void	parse_logic(char ***command, int *i, t_lexer **tokens, t_shell **shell)
 		handle_quote(*command, i, tokens, shell, 1);
 }
 
-char	**parse_cmds(t_lexer **tokens, t_shell **shell, t_rd **rd)
+char	**parse_cmds(t_lexer **tokens, t_shell **shell, t_rd **rd, int *err)
 {
 	char	**command;
 	int		i;
-	int		err;
 
 	i = 0;
+	*err = 0;
 	command = (char **)malloc(sizeof(char *) * \
 		(args_len(*tokens, shell, PIPE) + 1));
 	if (!command)
 		return (NULL);
-	err = 0;
 	while ((*tokens) && (*shell)->exit == 0)
 	{
 		if ((*tokens)->token->type == WSPACE)
 			(*tokens) = (*tokens)->next;
 		parse_logic(&command, &i, tokens, shell);
 		if (is_redir(*tokens))
-			err = handle_redir(rd, tokens, shell);
-		if (err)
+			*err = handle_redir(rd, tokens, shell);
+		if (*err)
 			break ;
 		if ((*tokens)->token->type == PIPE)
 		{
@@ -86,9 +87,9 @@ char	**parse_cmds(t_lexer **tokens, t_shell **shell, t_rd **rd)
 		}
 		(*tokens) = (*tokens)->next;
 	}
-	if (check_files(err, shell, *rd))
-		return (NULL);
 	command[i] = NULL;
+	if (check_files(err, shell, *rd))
+		return (free_rd(*rd), free_array(command), NULL);
 	return (command);
 }
 
@@ -117,7 +118,9 @@ t_command	**parse(t_shell **shell)
 	{
 		v.rd = NULL;
 		v.path = NULL;
-		v.cmd = parse_cmds(&v.tokens, shell, &v.rd);
+		v.cmd = parse_cmds(&v.tokens, shell, &v.rd, &v.err);
+		if (v.err)
+			return (free(v.commands), NULL);
 		if (!v.cmd || (*shell)->exit != 0)
 			break ;
 		if (v.cmd[0] == NULL && v.rd != NULL)
