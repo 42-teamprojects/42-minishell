@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/24 16:04:07 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/24 17:03:54 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,16 @@ void	read_input(t_shell **shell)
 
 	input = ft_prompt(shell);
 	if (!ft_strlen(input))
-		return (free(input), stop(-1, shell));
+		return (free(input), stop(-1));
 	add_history(input);
 	(*shell)->lexer = lexer(input);
 	free(input);
 	if (!valid_syntax(shell))
-		return (free_lexer((*shell)->lexer), stop(-1, shell));
-	(*shell)->cmds = parse(shell);
+		return (free_lexer((*shell)->lexer), stop(-1));
+	(*shell)->cmds = parse();
 	free_lexer((*shell)->lexer);
 	if (!(*shell)->cmds)
-		return (stop(-1, shell));
+		return (stop(-1));
 	// system("leaks minishell -q");
 	// return (free_shell(*shell, BASIC), stop(-1, shell));
 	// print_lexer((*shell)->lexer);
@@ -57,7 +57,7 @@ void	execute_inparent(t_shell **shell)
 	t_rd	*rd;
 
 	rd = (*shell)->cmds[0]->redir;
-	if (rd && handle_redirection(rd, shell))
+	if (rd && handle_redirection(rd))
 		return ;
 	(*shell)->status_code = ft_exec_builtin(0);
 	if (rd)
@@ -79,7 +79,7 @@ int	main(int ac, char **av, char **env)
 			is_cmd_parent(g_shell->cmds[0]->name))
 			execute_inparent(&g_shell);
 		else
-			ft_exec(0);
+			ft_exec();
 		free_shell(g_shell, BASIC);
 	}
 	free_shell(g_shell, FULL);

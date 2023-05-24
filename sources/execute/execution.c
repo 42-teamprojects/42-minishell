@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/24 16:07:32 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/24 16:47:18 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,26 +34,27 @@ void	start_pipe(int i)
 	if (!rd && (g_shell)->cmds[i]->path == NULL)
 		exit(127);
 	redirect_pipe(i);
-	close_pipes(g_shell);
-	if (rd && handle_redirection(rd, g_shell))
+	close_pipes();
+	if (rd && handle_redirection(rd))
 		exit(1);
 	if (ft_strcmp((g_shell)->cmds[i]->path, "redir"))
 		execute_cmd(i);
 	if (rd)
-		rollback_fd(g_shell);
+		rollback_fd(&g_shell);
 	exit((g_shell)->status_code);
 }
 
-int	ft_exec(int i)
+int	ft_exec(void)
 {
 	pid_t	pid;
 	pid_t	*pids;
 	int		state;
+	int		i;
 
 	pids = malloc(sizeof(pid_t) * (g_shell)->cmds_count);
 	if (!pids)
 		return (1);
-	if (create_pipe(g_shell))
+	if (create_pipe())
 		return (console(1, "", "failed creating pipes"), free(pids), 1);
 	i = -1;
 	while (++i < (g_shell)->cmds_count)
@@ -65,7 +66,7 @@ int	ft_exec(int i)
 			start_pipe(i);
 		pids[i] = pid;
 	}
-	close_pipes(i);
+	close_pipes();
 	i = -1;
 	while (++i < (g_shell)->cmds_count)
 		waitpid(pids[i], &state, 0);
@@ -83,18 +84,18 @@ int	ft_exec_builtin(int i)
 	if (ft_strchr(cmd_name, '/') != NULL)
 		cmd_name = remove_slashes(cmd_name);
 	if (!ft_strcmp(low, "echo") || !ft_strcmp(low, "/bin/echo"))
-		return (free(cmd_name), free(low), ft_echo(g_shell, i));
+		return (free(cmd_name), free(low), ft_echo(i));
 	if (!ft_strcmp(low, "pwd") || !ft_strcmp(low, "/bin/pwd"))
-		return (free(cmd_name), free(low), ft_pwd(g_shell, i));
+		return (free(cmd_name), free(low), ft_pwd(i));
 	if (!ft_strcmp(low, "env") || !ft_strcmp(low, "/usr/bin/env"))
-		return (free(cmd_name), free(low), ft_env(g_shell, i));
+		return (free(cmd_name), free(low), ft_env(i));
 	if (!ft_strcmp(cmd_name, "cd") || !ft_strcmp(cmd_name, "/usr/bin/cd"))
-		return (free(cmd_name), free(low), ft_cd(g_shell, i));
+		return (free(cmd_name), free(low), ft_cd(i));
 	if (!ft_strcmp(cmd_name, "export"))
-		return (free(cmd_name), free(low), ft_export(g_shell, i));
+		return (free(cmd_name), free(low), ft_export(i));
 	if (!ft_strcmp(cmd_name, "unset"))
-		return (free(cmd_name), free(low), ft_unset(g_shell, i));
+		return (free(cmd_name), free(low), ft_unset(i));
 	if (!ft_strcmp(cmd_name, "exit"))
-		return (free(cmd_name), free(low), ft_exit(g_shell, i));
+		return (free(cmd_name), free(low), ft_exit(i));
 	return (1);
 }

@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 09:57:19 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/04 13:04:56 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/24 17:03:14 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	stop(int err_code, t_shell **shell)
+void	stop(int err_code)
 {
 	if (err_code == 1)
 	{
-		(*shell)->exit = 1;
+		(g_shell)->exit = 1;
 		printf("\n");
 	}
 	if (err_code)
-		(*shell)->exit = err_code;
+		(g_shell)->exit = err_code;
 }
 
 // Print errors in stderror status : 1

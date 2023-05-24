@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 23:25:30 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/24 16:17:07 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/24 16:48:31 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ int	ft_cd(int idx)
 	char	*path;
 
 	getcwd(s, sizeof(s));
-	user = ft_getenv(g_shell, "USER");
-	home = ft_getenv(g_shell, "HOME");
+	user = ft_getenv("USER");
+	home = ft_getenv("HOME");
 	path = ft_strjoin("/Users/", user);
 	if ((g_shell)->cmds[idx]->argc > 0 && \
 		chdir((g_shell)->cmds[idx]->args[0]) != 0)
@@ -41,8 +41,8 @@ int	ft_cd(int idx)
 		(g_shell)->cmds[idx]->args[0] && \
 		*((g_shell)->cmds[idx]->args[0]) == '~')
 		chdir(path);
-	ft_setenv("OLDPWD", s, g_shell);
+	ft_setenv("OLDPWD", s);
 	getcwd(s, sizeof(s));
-	ft_setenv("PWD", s, g_shell);
+	ft_setenv("PWD", s);
 	return (free_mem(user, home, path), 0);
 }

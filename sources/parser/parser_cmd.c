@@ -3,23 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:27:23 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/23 21:09:39 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/24 16:54:29 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*handle_var_alone(char **command, int *i, t_lexer **tokens, \
-	t_shell **shell)
+static char	*handle_var_alone(char **command, int *i, t_lexer **tokens)
 {
 	char	**split;
 	char	*expanded;
 	int		j;
 
-	expanded = ft_getenv(shell, (*tokens)->token->content + 1);
+	expanded = ft_getenv((*tokens)->token->content + 1);
 	if (expanded)
 	{
 		j = -1;
@@ -32,8 +31,7 @@ static char	*handle_var_alone(char **command, int *i, t_lexer **tokens, \
 	return (NULL);
 }
 
-static char	*handle_expanding(char **command, int *i, t_lexer **tokens, \
-	t_shell **shell)
+static char	*handle_expanding(char **command, int *i, t_lexer **tokens)
 {
 	char	*expanded;
 
@@ -45,11 +43,10 @@ static char	*handle_expanding(char **command, int *i, t_lexer **tokens, \
 		return (ft_strdup(""));
 	if ((*tokens)->token->type == VAR && (*tokens)->token->state == DEFAULT
 		&& is_var_alone(*tokens))
-		return (handle_var_alone(command, i, tokens, shell));
+		return (handle_var_alone(command, i, tokens));
 	if ((*tokens)->token->type == VAR && (*tokens)->token->len > 1)
 	{
-		expanded = ft_strtrim_min(ft_getenv(shell, \
-			(*tokens)->token->content + 1), " ");
+		expanded = ft_strtrim_min(ft_getenv((*tokens)->token->content + 1), " ");
 		if (!expanded || ft_strlen(expanded) == 0)
 			return (ft_strdup(""));
 		return (expanded);
@@ -57,14 +54,13 @@ static char	*handle_expanding(char **command, int *i, t_lexer **tokens, \
 	return (ft_strdup(""));
 }
 
-void	handle_word(char **command, int *i, t_lexer **tokens, t_shell **shell, \
-	int expand)
+void	handle_word(char **command, int *i, t_lexer **tokens, int expand)
 {
 	char	*expanded;
 
 	if (expand && (*tokens)->token->type == VAR)
 	{
-		expanded = handle_expanding(command, i, tokens, shell);
+		expanded = handle_expanding(command, i, tokens);
 		if (!expanded)
 			return ;
 	}
@@ -82,8 +78,7 @@ void	handle_word(char **command, int *i, t_lexer **tokens, t_shell **shell, \
 		command[(*i)++] = expanded;
 }
 
-void	handle_quote(char **command, int *i, t_lexer **tokens, \
-	t_shell **shell, int expand)
+void	handle_quote(char **command, int *i, t_lexer **tokens , int expand)
 {
 	char	*quotes;
 
@@ -91,16 +86,16 @@ void	handle_quote(char **command, int *i, t_lexer **tokens, \
 			!is_redir((*tokens)->prev) && \
 			(*tokens)->prev->token->type != PIPE)
 	{
-		quotes = parse_quotes(tokens, shell, expand);
+		quotes = parse_quotes(tokens, expand);
 		command[*i - 1] = ft_strjoin_gnl(command[*i - 1],
 				quotes);
 		free(quotes);
 	}
 	else
-		command[(*i)++] = parse_quotes(tokens, shell, expand);
+		command[(*i)++] = parse_quotes(tokens, expand);
 }
 
-char	*parse_quotes(t_lexer **tokens, t_shell **shell, int expand)
+char	*parse_quotes(t_lexer **tokens, int expand)
 {
 	t_token_type	type;
 	char			*str_in_quotes;
@@ -114,7 +109,7 @@ char	*parse_quotes(t_lexer **tokens, t_shell **shell, int expand)
 		if ((*tokens)->token->type == VAR && (*tokens)->token->len > 1 \
 			&& (*tokens)->token->state == IN_DQUOTE && expand)
 		{
-			expanded = ft_getenv(shell, (*tokens)->token->content + 1);
+			expanded = ft_getenv((*tokens)->token->content + 1);
 			if (!expanded)
 				expanded = ft_strdup("");
 		}

@@ -6,13 +6,13 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 12:29:45 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/23 16:23:46 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/24 16:38:37 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_getenv(t_shell **shell, const char *name)
+char	*ft_getenv(const char *name)
 {
 	char	**values;
 	char	*value;
@@ -23,14 +23,14 @@ char	*ft_getenv(t_shell **shell, const char *name)
 	values = NULL;
 	name_len = ft_strlen(name);
 	if (name_len == 1 && name[0] == '?')
-		return (ft_itoa((*shell)->status_code));
+		return (ft_itoa((g_shell)->status_code));
 	i = 0;
-	while ((*shell)->env[i])
+	while ((g_shell)->env[i])
 	{
-		if (ft_strncmp((*shell)->env[i], name, name_len) == 0
-			&& (*shell)->env[i][name_len] == '=')
+		if (ft_strncmp((g_shell)->env[i], name, name_len) == 0
+			&& (g_shell)->env[i][name_len] == '=')
 		{
-			values = ft_split((*shell)->env[i], '=');
+			values = ft_split((g_shell)->env[i], '=');
 			value = ft_strdup(values[1]);
 			free_array(values);
 			break ;

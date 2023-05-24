@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	*tokens_to_str(t_shell **shell, t_lexer **tokens)
+char	*tokens_to_str(t_lexer **tokens)
 {
 	char	*str;
 	char	*tmp;
@@ -23,7 +23,7 @@ char	*tokens_to_str(t_shell **shell, t_lexer **tokens)
 	while (current)
 	{
 		if (current->token->type == VAR)
-			tmp = ft_getenv(shell, current->token->content + 1);
+			tmp = ft_getenv(current->token->content + 1);
 		else
 			tmp = ft_strdup(current->token->content);
 		str = ft_strjoin_gnl(str, tmp);
@@ -33,33 +33,33 @@ char	*tokens_to_str(t_shell **shell, t_lexer **tokens)
 	return (str);
 }
 
-char	*expand_variables_in_line(char *line, t_shell **shell)
+char	*expand_variables_in_line(char *line)
 {
 	char	*expanded_line;
 	t_lexer	*tokens;
 
 	tokens = lexer(line);
-	expanded_line = tokens_to_str(shell, &tokens);
+	expanded_line = tokens_to_str(&tokens);
 	free_lexer(tokens);
 	return (expanded_line);
 }
 
-char	**get_args(t_lexer **tokens, t_shell **shell, int *i, int *flag)
+char	**get_args(t_lexer **tokens, int *i, int *flag)
 {
 	char	**args;
 
 	args = (char **)malloc(sizeof(char *) * \
-		(args_len(*tokens, shell, WSPACE) + 1));
+		(args_len(*tokens, WSPACE) + 1));
 	if (!args)
 		return (NULL);
 	while ((*tokens))
 	{
 		if (is_word(*tokens))
-			handle_word(args, i, tokens, shell, 0);
+			handle_word(args, i, tokens, 0);
 		if (is_quote(*tokens))
 		{
 			*flag = 1;
-			handle_quote(args, i, tokens, shell, 0);
+			handle_quote(args, i, tokens, 0);
 		}
 		if ((*tokens)->token->type == WSPACE || !(*tokens)->next)
 			break ;
@@ -69,8 +69,7 @@ char	**get_args(t_lexer **tokens, t_shell **shell, int *i, int *flag)
 	return (args);
 }
 
-void	write_heredoc(int fd, char *line, char *delimiter, \
-	t_shell **shell, int flag)
+void	write_heredoc(int fd, char *line, char *delimiter, int flag)
 {
 	char	*expanded_line;
 	char	*tmp;
@@ -89,7 +88,7 @@ void	write_heredoc(int fd, char *line, char *delimiter, \
 		}
 		if (!flag)
 		{
-			expanded_line = expand_variables_in_line(line, shell);
+			expanded_line = expand_variables_in_line(line);
 			free(line);
 			line = expanded_line;
 		}
@@ -99,7 +98,7 @@ void	write_heredoc(int fd, char *line, char *delimiter, \
 	}
 }
 
-char	*open_heredoc(t_lexer **tokens, t_shell **shell)
+char	*open_heredoc(t_lexer **tokens)
 {
 	int		fd;
 	int		i;
@@ -109,14 +108,14 @@ char	*open_heredoc(t_lexer **tokens, t_shell **shell)
 
 	i = 0;
 	flag = 0;
-	args = get_args(tokens, shell, &i, &flag);
+	args = get_args(tokens, &i, &flag);
 	line = NULL;
 	if (!args[0])
 		return (NULL);
 	fd = open("/tmp/.ms_heredoc", O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	if (fd < 0)
 		return (NULL);
-	write_heredoc(fd, line, args[0], shell, flag);
+	write_heredoc(fd, line, args[0], flag);
 	free_array(args);
 	close(fd);
 	return (ft_strdup("/tmp/.ms_heredoc"));
