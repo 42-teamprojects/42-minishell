@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 17:11:51 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/22 19:35:18 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/24 16:33:26 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	**get_filename(t_lexer **tokens, t_shell **shell)
 	while ((*tokens))
 	{
 		if (is_word(*tokens) && handle_word_redir(args, &i, tokens, shell))
-			return (NULL);
+			return (free_array(args), NULL);
 		if (is_quote(*tokens))
 			handle_quote(args, &i, tokens, shell, 1);
 		if ((*tokens)->token->type == WSPACE || !(*tokens)->next)
