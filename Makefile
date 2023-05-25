@@ -29,6 +29,7 @@ SRCS = main.c \
 	source/execute/rd.c \
 	source/execute/pipe.c \
 	sources/parser/utils.c \
+	sources/parser/utils2.c \
 	sources/parser/parser.c \
 	sources/parser/parser_utils.c \
 	sources/parser/parser_cmd.c \
@@ -71,6 +72,7 @@ OBJS = main.o \
 	$(EXECUTEDIR)/utils.o \
 	$(EXECUTEDIR)/utils2.o \
 	$(PARSERDIR)/utils.o \
+	$(PARSERDIR)/utils2.o \
 	$(PARSERDIR)/parser.o \
 	$(PARSERDIR)/parser_utils.o \
 	$(PARSERDIR)/parser_cmd.o \

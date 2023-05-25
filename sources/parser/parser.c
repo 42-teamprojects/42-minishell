@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 12:42:52 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/24 16:58:40 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/25 18:45:41 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,26 +52,13 @@ int	check_files(int *err, t_rd *rd)
 	return (0);
 }
 
-void	parse_logic(char ***command, int *i, t_lexer **tokens)
+int	process_tokens_for_cmds(t_lexer **tokens, char **command, \
+	int *err, t_rd **rd)
 {
-	if (is_word(*tokens))
-		handle_word(*command, i, tokens, 1);
-	if (is_quote(*tokens))
-		handle_quote(*command, i, tokens, 1);
-}
-
-char	**parse_cmds(t_lexer **tokens, t_rd **rd, int *err)
-{
-	char	**command;
-	int		i;
+	int	i;
 
 	i = 0;
-	*err = 0;
-	command = (char **)malloc(sizeof(char *) * \
-		(args_len(*tokens, PIPE) + 1));
-	if (!command)
-		return (NULL);
-	while ((*tokens) && (g_shell)->exit == 0)
+	while (*tokens && (g_shell)->exit == 0)
 	{
 		if ((*tokens)->token->type == WSPACE)
 			(*tokens) = (*tokens)->next;
@@ -87,6 +74,20 @@ char	**parse_cmds(t_lexer **tokens, t_rd **rd, int *err)
 		}
 		(*tokens) = (*tokens)->next;
 	}
+	return (i);
+}
+
+char	**parse_cmds(t_lexer **tokens, t_rd **rd, int *err)
+{
+	char	**command;
+	int		i;
+
+	i = 0;
+	*err = 0;
+	command = allocate_command(tokens);
+	if (!command)
+		return (NULL);
+	i = process_tokens_for_cmds(tokens, command, err, rd);
 	command[i] = NULL;
 	if (check_files(err, *rd))
 		return (free_rd(*rd), free_array(command), NULL);

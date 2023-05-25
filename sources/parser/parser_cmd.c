@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:27:23 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/24 16:54:29 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/25 18:20:36 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ static char	*handle_expanding(char **command, int *i, t_lexer **tokens)
 		return (handle_var_alone(command, i, tokens));
 	if ((*tokens)->token->type == VAR && (*tokens)->token->len > 1)
 	{
-		expanded = ft_strtrim_min(ft_getenv((*tokens)->token->content + 1), " ");
+		expanded = ft_strtrim_min(\
+			ft_getenv((*tokens)->token->content + 1), " ");
 		if (!expanded || ft_strlen(expanded) == 0)
 			return (ft_strdup(""));
 		return (expanded);
@@ -78,7 +79,7 @@ void	handle_word(char **command, int *i, t_lexer **tokens, int expand)
 		command[(*i)++] = expanded;
 }
 
-void	handle_quote(char **command, int *i, t_lexer **tokens , int expand)
+void	handle_quote(char **command, int *i, t_lexer **tokens, int expand)
 {
 	char	*quotes;
 

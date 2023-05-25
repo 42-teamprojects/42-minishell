@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/25 17:09:17 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/25 18:41:23 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,11 @@ int				check_near_quotes(t_lexer **tokens);
 int				all_space_ambiguous(t_lexer **tokens);
 int				space_right_quotes_ambiguous(t_lexer **tokens);
 int				space_right_ambiguous(t_lexer **tokens);
+void			write_heredoc(int fd, char *line, char *delimiter, int flag);
+char			*expand_variables_in_line(char *line);
+void			open_file(char *file, t_token_type type);
+char			**allocate_command(t_lexer **tokens);
+void			parse_logic(char ***command, int *i, t_lexer **tokens);
 
 /* EXECUTION */
 

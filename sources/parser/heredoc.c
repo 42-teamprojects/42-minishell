@@ -80,33 +80,11 @@ char	**get_args(t_lexer **tokens, int *i, int *flag)
 	return (args);
 }
 
-void	write_heredoc(int fd, char *line, char *delimiter, int flag)
+void	open_2(t_vars	v)
 {
-	char	*expanded_line;
-	char	*tmp;
-
-	while (1)
-	{
-		tmp = readline("heredoc> ");
-		if (!tmp)
-			break ;
-		line = ft_strtrim(tmp, "\n");
-		free(tmp);
-		if (ft_strcmp(line, delimiter) == 0)
-		{
-			free(line);
-			break ;
-		}
-		if (!flag)
-		{
-			expanded_line = expand_variables_in_line(line);
-			free(line);
-			line = expanded_line;
-		}
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
-		free(line);
-	}
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	write_heredoc(v.fd, v.line, v.args[0], v.flag);
 }
 
 char	*open_heredoc(t_lexer **tokens)
@@ -128,15 +106,12 @@ char	*open_heredoc(t_lexer **tokens)
 		return (free_array(v.args), console(1, "", strerror(errno)), NULL);
 	else if (v.pid == 0)
 	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
-		write_heredoc(v.fd, v.line, v.args[0], v.flag);
-		exit(1);
+		open_2(v);
+		exit(0);
 	}
 	else
 		waitpid(v.pid, &v.status, 0);
 	free_array(v.args);
-	close(v.fd);
-	signal(SIGINT, &sig_handler);
-	return (ft_strdup("/tmp/.ms_heredoc"));
+	return (close(v.fd), signal(SIGINT, &sig_handler) \
+		, ft_strdup("/tmp/.ms_heredoc"));
 }

@@ -6,24 +6,11 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 17:11:51 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/24 19:27:27 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/25 18:29:15 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	open_file(char *file, t_token_type type)
-{
-	int	fd;
-
-	if (type == RD_OUT)
-		fd = open(file, O_CREAT | O_TRUNC | O_WRONLY, 0644);
-	else if (type == RD_AOUT)
-		fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
-	else
-		fd = open(file, O_RDONLY);
-	close(fd);
-}
 
 t_rd	*new_rd(char *file, t_token_type type)
 {
@@ -54,11 +41,26 @@ void	rd_addback(t_rd **rd, t_rd *new)
 	current->next = new;
 }
 
+int	get_redir_args(t_lexer **tokens, char ***args, int *i, int *flag)
+{
+	if (is_word(*tokens))
+	{
+		if (handle_word_redir(*args, i, tokens))
+		{
+			*flag = 1;
+			return (1);
+		}
+	}
+	if (is_quote(*tokens))
+		handle_quote(*args, i, tokens, 1);
+	return (0);
+}
+
 char	**get_filename(t_lexer **tokens)
 {
-	char			**args;
-	int				i;
-	int				flag;
+	char	**args;
+	int		i;
+	int		flag;
 
 	i = 0;
 	args = (char **)malloc(sizeof(char *) * \
@@ -68,14 +70,8 @@ char	**get_filename(t_lexer **tokens)
 	flag = 0;
 	while ((*tokens))
 	{
-		if (is_word(*tokens))
-		{
-			flag = handle_word_redir(args, &i, tokens);
-			if (flag)
-				break ;
-		}
-		if (is_quote(*tokens))
-			handle_quote(args, &i, tokens, 1);
+		if (get_redir_args(tokens, &args, &i, &flag))
+			break ;
 		if ((*tokens)->token->type == WSPACE || !(*tokens)->next)
 			break ;
 		(*tokens) = (*tokens)->next;
