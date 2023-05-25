@@ -131,11 +131,10 @@ char	*open_heredoc(t_lexer **tokens)
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		write_heredoc(v.fd, v.line, v.args[0], v.flag);
-		exit(0);
+		exit(1);
 	}
 	else
 		waitpid(v.pid, &v.status, 0);
-	(g_shell)->status_code = WEXITSTATUS(v.status);
 	free_array(v.args);
 	close(v.fd);
 	signal(SIGINT, &sig_handler);

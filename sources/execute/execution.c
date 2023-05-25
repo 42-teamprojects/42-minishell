@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/24 22:09:13 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/25 17:03:14 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,28 @@
 
 void	execute_cmd(int i)
 {
+	struct stat	statt;
+
 	if (!ft_strcmp((g_shell)->cmds[i]->path, "builtin"))
 		exit(ft_exec_builtin(i));
 	if (execve((g_shell)->cmds[i]->path, (g_shell)->cmds[i]->full_cmd,
 			(g_shell)->env) == -1)
 	{
-		console(1, (g_shell)->cmds[i]->path, strerror(errno));
-		exit(1);
+		if (stat((g_shell)->cmds[i]->path, &statt) == -1)
+		{
+			ft_printf_fd(2, "minishell: No such file or directory\n");
+			exit(127);
+		}
+		else if (!S_ISREG(statt.st_mode))
+		{
+			ft_printf_fd(2, "minishell: is a directory\n");
+			exit(126);
+		}
+		else
+		{
+			console(1, (g_shell)->cmds[i]->name, strerror(errno));
+			exit(1);
+		}
 	}
 }
 

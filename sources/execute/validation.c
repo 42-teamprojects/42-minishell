@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   validation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 21:50:33 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/24 22:52:07 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/25 16:31:30 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+typedef struct s_vars
+{
+	char	*path;
+	char	*full_path;
+	char	**path_list;
+	int		i;
+}				t_vars;
 
 int	is_valid_cmd(char *str)
 {
@@ -40,36 +48,28 @@ int	is_valid_cmd(char *str)
 
 char	*check_cmd(char **cmd)
 {
-	char	*path;
-	char	*full_path;
-	char	**path_list;
-	int		i;
+	t_vars	v;
 
 	if (!cmd[0] || !*cmd[0] || !args_count(cmd))
 		return (console(1, cmd[0], "command not found"), NULL);
 	if (is_valid_cmd(cmd[0]))
 		return (ft_strdup("builtin"));
-	full_path = ft_getenv("PATH");
-	if (!full_path)
+	v.full_path = ft_getenv("PATH");
+	if (!v.full_path)
 		return (console(1, cmd[0], "No such file or directory"), NULL);
-	path_list = ft_split(full_path, ':');
-	free(full_path);
-	path = cmd[0];
-	if (*cmd[0] == '.' && *(cmd[0] + 1) == '/')
-		return (free_array(path_list), ft_strdup(cmd[0]));
-	if (*cmd[0] == '/')
+	v.path_list = ft_split(v.full_path, ':');
+	free(v.full_path);
+	v.path = cmd[0];
+	if (*cmd[0] == '/' || *cmd[0] == '.')
+		return (free_array(v.path_list), ft_strdup(cmd[0]));
+	v.i = -1;
+	while (v.path_list[++v.i])
 	{
-		if (access(path, X_OK) == 0)
-			return (free_array(path_list), path);
-		return (free_array(path_list), console(1, path, strerror(errno)), NULL);
+		v.path = ft_concat(3, v.path_list[v.i], "/", cmd[0]);
+		if (access(v.path, F_OK) == 0)
+			return (free_array(v.path_list), v.path);
+		free(v.path);
 	}
-	i = -1;
-	while (path_list[++i])
-	{
-		path = ft_concat(3, path_list[i], "/", cmd[0]);
-		if (access(path, F_OK) == 0)
-			return (free_array(path_list), path);
-		free(path);
-	}
-	return (free_array(path_list), console(1, cmd[0], "command not found"), NULL);
+	return (free_array(v.path_list), \
+		console(1, cmd[0], "command not found"), NULL);
 }
