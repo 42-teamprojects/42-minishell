@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 02:22:00 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/24 16:26:55 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/25 16:04:39 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,24 @@ int	ft_setenv_help(char *name, char *value, int i)
 	return (0);
 }
 
+int	sethelp(int overwrite, char *name, char *value, int i)
+{
+	char	*input;
+
+	if (overwrite == 1)
+	{
+		input = ft_concat(3, name, "=", value);
+		free((g_shell)->env[i]);
+		(g_shell)->env[i] = input;
+	}
+	else
+		ft_setenv_help(name, value, i);
+	return (0);
+}
+
 int	ft_setenv(char *name, char *value)
 {
 	int		i;
-	char	*input;
 	int		overwrite;
 
 	i = -1;
@@ -49,13 +63,6 @@ int	ft_setenv(char *name, char *value)
 			break ;
 		}
 	}
-	if (overwrite == 1)
-	{
-		input = ft_concat(3, name, "=", value);
-		free((g_shell)->env[i]);
-		(g_shell)->env[i] = input;
-	}
-	else
-		ft_setenv_help(name, value, i);
+	sethelp(overwrite, name, value, i);
 	return (0);
 }

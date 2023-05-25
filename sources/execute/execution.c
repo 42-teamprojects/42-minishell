@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 10:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/24 22:09:13 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/25 15:54:01 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,25 @@ void	start_pipe(int i)
 	exit((g_shell)->status_code);
 }
 
-int	ft_exec(void)
+int	exec_utils(pid_t *pids, int i)
 {
 	pid_t	pid;
+
+	pid = fork();
+	if (pid == -1)
+		return (free(pids), console(1, "", strerror(errno)), 1);
+	else if (pid == 0)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+		start_pipe(i);
+	}
+	pids[i] = pid;
+	return (0);
+}
+
+int	ft_exec(void)
+{
 	pid_t	*pids;
 	int		state;
 	int		i;
@@ -60,16 +76,7 @@ int	ft_exec(void)
 	while (++i < (g_shell)->cmds_count)
 	{
 		signal(SIGINT, SIG_IGN);
-		pid = fork();
-		if (pid == -1)
-			return (free(pids), console(1, "", strerror(errno)), 1);
-		else if (pid == 0)
-		{
-			signal(SIGINT, SIG_DFL);
-			signal(SIGQUIT, SIG_DFL);
-			start_pipe(i);
-		}
-		pids[i] = pid;
+		exec_utils(pids, i);
 	}
 	close_pipes();
 	i = -1;

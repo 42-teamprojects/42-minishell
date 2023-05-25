@@ -6,7 +6,7 @@
 /*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/24 22:13:09 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/25 16:37:20 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,9 @@ void			close_pipes(void);
 void			redirect_pipe(int i);
 int				is_cmd_parent(char *cmd);
 int				is_var_alone(t_lexer *tokens);
+int				check_args_for_unset(int idx);
+char			**create_new_environ(int env_count);
+int				check_var_for_unset(char *var);
 
 /* HELPERS */
 
@@ -99,7 +102,8 @@ char			*redir_type(t_token_type type);
 char			*remove_slashes(char *path);
 void			init_shell(t_shell **shell, char **env);
 void			rollback_fd(t_shell **shell);
-int				is_token_type(t_lexer *tokens, t_token_type type, t_state state);
+int				is_token_type(t_lexer *tokens, \
+				t_token_type type, t_state state);
 
 /* ERRORS */
 
