@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 18:16:03 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/25 18:40:45 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/25 22:47:41 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,32 @@ char	**allocate_command(t_lexer **tokens)
 	if (!command)
 		return (NULL);
 	return (command);
+}
+
+char	**sanitize_cmd(char **cmd)
+{
+	int		i;
+	char	**split;
+	char	**new;
+	int		count;
+
+	if (!cmd || (cmd && !cmd[0]))
+		return (cmd);
+	split = ft_split(cmd[0], ' ');
+	count = args_count(split);
+	if (count == 1)
+		return (free_array(split), cmd);
+	new = (char **)malloc(sizeof(char *) * (count + args_count(cmd)));
+	if (!new)
+		return (free_array(split), cmd);
+	i = -1;
+	while (split[++i])
+		new[i] = ft_strdup(split[i]);
+	free_array(split);
+	i = 0;
+	while (cmd[++i])
+		new[i + count] = ft_strdup(cmd[i]);
+	new[i + count] = NULL;
+	// free_array(cmd);
+	return (new);
 }

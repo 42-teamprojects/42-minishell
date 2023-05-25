@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/25 18:41:23 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/25 22:48:26 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int				is_var_alone(t_lexer *tokens);
 int				check_args_for_unset(int idx);
 char			**create_new_environ(int env_count);
 int				check_var_for_unset(char *var);
+char			**sanitize_cmd(char **cmd);
 
 /* HELPERS */
 
