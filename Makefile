@@ -25,6 +25,7 @@ SRCS = main.c \
 	sources/execute/ft_export_utils.c \
 	sources/execute/ft_unset.c \
 	sources/execute/utils.c \
+	sources/execute/utils2.c \
 	source/execute/rd.c \
 	source/execute/pipe.c \
 	sources/parser/utils.c \
@@ -68,6 +69,7 @@ OBJS = main.o \
 	$(EXECUTEDIR)/pipe.o \
 	$(EXECUTEDIR)/ft_exit.o \
 	$(EXECUTEDIR)/utils.o \
+	$(EXECUTEDIR)/utils2.o \
 	$(PARSERDIR)/utils.o \
 	$(PARSERDIR)/parser.o \
 	$(PARSERDIR)/parser_utils.o \
@@ -84,7 +86,7 @@ OBJS = main.o \
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS) $(HEADERS)
-	$(CC) $(CFLAGS) $(OBJS) -lreadline -L /goinfre/$(USER)/.brew/opt/readline/lib -I /goinfre/$(USER)/.brew/opt/readline/include -o  $@ $(LIBFT)
+	$(CC) $(CFLAGS) $(OBJS) -lreadline -o  $@ $(LIBFT)
 
 $(LIBFT):
 	make all -C libft
