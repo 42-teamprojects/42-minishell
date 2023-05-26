@@ -80,11 +80,23 @@ char	**get_args(t_lexer **tokens, int *i, int *flag)
 	return (args);
 }
 
-void	open_2(t_vars	v)
+void	handler(int sig)
 {
-	signal(SIGINT, SIG_DFL);
+	if (sig == SIGINT)
+	{
+		(g_shell)->status_code = 1;
+		(g_shell)->openheredoc = 0;
+		write(0, "\n", 1);
+		if (g_shell->pid != 0)
+			kill(g_shell->pid, SIGKILL);
+	}
+}
+
+void	start_heredoc(t_vars v)
+{
 	signal(SIGQUIT, SIG_DFL);
 	write_heredoc(v.fd, v.line, v.args[0], v.flag);
+	exit(0);
 }
 
 char	*open_heredoc(t_lexer **tokens)
@@ -101,17 +113,25 @@ char	*open_heredoc(t_lexer **tokens)
 	if (v.fd < 0)
 		return (NULL);
 	signal(SIGINT, SIG_IGN);
+	signal(SIGINT, &handler);
 	v.pid = fork();
 	if (v.pid == -1)
 		return (free_array(v.args), console(1, "", strerror(errno)), NULL);
 	else if (v.pid == 0)
-	{
-		open_2(v);
-		exit(0);
-	}
+		start_heredoc(v);
 	else
+	{
+		g_shell->pid = v.pid;
 		waitpid(v.pid, &v.status, 0);
+		(g_shell)->status_code = WEXITSTATUS(v.status);
+	}
 	free_array(v.args);
+	if (g_shell->openheredoc == 0)
+	{
+		(g_shell)->status_code = 1;
+		return (close(v.fd), open("/tmp/.ms_heredoc", O_TRUNC | O_WRONLY, \
+			0644), close(v.fd), ft_strdup("/tmp/.ms_heredoc"));
+	}
 	return (close(v.fd), signal(SIGINT, &sig_handler) \
 		, ft_strdup("/tmp/.ms_heredoc"));
 }

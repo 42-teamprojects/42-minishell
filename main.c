@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/26 09:01:40 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/26 13:49:15 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int	main(int ac, char **av, char **env)
 	init_shell(&g_shell, env);
 	while (g_shell->exit != 1)
 	{
+		g_shell->pid = 0;
 		g_shell->exit = 0;
 		read_input(&g_shell);
 		if (g_shell->exit != 0)

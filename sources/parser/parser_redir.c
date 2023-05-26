@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 17:11:51 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/25 18:29:15 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/26 13:49:12 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,10 @@ int	handle_redir(t_rd **rd, t_lexer **tokens)
 		(*tokens)->token->type != SQUOTE && (*tokens)->token->type != DQUOTE)
 		*tokens = (*tokens)->next;
 	if (type == HEREDOC)
+	{
+		(g_shell)->openheredoc = 1;
 		file = open_heredoc(tokens);
+	}
 	else
 	{
 		args = get_filename(tokens);
