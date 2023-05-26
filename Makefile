@@ -2,11 +2,13 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -I includes/ #-fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -I includes/ 
 
 HEADERS = includes/global.h includes/minishell.h
 
 LIBFT	= libft/libft.a
+
+RDFLAGS = -L /goinfre/$(USER)/.brew/opt/readline/lib -I /goinfre/$(USER)/.brew/opt/readline/include
 
 SRCS = main.c \
 	sources/utils/helpers.c \
@@ -26,8 +28,8 @@ SRCS = main.c \
 	sources/execute/ft_unset.c \
 	sources/execute/utils.c \
 	sources/execute/utils2.c \
-	source/execute/rd.c \
-	source/execute/pipe.c \
+	sources/execute/rd.c \
+	sources/execute/pipe.c \
 	sources/parser/utils.c \
 	sources/parser/utils2.c \
 	sources/parser/parser.c \
@@ -42,68 +44,15 @@ SRCS = main.c \
 	sources/lexer/tokenizer.c \
 	sources/lexer/lexer.c \
 
-# create necessary directories
-OBJDIR = obj
-UTILSDIR = $(OBJDIR)/sources/utils
-EXECUTEDIR = $(OBJDIR)/sources/execute
-PARSERDIR = $(OBJDIR)/sources/parser
-LEXERDIR = $(OBJDIR)/sources/lexer
-$(shell mkdir -p $(UTILSDIR) $(EXECUTEDIR) $(PARSERDIR) $(LEXERDIR))
-
-# compile source files
-OBJS = main.o \
-	$(UTILSDIR)/helpers.o \
-	$(UTILSDIR)/errors.o \
-	$(UTILSDIR)/utilities.o \
-	$(UTILSDIR)/free.o \
-	$(UTILSDIR)/check_syntax.o \
-	$(EXECUTEDIR)/validation.o \
-	$(EXECUTEDIR)/execution.o \
-	$(EXECUTEDIR)/ft_cd.o \
-	$(EXECUTEDIR)/ft_env.o \
-	$(EXECUTEDIR)/ft_echo.o \
-	$(EXECUTEDIR)/ft_pwd.o \
-	$(EXECUTEDIR)/ft_export.o \
-	$(EXECUTEDIR)/ft_export_utils.o \
-	$(EXECUTEDIR)/ft_unset.o \
-	$(EXECUTEDIR)/rd.o \
-	$(EXECUTEDIR)/pipe.o \
-	$(EXECUTEDIR)/ft_exit.o \
-	$(EXECUTEDIR)/utils.o \
-	$(EXECUTEDIR)/utils2.o \
-	$(PARSERDIR)/utils.o \
-	$(PARSERDIR)/utils2.o \
-	$(PARSERDIR)/parser.o \
-	$(PARSERDIR)/parser_utils.o \
-	$(PARSERDIR)/parser_cmd.o \
-	$(PARSERDIR)/parser_redir.o \
-	$(PARSERDIR)/heredoc.o \
-	$(PARSERDIR)/redir_utils.o \
-	$(PARSERDIR)/ambiguous.o \
-	$(LEXERDIR)/lexer_init.o \
-	$(LEXERDIR)/lexer_utils.o \
-	$(LEXERDIR)/tokenizer.o \
-	$(LEXERDIR)/lexer.o \
+OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS) $(HEADERS)
-	$(CC) $(CFLAGS) $(OBJS) -lreadline -o  $@ $(LIBFT)
+	$(CC) $(CFLAGS) $(OBJS) -lreadline $(RDFLAGS) -o  $@ $(LIBFT)
 
 $(LIBFT):
 	make all -C libft
-
-$(UTILSDIR)/%.o: sources/utils/%.c
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(EXECUTEDIR)/%.o: sources/execute/%.c
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(PARSERDIR)/%.o: sources/parser/%.c
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(LEXERDIR)/%.o: sources/lexer/%.c
-	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJS)
@@ -115,7 +64,3 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re libft
-
-# To be
-run: all
-	@./minishell

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 21:50:33 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/26 13:00:58 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/26 16:15:59 by htalhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,13 @@ char	*check_cmd(char **cmd)
 		return (console(1, cmd[0], "command not found"), NULL);
 	if (is_valid_cmd(cmd[0]))
 		return (ft_strdup("builtin"));
+	if (*cmd[0] == '/' || *cmd[0] == '.')
+		return (ft_strdup(cmd[0]));
 	v.full_path = ft_getenv("PATH");
 	if (!v.full_path)
 		return (console(1, cmd[0], "No such file or directory"), NULL);
 	v.path_list = get_path_list(v.full_path);
 	v.path = cmd[0];
-	if (*cmd[0] == '/' || *cmd[0] == '.')
-		return (free_array(v.path_list), ft_strdup(cmd[0]));
 	v.i = -1;
 	while (v.path_list[++v.i])
 	{
