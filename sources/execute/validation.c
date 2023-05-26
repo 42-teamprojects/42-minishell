@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 21:50:33 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/26 10:04:53 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/26 13:00:58 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,15 @@ void	transform_path(char *path)
 	}
 }
 
+char	**get_path_list(char *full_path)
+{
+	char	**path_list;
+
+	transform_path(full_path);
+	path_list = ft_split(full_path, ":");
+	return (free(full_path), path_list);
+}
+
 char	*check_cmd(char **cmd)
 {
 	t_vars	v;
@@ -73,9 +82,7 @@ char	*check_cmd(char **cmd)
 	v.full_path = ft_getenv("PATH");
 	if (!v.full_path)
 		return (console(1, cmd[0], "No such file or directory"), NULL);
-	transform_path(v.full_path);
-	v.path_list = ft_split(v.full_path, ':');
-	free(v.full_path);
+	v.path_list = get_path_list(v.full_path);
 	v.path = cmd[0];
 	if (*cmd[0] == '/' || *cmd[0] == '.')
 		return (free_array(v.path_list), ft_strdup(cmd[0]));

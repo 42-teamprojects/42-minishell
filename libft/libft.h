@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yelaissa <yelaissa@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/10 15:47:07 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/21 21:22:46 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/26 11:10:28 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char *));
 char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_itoa(int n);
-char	**ft_split(char const *s, char c);
+char	**ft_split(char const *s, char *c);
 char	*ft_strtrim_min(char const *s1, char const *set);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putchar_fd(char c, int fd);

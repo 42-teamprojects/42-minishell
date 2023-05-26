@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 11:32:55 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/04/19 16:45:47 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/26 11:25:24 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*remove_slashes(char *path)
 	char	*joined;
 	int		i;
 
-	parts = ft_split(path, '/');
+	parts = ft_split(path, "/");
 	if (!parts)
 		return (NULL);
 	joined = ft_strdup("");

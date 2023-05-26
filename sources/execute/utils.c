@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 12:29:45 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/24 16:38:37 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/26 11:26:29 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*ft_getenv(const char *name)
 		if (ft_strncmp((g_shell)->env[i], name, name_len) == 0
 			&& (g_shell)->env[i][name_len] == '=')
 		{
-			values = ft_split((g_shell)->env[i], '=');
+			values = ft_split((g_shell)->env[i], "=");
 			value = ft_strdup(values[1]);
 			free_array(values);
 			break ;
@@ -59,7 +59,7 @@ int	ft_is_var_exist(char **env, char *key)
 	i = -1;
 	while (env[++i])
 	{
-		var = ft_split(env[i], '=');
+		var = ft_split(env[i], "=");
 		if (!var)
 			return (1);
 		if (!ft_strcmp(key, var[0]))

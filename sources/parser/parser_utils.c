@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 13:03:26 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/26 11:11:03 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/26 12:55:35 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	count_vars_words(t_lexer *tmp)
 		expanded = ft_getenv(tmp->token->content + 1);
 		if (expanded)
 		{
-			split = ft_split(expanded, " ");
+			split = ft_split(expanded, " \t");
 			i += args_count(split);
 			free(expanded);
 			free_array(split);

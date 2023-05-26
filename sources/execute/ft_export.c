@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 23:26:06 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/24 16:45:13 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/26 11:26:01 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	export_env(void)
 		value = ft_strchr((g_shell)->env[i], '=') + 1;
 		if (!value)
 			exit(1);
-		var = ft_split((g_shell)->env[i], '=');
+		var = ft_split((g_shell)->env[i], "=");
 		escaped_value = escape_special_chars(value);
 		printf("declare -x %s=\"%s\"\n", var[0], escaped_value);
 		free(escaped_value);
@@ -123,7 +123,7 @@ int	ft_export(int idx)
 		value = ft_strchr((g_shell)->cmds[idx]->args[i], '=') + 1;
 		if (!value)
 			return (1);
-		var = ft_split((g_shell)->cmds[idx]->args[i], '=');
+		var = ft_split((g_shell)->cmds[idx]->args[i], "=");
 		if (!var)
 			return (1);
 		if (!check_var(var[0]) && value)
