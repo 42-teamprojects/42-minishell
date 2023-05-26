@@ -8,7 +8,9 @@ HEADERS = includes/global.h includes/minishell.h
 
 LIBFT	= libft/libft.a
 
-RDFLAGS = -L /goinfre/$(USER)/.brew/opt/readline/lib -I /goinfre/$(USER)/.brew/opt/readline/include
+READLINE = $(shell brew --prefix readline)
+
+RDFLAGS = #-L $(READLINE)/lib -I $(READLINE)/include
 
 SRCS = main.c \
 	sources/utils/helpers.c \

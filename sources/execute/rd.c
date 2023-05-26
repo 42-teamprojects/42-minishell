@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 19:20:49 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/24 16:38:16 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/26 17:27:16 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	redirect_input(char *file)
 {
 	int	fd;
 
+	if (g_shell->openheredoc == 0)
+		return (1);
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		return (console(1, file, strerror(errno)), 1);

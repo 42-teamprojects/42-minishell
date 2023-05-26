@@ -82,11 +82,16 @@ char	**get_args(t_lexer **tokens, int *i, int *flag)
 
 void	handler(int sig)
 {
+	int	fd;
+
+	fd = 0;
 	if (sig == SIGINT)
 	{
+		fd = open("/tmp/.ms_heredoc", O_WRONLY | O_TRUNC, 0644);
+		close(fd);
+		write(1, "\n", 1);
 		(g_shell)->status_code = 1;
 		(g_shell)->openheredoc = 0;
-		write(0, "\n", 1);
 		if (g_shell->pid != 0)
 			kill(g_shell->pid, SIGKILL);
 	}
@@ -125,13 +130,8 @@ char	*open_heredoc(t_lexer **tokens)
 		waitpid(v.pid, &v.status, 0);
 		(g_shell)->status_code = WEXITSTATUS(v.status);
 	}
-	free_array(v.args);
 	if (g_shell->openheredoc == 0)
-	{
 		(g_shell)->status_code = 1;
-		return (close(v.fd), open("/tmp/.ms_heredoc", O_TRUNC | O_WRONLY, \
-			0644), close(v.fd), ft_strdup("/tmp/.ms_heredoc"));
-	}
 	return (close(v.fd), signal(SIGINT, &sig_handler) \
 		, ft_strdup("/tmp/.ms_heredoc"));
 }

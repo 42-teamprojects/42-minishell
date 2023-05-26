@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/25 18:41:23 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/26 17:05:16 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,6 @@ void			print_commands(t_command **cmds);
 void			print_redir(t_rd *rd);
 void			print_lexer(t_lexer *lexer);
 
-int				rl_replace_line(char *str, int i);
+void			rl_replace_line(const char *str, int i);
 
 #endif
