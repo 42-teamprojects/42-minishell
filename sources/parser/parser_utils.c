@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 13:03:26 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/24 16:55:48 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/26 11:11:03 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ char	**init_args(char **command)
 int	is_var_alone(t_lexer *tokens)
 {
 	return (tokens->token->type == VAR \
-		&& (tokens->prev && \
+		&& (!tokens->prev || (tokens->prev && \
 		(tokens->prev->token->type == WSPACE \
-		|| is_redir(tokens) || is_redir(tokens->prev)))
+		|| is_redir(tokens) || is_redir(tokens->prev))))
 		&& ((!tokens->next || (tokens->next && \
 		(tokens->next->token->type == WSPACE \
 		|| is_redir(tokens) || is_redir(tokens->next))))));
@@ -53,7 +53,7 @@ int	count_vars_words(t_lexer *tmp)
 		expanded = ft_getenv(tmp->token->content + 1);
 		if (expanded)
 		{
-			split = ft_split(expanded, ' ');
+			split = ft_split(expanded, " ");
 			i += args_count(split);
 			free(expanded);
 			free_array(split);

@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 21:50:33 by htalhaou          #+#    #+#             */
-/*   Updated: 2023/05/25 18:51:18 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/26 10:04:53 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	transform_path(char *path)
 		ft_memmove(ptr + 3, ptr + 2, \
 		ft_strlen(ptr + 2) + 1);
 		ft_memcpy(ptr, ":.:", 3);
-		ptr = strstr(ptr + 3, "::");
+		ptr = ft_strnstr(ptr + 3, "::", ft_strlen(ptr + 3));
 	}
 }
 
@@ -64,7 +64,9 @@ char	*check_cmd(char **cmd)
 {
 	t_vars	v;
 
-	if (!cmd[0] || !*cmd[0] || !args_count(cmd))
+	if (!cmd[0] || !args_count(cmd))
+		return (NULL);
+	if (cmd && cmd[0] && !*cmd[0])
 		return (console(1, cmd[0], "command not found"), NULL);
 	if (is_valid_cmd(cmd[0]))
 		return (ft_strdup("builtin"));

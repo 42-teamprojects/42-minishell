@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:49:50 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/24 17:36:42 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/26 11:11:03 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ambiguous_cases(t_lexer **tokens, char **command, int *i)
 	else if (expanded[ft_strlen(expanded) - 1] == ' ' && (*tokens)->next \
 		&& space_right_ambiguous(tokens))
 		return (free(expanded), 1);
-	split = ft_split(expanded, ' ');
+	split = ft_split(expanded, " ");
 	if (args_count(split) == 0 || args_count(split) > 1 || !ft_strlen(split[0]))
 		return (free_array(split), free(expanded), 1);
 	return (free_array(split), free(expanded), -2);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 00:27:23 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/25 18:20:36 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/26 11:11:25 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static char	*handle_var_alone(char **command, int *i, t_lexer **tokens)
 	if (expanded)
 	{
 		j = -1;
-		split = ft_split(expanded, ' ');
+		split = ft_split(expanded, " \t");
 		while (split[++j])
 			command[(*i)++] = ft_strdup(split[j]);
 		free(expanded);
@@ -35,12 +35,6 @@ static char	*handle_expanding(char **command, int *i, t_lexer **tokens)
 {
 	char	*expanded;
 
-	if (((*tokens)->token->type == VAR && (*tokens)->token->content) \
-		&& ((*tokens)->token->content[1] == '@' \
-		|| (*tokens)->token->content[1] == '*' || \
-		ft_isdigit((*tokens)->token->content[1])) \
-		&& (*tokens)->token->len == 2)
-		return (ft_strdup(""));
 	if ((*tokens)->token->type == VAR && (*tokens)->token->state == DEFAULT
 		&& is_var_alone(*tokens))
 		return (handle_var_alone(command, i, tokens));

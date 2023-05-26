@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: htalhaou <htalhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 14:57:53 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/25 18:28:47 by htalhaou         ###   ########.fr       */
+/*   Updated: 2023/05/26 09:01:40 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_prompt(t_shell **shell)
 	char		*input;
 
 	prompt = readline(BGREEN"minishell $> "CX);
-	input = ft_strtrim(prompt, " \t");
+	input = ft_strtrim(prompt, " \t\r\n\v\f");
 	if (!prompt)
 	{
 		free(prompt);
