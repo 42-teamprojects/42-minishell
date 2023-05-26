@@ -6,7 +6,7 @@
 /*   By: yelaissa <yelaissa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 16:38:44 by yelaissa          #+#    #+#             */
-/*   Updated: 2023/05/26 17:05:16 by yelaissa         ###   ########.fr       */
+/*   Updated: 2023/05/26 17:51:40 by yelaissa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,13 @@ int				all_space_ambiguous(t_lexer **tokens);
 int				space_right_quotes_ambiguous(t_lexer **tokens);
 int				space_right_ambiguous(t_lexer **tokens);
 void			write_heredoc(int fd, char *line, char *delimiter, int flag);
-char			*expand_variables_in_line(char *line);
 void			open_file(char *file, t_token_type type);
 char			**allocate_command(t_lexer **tokens);
 void			parse_logic(char ***command, int *i, t_lexer **tokens);
-
+char			*expand_variables_in_line(char *line);
+char			**get_args(t_lexer **tokens, int *i, int *flag);
+void			handler(int sig);
+char			*tokens_to_str(t_lexer **tokens);
 /* EXECUTION */
 
 char			*check_cmd(char **cmd);
@@ -122,11 +124,6 @@ void			free_lexer(t_lexer *lexer);
 void			free_rd(t_rd *rd);
 void			free_command(t_command *cmd);
 void			free_shell(t_shell *shell, int option);
-
-// TO BE DELETED
-void			print_commands(t_command **cmds);
-void			print_redir(t_rd *rd);
-void			print_lexer(t_lexer *lexer);
 
 void			rl_replace_line(const char *str, int i);
 

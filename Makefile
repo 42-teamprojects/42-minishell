@@ -10,7 +10,7 @@ LIBFT	= libft/libft.a
 
 READLINE = $(shell brew --prefix readline)
 
-RDFLAGS = #-L $(READLINE)/lib -I $(READLINE)/include
+RDFLAGS = -L $(READLINE)/lib -I $(READLINE)/include
 
 SRCS = main.c \
 	sources/utils/helpers.c \
@@ -41,6 +41,7 @@ SRCS = main.c \
 	sources/parser/redir_utils.c \
 	sources/parser/ambiguous.c \
 	sources/parser/heredoc.c \
+	sources/parser/heredoc_utils.c \
 	sources/lexer/lexer_init.c \
 	sources/lexer/lexer_utils.c \
 	sources/lexer/tokenizer.c \
